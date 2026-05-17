@@ -6,19 +6,20 @@
     <title>LYRAE | Luxury Prompt OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-canvas: #F6F1E7;       /* Deep warm editorial linen */
-            --app-shell: #FAF7F2;       /* Liquid cream base canvas */
-            --panel-glass: #FFFFFF;     /* Pristine pure ivory glass panels */
-            --border-luxury: #E3DCD0;   /* Muted brushed bronze borders */
-            --text-primary: #1A1815;    /* Deep obsidian espresso typography */
-            --text-secondary: #70695D;  /* Tailored soft taupe secondary lines */
-            --accent-gold: #C5A059;     /* Deep matte champagne gold */
-            --accent-glow: #EADBC8;     /* Warm reflective light accent */
-            --font-editorial: 'Cormorant Garamond', serif;
+            --bg-color: #F9F6F0;       /* Rich, warm cream background */
+            --app-bg: #F4EFE6;         /* Soft alabaster base layer */
+            --panel-bg: #FFFFFF;       /* Porcelain white panels */
+            --border-color: #E6DFD3;   /* Muted linen borders */
+            --text-primary: #1C1B18;   /* Deep espresso brown typography */
+            --text-secondary: #7A7466; /* Elegant soft taupe text */
+            --accent-gold: #D4AF37;    /* Bright champagne gold */
+            --accent-muted: #C5A059;   /* Matte deep gold */
+            --pill-bg: #FAF6EE;        /* Light cream for pill items */
+            --btn-dark: #3D2D1F;       /* Deep warm brown for main button */
             --font-ui: 'Montserrat', sans-serif;
         }
 
@@ -30,31 +31,30 @@
         }
 
         body {
-            background-color: var(--bg-canvas);
+            background-color: var(--bg-color);
             color: var(--text-primary);
             font-family: var(--font-ui);
             font-weight: 300;
-            line-height: 1.4;
+            line-height: 1.5;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            letter-spacing: 0.02em;
         }
 
-        /* 9:16 App Frame Constrained for Absolute High-Ticket Visual Density */
+        /* Pure 9:16 Mobile Viewport Container Shell */
         .app-container {
             width: 100vw;
             height: 100vh;
             max-width: 430px;
             max-height: 932px;
-            background-color: var(--app-shell);
-            border: 1px solid var(--border-luxury);
+            background-color: var(--app-bg);
+            border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 30px 70px rgba(112, 105, 93, 0.25);
+            box-shadow: 0 20px 40px -15px rgba(142, 131, 110, 0.25);
         }
 
         .app-screen {
@@ -64,72 +64,81 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            padding-bottom: 4rem;
+            padding-bottom: 3rem;
             -webkit-overflow-scrolling: touch;
         }
 
         .app-screen::-webkit-scrollbar { width: 3px; }
-        .app-screen::-webkit-scrollbar-thumb { background: var(--border-luxury); }
+        .app-screen::-webkit-scrollbar-thumb { background: var(--border-color); }
 
-        /* Premium Brand Header Alignment */
+        /* Elegant Thin Header */
         header {
-            border-bottom: 1px solid var(--border-luxury);
-            padding-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0.5rem;
         }
 
-        .brand-logo { font-size: 1.7rem; letter-spacing: 0.15em; font-family: var(--font-editorial); text-transform: uppercase; font-weight: 400; color: var(--text-primary); }
-        .brand-sub { font-size: 0.6rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.25em; margin-top: 0.2rem; font-weight: 600; }
-        .system-status { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem; font-weight: 600; }
-        .status-dot { width: 5px; height: 5px; background-color: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 8px var(--accent-gold); }
+        .header-top { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 500; }
+        .brand-logo { font-size: 2rem; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; text-transform: uppercase; font-weight: 400; color: var(--text-primary); line-height: 1.1; }
+        .brand-logo i { font-family: 'Playfair Display', serif; font-style: italic; text-transform: none; }
+        .brand-sub { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.5rem; font-weight: 500; }
 
-        /* System Module Panels */
-        .panel-box { background-color: var(--panel-glass); border: 1px solid var(--border-luxury); padding: 1.25rem; border-radius: 2px; box-shadow: 0 6px 20px rgba(227, 220, 208, 0.2); }
-        .panel-title { font-family: var(--font-editorial); font-size: 1.15rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); font-weight: 400; display: flex; justify-content: space-between; align-items: center; }
-        .panel-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-luxury), transparent); margin-left: 1rem; }
+        /* Layout Panels */
+        .panel-box { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(230, 223, 211, 0.2); }
+        .section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-muted); font-weight: 600; margin-bottom: 1rem; display: block; }
 
-        /* Strategic Matrix Selectors */
-        .selector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
-        .selector-card { background: #FAF9F6; border: 1px solid var(--border-luxury); color: var(--text-secondary); padding: 0.85rem 0.75rem; cursor: pointer; text-align: left; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 0; position: relative; }
-        .selector-card:hover { border-color: var(--accent-gold); color: var(--text-primary); }
-        .selector-card.active { border-color: var(--accent-gold); color: var(--text-primary); background: #FFFDF9; box-shadow: 0 4px 15px var(--accent-glow); }
-        .selector-card.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent-gold); }
-        .card-name { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; font-weight: 600; }
-        .card-desc { font-size: 0.55rem; opacity: 0.7; display: block; margin-top: 0.2rem; font-family: var(--font-editorial); font-style: italic; }
+        /* Premium Presets Pill Grid */
+        .preset-container { display: flex; flex-direction: column; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; }
+        .preset-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-secondary); font-weight: 600; }
+        .preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; width: 100%; }
+        .preset-btn { background-color: #FFFFFF; border: 1px solid var(--border-color); border-radius: 20px; padding: 0.6rem 1rem; font-family: var(--font-ui); font-size: 0.75rem; color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s ease; font-weight: 400; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+        .preset-btn::before { content: '●'; font-size: 0.5rem; color: var(--border-color); transition: color 0.2s; }
+        .preset-btn.active { border-color: var(--accent-muted); color: var(--text-primary); background-color: var(--pill-bg); font-weight: 500; }
+        .preset-btn.active::before { color: var(--accent-muted); }
 
-        /* Input Controls */
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.5rem; color: var(--text-secondary); font-weight: 600; }
-        textarea { width: 100%; background-color: #FAF9F6; border: 1px solid var(--border-luxury); color: var(--text-primary); font-family: var(--font-ui); font-weight: 300; font-size: 0.85rem; padding: 0.85rem; resize: none; min-height: 75px; outline: none; border-radius: 0; transition: all 0.3s ease; }
-        textarea:focus { border-color: var(--accent-gold); background-color: #FFFFFF; box-shadow: 0 4px 12px var(--accent-glow); }
-
-        /* The Gold Strike Processing Action Trigger */
-        .btn-generate { width: 100%; background: linear-gradient(180deg, #1A1815 0%, #2A2621 100%); border: none; color: var(--app-shell); font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; padding: 1.2rem; cursor: pointer; transition: all 0.4s ease; font-weight: 600; margin-top: 0.25rem; }
-        .btn-generate:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(26, 24, 21, 0.15); }
-
-        /* Real-time Visual Manifestation Frame Workspace */
-        .preview-canvas { aspect-ratio: 9 / 16; background: linear-gradient(180deg, #1C1B18 0%, #0D0D0C 100%); border: 1px solid var(--border-luxury); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 3rem 1.5rem; width: 100%; max-width: 260px; margin: 0 auto; box-shadow: 0 15px 35px rgba(112, 105, 93, 0.15); }
-        .preview-top-text { text-align: center; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.25em; z-index: 2; color: #FAF7F2; }
-        .preview-watermark { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); font-size: 3.4rem; font-weight: bold; color: rgba(255, 255, 255, 0.015); letter-spacing: 0.05em; z-index: 1; text-transform: uppercase; pointer-events: none; white-space: nowrap; }
-        .preview-quote-area { z-index: 2; width: 100%; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 0.6rem; }
-        .preview-quote-text { font-size: 0.8rem; line-height: 1.4; color: #EAEAEA; font-weight: 200; }
-
-        /* System Telemetry Log Screen Box */
-        .syslog-box { background-color: #FAF9F6; border: 1px solid var(--border-luxury); padding: 0.6rem; font-family: monospace; font-size: 0.55rem; color: var(--text-secondary); max-height: 80px; overflow-y: auto; margin-bottom: 1rem; line-height: 1.3; }
-        .syslog-line { margin-bottom: 0.15rem; }
-
-        /* Output Pipelines */
-        .output-block { border-bottom: 1px solid var(--border-luxury); padding-bottom: 1.2rem; margin-bottom: 1.2rem; position: relative; }
-        .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-        .output-label { font-size: 0.55rem; text-transform: uppercase; color: var(--accent-gold); letter-spacing: 0.15em; margin-bottom: 0.6rem; display: block; font-weight: 600; }
+        /* Form Inputs */
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group:last-of-type { margin-bottom: 0; }
+        label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.6rem; color: var(--text-primary); font-weight: 600; }
+        label span { font-size: 0.65rem; color: var(--text-secondary); text-transform: none; font-weight: 400; letter-spacing: normal; }
         
-        .code-block { background-color: #FAF9F6; border: 1px solid var(--border-luxury); font-family: monospace; font-size: 0.75rem; padding: 2.5rem 0.8rem 0.8rem 0.8rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; position: relative; min-height: 80px; line-height: 1.4; }
-        .copy-btn { position: absolute; top: 0.6rem; right: 0.6rem; background: var(--panel-glass); border: 1px solid var(--border-luxury); color: var(--text-secondary); font-size: 0.5rem; padding: 0.25rem 0.5rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; z-index: 5; transition: all 0.2s; }
-        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-gold); background: #FFFDF9; }
+        textarea { width: 100%; background-color: var(--pill-bg); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.9rem; resize: none; min-height: 85px; outline: none; border-radius: 8px; transition: all 0.2s; font-weight: 400; }
+        textarea::placeholder { color: #A8A296; font-weight: 300; }
+        textarea:focus { border-color: var(--accent-muted); background-color: #FFFFFF; }
 
-        .font-matrix-display { font-family: var(--font-editorial); font-size: 1.1rem; color: var(--text-primary); letter-spacing: 0.02em; font-style: italic; }
+        /* Select Options Dropdown Rows */
+        .dropdown-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+        .select-wrapper { position: relative; display: flex; flex-direction: column; }
+        .select-wrapper span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); font-weight: 600; margin-bottom: 0.4rem; }
+        select { width: 100%; background-color: #FFFFFF; border: 1px solid var(--border-color); padding: 0.7rem 0.5rem; font-family: var(--font-ui); font-size: 0.75rem; color: var(--text-primary); border-radius: 6px; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; font-weight: 400; }
+        .select-wrapper::after { content: '▼'; font-size: 0.5rem; color: var(--text-secondary); position: absolute; right: 0.6rem; bottom: 0.8rem; pointer-events: none; }
+
+        /* Interactive Pill Selection Triggers */
+        .pill-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+        .pill-item { background-color: var(--pill-bg); border: 1px solid var(--border-color); padding: 0.5rem 0.9rem; border-radius: 16px; font-size: 0.7rem; color: var(--text-primary); cursor: pointer; transition: all 0.2s; font-weight: 400; text-align: left; }
+        .pill-item:hover, .pill-item.active { border-color: var(--accent-muted); background-color: #FFFFFF; }
+
+        /* Master Process Launch Button */
+        .btn-generate { width: 100%; background-color: var(--btn-dark); border: none; color: #FFFFFF; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; padding: 1.2rem; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; font-weight: 600; text-align: center; margin-top: 0.5rem; box-shadow: 0 4px 10px rgba(61, 45, 31, 0.15); }
+        .btn-generate:hover { background-color: var(--text-primary); }
+
+        /* Output View Architecture Sections */
+        .output-block { border-bottom: 1px solid var(--border-color); padding-bottom: 1.2rem; margin-bottom: 1.2rem; position: relative; }
+        .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .output-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .output-label { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-muted); letter-spacing: 0.15em; font-weight: 600; display: block; }
+        
+        .code-block { background-color: var(--pill-bg); border: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 0.8rem; padding: 1rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; border-radius: 6px; line-height: 1.4; font-weight: 400; }
+        .keyword-display { font-family: var(--font-ui); font-size: 1.4rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); font-weight: 400; text-align: center; padding: 0.75rem 0; background: var(--pill-bg); border: 1px solid var(--border-color); border-radius: 6px; }
+        
+        .copy-btn { background: #FFFFFF; border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.55rem; padding: 0.25rem 0.6rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; letter-spacing: 0.05em; font-weight: 500; font-family: var(--font-ui); transition: all 0.2s; }
+        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-muted); }
+
+        @media (max-width: 430px) {
+            body { background-color: var(--app-bg); }
+            .app-container { border: none; max-width: 100vw; max-height: 100vh; height: 100vh; width: 100vw; }
+        }
     </style>
 </head>
 <body>
@@ -138,114 +147,114 @@
         <div class="app-screen">
             
             <header>
-                <div>
-                    <div class="brand-logo">LYRAE</div>
-                    <div class="brand-sub">Luxury Prompt OS</div>
-                </div>
-                <div class="system-status"><span class="status-dot"></span>Sovereign Core</div>
+                <div class="header-top">Private Creative Studio</div>
+                <div class="brand-logo">Soft Life <i>Image Engine</i></div>
+                <div class="brand-sub">Editorial Prompt System For Feminine Luxury Visuals</div>
             </header>
 
+            <div class="preset-container">
+                <div class="preset-title">Content Mode Presets</div>
+                <div class="preset-grid">
+                    <button class="preset-btn active" onclick="selectPreset('dominance', this)">Dominance</button>
+                    <button class="preset-btn" onclick="selectPreset('authority', this)">Authority</button>
+                    <button class="preset-btn" onclick="selectPreset('ruthless', this)">Ruthless</button>
+                    <button class="preset-btn" onclick="selectPreset('magnetic', this)">Magnetic</button>
+                </div>
+            </div>
+
             <section class="panel-box">
-                <h2 class="panel-title">System Configuration</h2>
+                <span class="section-label">Inputs</span>
                 
                 <div class="form-group">
-                    <label>1. Structural Matrix Vibe</label>
-                    <div class="vibe-grid selector-grid">
-                        <button class="selector-card active" onclick="setParam('vibe', 'dominance', this)">
-                            <span class="card-name">Dominance</span>
-                            <span class="card-desc">Commanding position</span>
-                        </button>
-                        <button class="selector-card" onclick="setParam('vibe', 'authority', this)">
-                            <span class="card-name">Authority</span>
-                            <span class="card-desc">Untouchable power</span>
-                        </button>
-                        <button class="selector-card" onclick="setParam('vibe', 'ruthless', this)">
-                            <span class="card-name">Ruthless</span>
-                            <span class="card-desc">Ice-cold distance</span>
-                        </button>
-                        <button class="selector-card" onclick="setParam('vibe', 'magnetic', this)">
-                            <span class="card-name">Magnetic</span>
-                            <span class="card-desc">Soft allure power</span>
-                        </button>
+                    <label>Quote or Statement</label>
+                    <textarea id="quote-input" placeholder="Enter your quote exactly as it should appear..."></textarea>
+                    
+                    <div class="pill-stack" id="quote-pills">
+                        </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="dropdown-row">
+                        <div class="select-wrapper">
+                            <span>Style</span>
+                            <select id="style-select">
+                                <option value="Soft">Soft</option>
+                                <option value="Editorial">Editorial</option>
+                                <option value="Minimal">Minimal</option>
+                            </select>
+                        </div>
+                        <div class="select-wrapper">
+                            <span>Post Type</span>
+                            <select id="type-select">
+                                <option value="9:16 Portrait">9:16 Port</option>
+                                <option value="4:5 Feed">4:5 Feed</option>
+                            </select>
+                        </div>
+                        <div class="select-wrapper">
+                            <span>Mood</span>
+                            <select id="mood-select">
+                                <option value="Calm">Calm</option>
+                                <option value="Commanding">Commanding</option>
+                                <option value="Sovereign">Sovereign</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>2. Cinema Studio Light Rig</label>
-                    <div class="selector-grid">
-                        <button class="selector-card active" onclick="setParam('lighting', 'editorial', this)">
-                            <span class="card-name">Vogue Softbox</span>
-                            <span class="card-desc">Warm champagne glow</span>
-                        </button>
-                        <button class="selector-card" onclick="setParam('lighting', 'rembrandt', this)">
-                            <span class="card-name">Chiaroscuro</span>
-                            <span class="card-desc">Deep studio drama</span>
-                        </button>
-                    </div>
+                    <label>Scene Notes <span>(optional)</span></label>
+                    <textarea id="scene-input" placeholder="e.g. sunlit bedroom, marble countertop, silk fabric drapes"></textarea>
+                    
+                    <div class="pill-stack" id="scene-pills">
+                        </div>
                 </div>
 
                 <div class="form-group">
-                    <label>3. Composition & Crop</label>
-                    <div class="selector-grid">
-                        <button class="selector-card active" onclick="setParam('crop', 'tight', this)">
-                            <span class="card-name">Close Portrait</span>
-                            <span class="card-desc">Focal gaze target</span>
-                        </button>
-                        <button class="selector-card" onclick="setParam('crop', 'wide', this)">
-                            <span class="card-name">Editorial Wide</span>
-                            <span class="card-desc">Minimalist room depth</span>
-                        </button>
-                    </div>
+                    <label>Dominant Keyword Override <span>(optional)</span></label>
+                    <textarea id="keyword-input" placeholder="e.g. PEACE · DECIDED · SOVEREIGN" style="min-height: 55px;"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="quote-input">Quote / Concept Spark</label>
-                    <textarea id="quote-input" placeholder="Type raw phrase or drop quote text to bind into prompt parameter arrays..."></textarea>
+                    <label>CTA / Bridge Line <span>(optional)</span></label>
+                    <textarea id="cta-input" placeholder="e.g. Link in bio. · Save this for your transformation." style="min-height: 55px;"></textarea>
                 </div>
 
-                <div class="syslog-box" id="os-log-feed">
-                    <div class="syslog-line">[SYS] LYRAE Prompt OS Engine initialized. Alpha state verified.</div>
-                    <div class="syslog-line">[SYS] Avatar identity model parameters securely locked.</div>
-                </div>
-
-                <button class="btn-generate" onclick="compileSovereignPackage()">Compile Sovereign Package</button>
+                <button class="btn-generate" onclick="generateEnginePackage()">Generate Prompt</button>
             </section>
 
             <section class="panel-box">
-                <h2 class="panel-title">Live Canvas Preview</h2>
-                <div class="preview-canvas" id="canvas-frame">
-                    <div class="preview-top-text" id="p-heading">DOMINANCE</div>
-                    <div class="preview-watermark" id="p-watermark">DOMINANCE</div>
-                    <div class="preview-quote-area">
-                        <div class="preview-quote-text" id="p-quote">Insert a target quote parameter or execute configuration to initialize visual matrix.</div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel-box">
-                <h2 class="panel-title">Asset Deployment Output</h2>
+                <span class="section-label">Outputs</span>
                 
                 <div class="output-block">
-                    <span class="output-label">Midjourney V6.1 Hyper-Editorial Portrait Prompt</span>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyText('mj-block')">Copy</button>
-                        <span id="mj-block">Select parameters and trigger system processing compilation.</span>
+                    <div class="output-header-row">
+                        <span class="output-label">Final Nano Banana Prompt</span>
+                        <button class="copy-btn" onclick="copyValue('out-prompt')">Copy</button>
                     </div>
+                    <div class="code-block" id="out-prompt">Configure settings parameters above and execute launch compiler...</div>
                 </div>
 
                 <div class="output-block">
-                    <span class="output-label">Stable Diffusion XL (SDXL) Master Prompt Framework</span>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyText('sdxl-block')">Copy</button>
-                        <span id="sdxl-block">Awaiting core variables compilation loop...</span>
+                    <div class="output-header-row">
+                        <span class="output-label">Dominant Keyword</span>
+                        <button class="copy-btn" onclick="copyValue('out-keyword')">Copy</button>
                     </div>
+                    <div class="keyword-display" id="out-keyword">—</div>
                 </div>
 
                 <div class="output-block">
-                    <span class="output-label">Font Mapping Infrastructure Allocation</span>
-                    <div class="font-matrix-display" id="out-fonts">
-                        Heading: Cormorant Garamond | Watermark: Didot | Quote: Montserrat Light
+                    <div class="output-header-row">
+                        <span class="output-label">Caption</span>
+                        <button class="copy-btn" onclick="copyValue('out-caption')">Copy</button>
                     </div>
+                    <div class="code-block" id="out-caption">—</div>
+                </div>
+
+                <div class="output-block">
+                    <div class="output-header-row">
+                        <span class="output-label">Text Hierarchy Specifications</span>
+                        <button class="copy-btn" onclick="copyValue('out-hierarchy')">Copy</button>
+                    </div>
+                    <div class="code-block" id="out-hierarchy">—</div>
                 </div>
             </section>
 
@@ -253,103 +262,132 @@
     </div>
 
     <script>
-        let config = {
-            vibe: 'dominance',
-            lighting: 'editorial',
-            crop: 'tight'
-        };
+        let currentPreset = 'dominance';
 
-        const dataMap = {
-            vibe: {
-                dominance: {
-                    styling: "tailored sharp champagne silk power suit with sleek luxury lines, commanding unbothered posture, absolute sovereignty",
-                    expression: "intense room-shifting gaze, subtle smirk, looking directly into lens with quiet certainty",
-                    fonts: "Heading: Cormorant Garamond | Watermark: Didot 200pt | Quote: Montserrat Light 60pt"
-                },
-                authority: {
-                    styling: "structured minimalist cream fine wool corporate blazer, flawless balance symmetry, elite luxury positioning",
-                    expression: "calm untouchable gaze, completely expressionless posture, projecting absolute professional leverage",
-                    fonts: "Heading: Didot | Watermark: Cormorant Garamond 180pt | Quote: Montserrat Light 60pt"
-                },
-                ruthless: {
-                    styling: "minimalist sleek high-neck champagne satin statement jacket, razor sharp shoulders, clean structural fabric shadow lines",
-                    expression: "ice-cold piercing gaze, slightly lowered chin angle, looking through the lens with complete finality",
-                    fonts: "Heading: Anton | Watermark: Bebas Neue 220pt | Quote: Montserrat Light 60pt"
-                },
-                magnetic: {
-                    styling: "fluid ivory premium heavy silk wrap drape dress, delicate thin gold structure accent lines, relaxed sovereign posture",
-                    expression: "alluring serene soft gaze, perfectly calm and deeply focused presence, completely captivating portraiture",
-                    fonts: "Heading: Playfair Display Italic | Watermark: Playfair Display 160pt | Quote: Montserrat Light 60pt"
-                }
+        // Static Platform Content Architecture Libraries Mapping
+        const library = {
+            dominance: {
+                quotes: [
+                    "She is not waiting to arrive.",
+                    "Quiet is not the same as soft.",
+                    "I decided my peace was non-negotiable.",
+                    "She built the life, then stepped into it."
+                ],
+                scenes: ["minimalist hotel suite", "rooftop terrace golden hour", "sleek home office", "sunlit morning lounge"],
+                keyword: "DECIDED",
+                cta: "Claim your sovereign infrastructure. Link in bio 🪐",
+                lines: ["Everything shifted the moment she stopped asking for permission.", "Building legacy requires zero external explanation.", "Command your presence completely."]
             },
-            lighting: {
-                editorial: "clean high-end studio softbox illumination, warm cream and rich golden espresso undertone color grading, subtle pristine rim lighting separating subject from depth backdrop, soft glowing skin rendering",
-                rembrandt: "dramatic deep chiaroscuro lighting architecture, single side high contrast warm champagne key light, sharp intentional drop shadows, heavy contrast play and moody dark luxury focus"
+            authority: {
+                quotes: [
+                    "She became dangerous the moment peace mattered more than attention.",
+                    "I don’t compete. I set the standard.",
+                    "They want access to the woman I was before I respected myself.",
+                    "My absence is the consequence."
+                ],
+                scenes: ["brutalist marble boardroom", "private jet interior lounge", "high-rise minimalist penthouse penthouse", "monochrome studio backdrop"],
+                keyword: "AUTHORITY",
+                cta: "The conversion blueprint is ready. Secure access in bio.",
+                lines: ["Move with absolute finality. The correct rooms will respect the metrics.", "Never perform for crowds that require free value parameters.", "The path changes when you install structure."]
             },
-            crop: {
-                tight: "intimate close-up portrait framing, camera positioned at precise eye level, shallow depth of field with background melting away into blurred minimal luxury space, subject center-aligned",
-                wide: "cinematic wide fashion editorial composition, medium full shot showcasing a minimal brutalist cream marble architectural interior workspace layout, high headroom spatial balance"
+            ruthless: {
+                quotes: [
+                    "I match energy. Keep that same attitude when I return it.",
+                    "You showed me who you were. I believed you the first time.",
+                    "I don’t do revenge. I do distance.",
+                    "Closure is a luxury I stopped expecting from people."
+                ],
+                scenes: ["architectural stark concrete vault", "dimly ambient designer library gallery", "dusk skyline high-rise framing", "sharp geometric interior studio"],
+                keyword: "DISTANCE",
+                cta: "Banish hope-this-helps execution patterns. Link in bio.",
+                lines: ["No warnings given, boundaries drafted with clean zero hesitation lines.", "They expected an argument, but distance moves silently.", "Stop investing equity into dead assets."]
+            },
+            magnetic: {
+                quotes: [
+                    "I don’t chase. I attract. What’s meant for me won’t miss me.",
+                    "My softness is not an invitation to disrespect me.",
+                    "I’m the calm in my own storm now.",
+                    "Healed women move different. Watch."
+                ],
+                scenes: ["sunlit bedroom terrace morning", "ambiently warm premium silk studio environment", "plush organic velvet linen oasis lounge", "cascading natural warm light gallery"],
+                keyword: "SOVEREIGN",
+                cta: "Align your brand engine architecture. Link in bio.",
+                lines: ["You do not need to struggle for positioning when you are the asset.", "Cultivate absolute internal clarity while the world watches.", "Soft execution moves whole markets."]
             }
         };
 
-        function pushLog(text) {
-            const box = document.getElementById('os-log-feed');
-            const line = document.createElement('div');
-            line.className = 'syslog-line';
-            line.innerText = `[SYS] ${text}`;
-            box.appendChild(line);
-            box.scrollTop = box.scrollHeight;
+        // Initialize lists of clickable target pills layout parameters
+        function updatePills() {
+            const data = library[currentPreset];
+            
+            // Render Quote Selection Options
+            const quoteZone = document.getElementById('quote-pills');
+            quoteZone.innerHTML = "";
+            data.quotes.forEach(q => {
+                const p = document.createElement('div');
+                p.className = "pill-item";
+                p.innerText = q;
+                p.onclick = () => { document.getElementById('quote-input').value = q; };
+                quoteZone.appendChild(p);
+            });
+
+            // Render Scene Note Options
+            const sceneZone = document.getElementById('scene-pills');
+            sceneZone.innerHTML = "";
+            data.scenes.forEach(s => {
+                const p = document.createElement('div');
+                p.className = "pill-item";
+                p.innerText = s;
+                p.onclick = () => { document.getElementById('scene-input').value = s; };
+                sceneZone.appendChild(p);
+            });
         }
 
-        function setParam(category, value, element) {
-            config[category] = value;
-            const cluster = element.parentElement;
-            cluster.querySelectorAll('.selector-card').forEach(btn => btn.classList.remove('active'));
+        function selectPreset(presetKey, element) {
+            currentPreset = presetKey;
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
-            
-            pushLog(`Parameter change detected: ${category.toUpperCase()} -> ${value.toUpperCase()}`);
-
-            if (category === 'vibe') {
-                const headText = value === 'soft baddie' ? 'SOFT BADDIE' : value.toUpperCase();
-                document.getElementById('p-heading').innerText = headText;
-                document.getElementById('p-watermark').innerText = headText;
-            }
+            updatePills();
         }
 
-        function compileSovereignPackage() {
-            const rawQuote = document.getElementById('quote-input').value.trim();
-            const selectedVibe = dataMap.vibe[config.vibe];
-            const selectedLight = dataMap.lighting[config.lighting];
-            const selectedCrop = dataMap.crop[config.crop];
+        function generateEnginePackage() {
+            const currentData = library[currentPreset];
             
-            pushLog("Compiling parameter stack array fields...");
+            // Pull text values, fallback to database values if left blank
+            const rawQuote = document.getElementById('quote-input').value.trim() || currentData.quotes[0];
+            const rawScene = document.getElementById('scene-input').value.trim() || currentData.scenes[0];
+            const rawKeyword = document.getElementById('keyword-input').value.trim() || currentData.keyword;
+            const rawCta = document.getElementById('cta-input').value.trim() || currentData.cta;
+            
+            const selectedStyle = document.getElementById('style-select').value;
+            const selectedType = document.getElementById('type-select').value;
+            const selectedMood = document.getElementById('mood-select').value;
 
-            // Core Identity Fixed Baseline Parameters - Rigidly Locked Description
-            const avatarLock = "High fashion photography portrait representation of a woman in her mid-20s, defined cheekbones, full lips, long wavy dark brown hair, highly symmetrical face structure, elegant strong gaze, luxury aesthetic";
-            const thematicContext = rawQuote !== "" ? `The visual mood is conceptually influenced by the philosophy: "${rawQuote}". ` : "";
+            // 1. Compile the Final High-Quality Nano Banana Image Prompt Array Block
+            const avatarLock = "Woman, mid-20s, defined cheekbones, full lips, long wavy brown hair, strong direct gaze, luxury editorial aesthetic, wearing tailored suits or pure silk garment structures";
+            
+            const compiledPrompt = `"${rawQuote}", ultra-realistic high-fashion editorial portrait image of an elegant feminine ${avatarLock}. Scene setting environment backdrop context: ${rawScene}. Visual execution settings: ${selectedStyle} theme profile, ${selectedMood} mood variables, vertical ${selectedType} aspect ratio layout grid configuration, full-height deep crisp contrast composition, three-quarter magazine cover framing alignment, premium cinematic ambient lightning rules, warm cream and matte champagne gold tone palettes, flawless rich textile definition, hyper-realistic fine skin grain details.`;
+            document.getElementById('out-prompt').innerText = compiledPrompt;
 
-            if (rawQuote !== "") {
-                document.getElementById('p-quote').innerText = `"${rawQuote}"`;
-            } else {
-                document.getElementById('p-quote').innerText = "System executed utilizing signature baseline framework presets.";
-            }
+            // 2. Display Dominant Accent Keyword node
+            document.getElementById('out-keyword').innerText = rawKeyword.toUpperCase();
 
-            // Compile Image Processing Arrays
-            const mjPrompt = `/imagine prompt: ${avatarLock}, ${selectedVibe.expression}, wearing ${selectedVibe.styling}. ${selectedCrop} Shot on Hasselblad 100MP, 85mm portrait lens setup. ${selectedLight}. Luxury aesthetic, Vogue fashion editorial cover quality layout, clean cream and champagne gold tone palettes, hyper realistic skin textures, premium fine grain structure --ar 9:16 --v 6.1 --style raw`;
-            document.getElementById('mj-block').innerText = mjPrompt;
+            // 3. Formulate Luxury Converting Strategy Text Copy Caption Block
+            const compiledCaption = `[${currentPreset.toUpperCase()}] era:\n\n${currentData.lines[0]}\n${currentData.lines[1]}\n\n"${rawQuote}"\n\n${rawCta}`;
+            document.getElementById('out-caption').innerText = compiledCaption;
 
-            const sdxlPrompt = `${avatarLock}, ${selectedVibe.expression}, wearing ${selectedVibe.styling}, ${selectedCrop}, masterwork, cinematic professional studio photography, 8k resolution, ${selectedLight}. ${thematicContext}Photorealistic textures, highly detailed textiles, minimal luxury room depth, cream, beige, and champagne gold tones, symmetrical composition, intricate fine details. Negative prompt: cross-eyed, deformed, low quality, distorted anatomy, vibrant neon colors, amateur, dark muddy grading.`;
-            document.getElementById('sdxl-block').innerText = sdxlPrompt;
-
-            document.getElementById('out-fonts').innerText = selectedVibe.fonts;
-            pushLog("Compilation sequence successful. Asset codes locked and ready.");
+            // 4. Inject Mathematical Font System & Architectural Hierarchy Directives
+            let textSpecs = `— Masthead-style headline: top, full width, largest size font scaling\n— Subject portrait: centered, full presence frame, face focus prominent\n— Selected Quote: below the folder array or over lower anatomy body layout lines, clean grid symmetry\n— Keyword layer backdrop: background depth canvas plain alignment, massive scale projection, 30% alpha opacity mask\n— Typography system parameters: considered typography architecture, forward-moving, highly intentional, sharp high contrast delivery`;
+            document.getElementById('out-hierarchy').innerText = textSpecs;
         }
 
-        function copyText(id) {
+        function copyValue(id) {
             const text = document.getElementById(id).innerText;
             navigator.clipboard.writeText(text);
-            pushLog(`Data securely transferred to device clipboard layout buffer from node [#${id}].`);
         }
+
+        // Run baseline load sequencing cycle
+        updatePills();
     </script>
 </body>
 </html>
