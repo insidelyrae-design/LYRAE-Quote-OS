@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LYRAE | Luxury Quotes OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #F9F6F0;       /* Warm Cream Backdrop */
+            --app-bg: #F4EFE6;         /* Alabaster App Base */
+            --panel-bg: #FFFFFF;       /* Porcelain White Core Modules */
+            --border-color: #E6DFD3;   /* Linen Structural Borders */
+            --text-primary: #1C1B18;   /* Deep Espresso Typography */
+            --text-secondary: #7A7466; /* Elegant Soft Taupe Lines */
+            --accent-gold: #D4AF37;    /* Bright Liquid Champagne Gold */
+            --accent-muted: #C5A059;   /* Matte Deep Brand Gold */
+            --pill-bg: #FAF6EE;        /* Light Cream Pill Targets */
+            --btn-dark: #3D2D1F;       /* Espresso Action Button */
+            --font-ui: 'Montserrat', sans-serif;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-weight: 300;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 9:16 Absolute Viewport Enclosure */
+        .app-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 430px;
+            max-height: 932px;
+            background-color: var(--app-bg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px -15px rgba(142, 131, 110, 0.25);
+        }
+
+        .app-screen {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding-bottom: 3rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .app-screen::-webkit-scrollbar { width: 3px; }
+        .app-screen::-webkit-scrollbar-thumb { background: var(--border-color); }
+
+        /* Thin Luxury Header Layout */
+        header {
+            text-align: center;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-top { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight: 500; }
+        .brand-logo { font-size: 1.8rem; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; text-transform: uppercase; font-weight: 400; color: var(--text-primary); line-height: 1.1; }
+        .brand-logo i { font-family: 'Playfair Display', serif; font-style: italic; text-transform: none; color: var(--accent-muted); }
+        .brand-sub { font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.4rem; font-weight: 500; }
+
+        .panel-box { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(230, 223, 211, 0.2); }
+        .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-muted); font-weight: 600; margin-bottom: 1rem; display: block; }
+
+        /* Presets Pill Grids from Reference Screens */
+        .preset-container { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; margin-bottom: 0.25rem; }
+        .preset-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-secondary); font-weight: 600; }
+        .preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 100%; }
+        .preset-btn { background-color: #FFFFFF; border: 1px solid var(--border-color); border-radius: 20px; padding: 0.6rem 0.8rem; font-family: var(--font-ui); font-size: 0.7rem; color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s ease; font-weight: 400; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+        .preset-btn::before { content: '●'; font-size: 0.4rem; color: var(--border-color); }
+        .preset-btn.active { border-color: var(--accent-muted); color: var(--text-primary); background-color: var(--pill-bg); font-weight: 600; }
+        .preset-btn.active::before { color: var(--accent-muted); }
+
+        /* Form Layout Elements */
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600; }
+        label span { font-size: 0.6rem; color: var(--text-secondary); text-transform: none; font-weight: 400; letter-spacing: normal; }
+        
+        textarea { width: 100%; background-color: var(--pill-bg); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.85rem; resize: none; min-height: 75px; outline: none; border-radius: 8px; transition: all 0.2s; font-weight: 400; line-height: 1.4; }
+        textarea::placeholder { color: #A8A296; font-weight: 300; }
+        textarea:focus { border-color: var(--accent-muted); background-color: #FFFFFF; box-shadow: 0 4px 12px rgba(197, 160, 89, 0.1); }
+
+        .dropdown-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+        .select-wrapper { position: relative; display: flex; flex-direction: column; }
+        .select-wrapper span { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); font-weight: 600; margin-bottom: 0.4rem; }
+        select { width: 100%; background-color: #FFFFFF; border: 1px solid var(--border-color); padding: 0.65rem 0.5rem; font-family: var(--font-ui); font-size: 0.75rem; color: var(--text-primary); border-radius: 6px; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; font-weight: 400; }
+        .select-wrapper::after { content: '▼'; font-size: 0.45rem; color: var(--text-secondary); position: absolute; right: 0.5rem; bottom: 0.7rem; pointer-events: none; }
+
+        .pill-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+        .pill-item { background-color: var(--pill-bg); border: 1px solid var(--border-color); padding: 0.45rem 0.85rem; border-radius: 16px; font-size: 0.7rem; color: var(--text-primary); cursor: pointer; transition: all 0.2s; font-weight: 400; text-align: left; line-height: 1.3; }
+        .pill-item:hover { border-color: var(--accent-muted); background-color: #FFFFFF; }
+
+        /* Action Process Trigger */
+        .btn-generate { width: 100%; background-color: var(--btn-dark); border: none; color: #FFFFFF; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; padding: 1.15rem; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; font-weight: 600; text-align: center; box-shadow: 0 4px 15px rgba(61, 45, 31, 0.15); }
+        .btn-generate:hover { background-color: var(--text-primary); }
+
+        /* Output Nodes Pipeline Styling */
+        .output-block { border-bottom: 1px solid var(--border-color); padding-bottom: 1.2rem; margin-bottom: 1.2rem; position: relative; }
+        .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .output-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .output-label { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-muted); letter-spacing: 0.12em; font-weight: 600; display: block; }
+        
+        .code-block { background-color: var(--pill-bg); border: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 0.8rem; padding: 0.95rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; border-radius: 6px; line-height: 1.45; font-weight: 400; }
+        .keyword-display { font-family: var(--font-ui); font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); font-weight: 400; text-align: center; padding: 0.85rem 0; background: var(--pill-bg); border: 1px solid var(--border-color); border-radius: 6px; }
+        
+        .copy-btn { background: #FFFFFF; border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.55rem; padding: 0.25rem 0.55rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; font-weight: 500; font-family: var(--font-ui); }
+        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-muted); }
+
+        @media (max-width: 430px) {
+            body { background-color: var(--app-bg); }
+            .app-container { border: none; max-width: 100vw; max-height: 100vh; height: 100vh; width: 100vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="app-screen">
+            
+            <header>
+                <div class="header-top">Private Creative Studio</div>
+                <div class="brand-logo">Soft Life <i>Image Engine</i></div>
+                <div class="brand-sub">Editorial Prompt System For Feminine Luxury Visuals</div>
+            </header>
+
+            <div class="preset-container">
+                <div class="preset-title">Content Mode Presets</div>
+                <div class="preset-grid">
+                    <button class="preset-btn active" onclick="selectMode('soft_morning', this)">Soft Morning</button>
+                    <button class="preset-btn" onclick="selectMode('becoming_her', this)">Becoming Her</button>
+                    <button class="preset-btn" onclick="selectMode('baddie_ego', this)">Baddie Alter Ego</button>
+                    <button class="preset-btn" onclick="selectMode('ruthless', this)">Ruthless Authority</button>
+                </div>
+            </div>
+
+            <section class="panel-box">
+                <span class="section-label">Inputs</span>
+                
+                <div class="form-group">
+                    <label>Quote or Statement</label>
+                    <textarea id="quote-input" placeholder="Enter custom quote or select a rapid option preset pill below..."></textarea>
+                    
+                    <div class="pill-stack" id="quote-pills"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="dropdown-row">
+                        <div class="select-wrapper">
+                            <span>Style</span>
+                            <select id="style-select">
+                                <option value="Soft Box">Soft Box</option>
+                                <option value="Editorial">Editorial</option>
+                                <option value="Minimal">Minimal</option>
+                            </select>
+                        </div>
+                        <div class="select-wrapper">
+                            <span>Post Type</span>
+                            <select id="type-select">
+                                <option value="9:16 Portrait">9:16 Port</option>
+                                <option value="4:5 Feed">4:5 Feed</option>
+                            </select>
+                        </div>
+                        <div class="select-wrapper">
+                            <span>Mood</span>
+                            <select id="mood-select">
+                                <option value="Calm">Calm</option>
+                                <option value="Commanding">Commanding</option>
+                                <option value="Sovereign">Sovereign</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Scene Notes <span>(optional)</span></label>
+                    <textarea id="scene-input" placeholder="e.g. sunlit bedroom, marble countertop, silk fabric drapes"></textarea>
+                    
+                    <div class="pill-stack" id="scene-pills"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Dominant Keyword Override <span>(optional)</span></label>
+                    <textarea id="keyword-input" placeholder="e.g. PEACE · DECIDED · SOVEREIGN" style="min-height: 55px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>CTA / Bridge Line <span>(optional)</span></label>
+                    <textarea id="cta-input" placeholder="e.g. Link in bio. · Save this for your transformation." style="min-height: 55px;"></textarea>
+                </div>
+
+                <button class="btn-generate" onclick="processOSWorkspaceEngine()">Generate Prompt</button>
+            </section>
+
+            <section class="panel-box">
+                <span class="section-label">Outputs</span>
+                
+                <div class="output-block">
+                    <div class="output-header-row">
+                        <span class="output-label">Final Nano Banana Prompt</span>
+                        <button class="copy-btn" onclick="copyData('out-prompt')">Copy</button>
+                    </div>
+                    <div class="code-block" id="out-prompt">Configure settings parameters above and execute launch compiler...</div>
+                </div>
+
+                <div class="output-block">
+                    <div class="output-header-row">
+                        <span class="output-label">Dominant Keyword</span>
+                        <button class="copy-btn" onclick="copyData('out-keyword')">Copy</button>
+                    </div>
+                    <div class="keyword-display" id="out-keyword">—</div>
+                </div>
+
+                <div class="output-block">
+                    <div class="output-header-row">
+                        <span class="output-label">Caption</span>
+                        <button class="copy-btn" onclick="copyData('out-caption')">Copy</button>
+                    </div>
+                    <div class="code-block" id="out-caption">—</div>
+                </div>
+
+                <div class="output-block">
+                    <div class="output-header-row">
+                        <span class="output-label">Posting Angle</span>
+                        <button class="copy-btn" onclick="copyData('out-angle')">Copy</button>
+                    </div>
+                    <div class="code-block" id="out-angle">—</div>
+                </div>
+
+                <div class="output-block">
+                    <div class="output-header-row">
+                        <span class="output-label">Text Typography Hierarchy Layout Specifications</span>
+                        <button class="copy-btn" onclick="copyData('out-hierarchy')">Copy</button>
+                    </div>
+                    <div class="code-block" id="out-hierarchy">—</div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'soft_morning';
+
+        // Synchronized Library Matrix matching screens perfectly
+        const library = {
+            soft_morning: {
+                quotes: [
+                    "She is not waiting to arrive.",
+                    "Quiet is not the same as soft.",
+                    "I decided my peace was non-negotiable.",
+                    "She built the life, then stepped into it."
+                ],
+                scenes: ["sunlit bedroom morning", "minimalist hotel suite", "rooftop terrace golden hour", "sleek home office"],
+                keyword: "DECIDED",
+                cta: "Save this if it found you.",
+                angle: "Growth arc identity post",
+                lines: ["She did not wait for permission.", "Everything changed when she decided."]
+            },
+            becoming_her: {
+                quotes: [
+                    "I don’t compete. I set the standard.",
+                    "My softness is not an invitation to disrespect me.",
+                    "I’m the calm in my own storm now.",
+                    "Healed women move different. Watch."
+                ],
+                scenes: ["high-end marble lounge room", "flawless cream gallery architecture", "premium silk backdrop workspace", "ambient luxury hotel balcony"],
+                keyword: "SOVEREIGN",
+                cta: "Claim your design alignment framework. Link in bio.",
+                angle: "Authority shift status pitch",
+                lines: ["You don't need to struggle for alignment when you are the prize.", "Cultivate absolute inner stillness while the world works out parameters."]
+            },
+            baddie_ego: {
+                quotes: [
+                    "The room adjusts when I enter. Not the other way around.",
+                    "You don’t get to understand me. You get to witness me.",
+                    "I serve face, not explanations.",
+                    "Pretty, paid, and at peace."
+                ],
+                scenes: ["dusk high-rise skyline suite", "private executive penthouse lounge", "sleek brutalist vanity area", "minimal black satin studio room"],
+                keyword: "WITNESS",
+                cta: "Step into your supreme architecture setup. Link in bio.",
+                angle: "Ego reclamation engagement hook",
+                lines: ["They want access to your mind before they calculate your value.", "Make them witness your position without an apology block."]
+            },
+            ruthless: {
+                quotes: [
+                    "She became dangerous the moment peace mattered more than attention.",
+                    "I match energy. Keep that same attitude when I return it.",
+                    "I don’t do revenge. I do distance.",
+                    "My absence is the consequence."
+                ],
+                scenes: ["monochrome studio concrete backdrop", "private jet interior corridor", "sharp architectural boardroom deck", "minimal stark twilight space"],
+                keyword: "DANGEROUS",
+                cta: "Install premium infrastructure. Link in bio.",
+                angle: "High-ticket cold audience gatekeeper line",
+                lines: ["No warnings issued. Boundaries drawn cleanly with zero delay.", "They expected an argument, but distance acts much quieter."]
+            }
+        };
+
+        function populateActiveLibraryPills() {
+            const data = library[currentMode];
+            
+            const quoteZone = document.getElementById('quote-pills');
+            quoteZone.innerHTML = "";
+            data.quotes.forEach(q => {
+                const pill = document.createElement('div');
+                pill.className = "pill-item";
+                pill.innerText = q;
+                pill.onclick = () => { document.getElementById('quote-input').value = q; };
+                quoteZone.appendChild(pill);
+            });
+
+            const sceneZone = document.getElementById('scene-pills');
+            sceneZone.innerHTML = "";
+            data.scenes.forEach(s => {
+                const pill = document.createElement('div');
+                pill.className = "pill-item";
+                pill.innerText = s;
+                pill.onclick = () => { document.getElementById('scene-input').value = s; };
+                sceneZone.appendChild(pill);
+            });
+        }
+
+        function selectMode(modeKey, element) {
+            currentMode = modeKey;
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            populateActiveLibraryPills();
+        }
+
+        function processOSWorkspaceEngine() {
+            const data = library[currentMode];
+            
+            const valQuote = document.getElementById('quote-input').value.trim() || data.quotes[0];
+            const valScene = document.getElementById('scene-input').value.trim() || data.scenes[0];
+            const valKeyword = document.getElementById('keyword-input').value.trim() || data.keyword;
+            const valCta = document.getElementById('cta-input').value.trim() || data.cta;
+            
+            const selStyle = document.getElementById('style-select').value;
+            const selType = document.getElementById('type-select').value;
+            const selMood = document.getElementById('mood-select').value;
+
+            // Core Avatar Identity Lock Configuration Directives - Exact parameters from system book
+            const avatarLock = "Woman, mid-20s, defined cheekbones, full lips, long wavy brown hair, strong gaze, luxury aesthetic. Wearing tailored suits or silk. Cinematic lighting. Magazine cover quality. Face structure, eye shape, lip shape, skin tone locked perfectly.";
+            
+            // 1. Compile Final Nano Banana Hyper-Realistic Prompt Block Array
+            const compiledPrompt = `"${valQuote}", ultra-realistic high-fashion editorial image of a feminine ${avatarLock}. Scene environment setting context: ${valScene}. Technical processing filters: ${selStyle} style setup, ${selMood} background mood tones, vertical ${selType} layout profile canvas 1080x1024px, subject fills the vertical frame, typography flows top-to-bottom with generous vertical breathing room, luxury magazine cover composition, three-quarter or full-body framing, large statement typography fully integrated into the visual hierarchy, commanding presence, golden editorial light with soft intentional contrast, warm ivory, dusty blush, soft cream and matte champagne gold color grading palettes.`;
+            document.getElementById('out-prompt').innerText = compiledPrompt;
+
+            // 2. Output Keywords
+            document.getElementById('out-keyword').innerText = valKeyword.toUpperCase();
+
+            // 3. Output Copy Captions Block
+            const compiledCaption = `${data.lines[0]}\n\n"${valQuote}"\n\n${valCta}`;
+            document.getElementById('out-caption').innerText = compiledCaption;
+
+            // 4. Output Posting Angle
+            document.getElementById('out-angle').innerText = data.angle;
+
+            // 5. Output Text Typography Hierarchy Specification Grid - Matching exact reference criteria
+            const computedHierarchySpecs = `— Masthead-style headline: top, full width, largest type scale footprint (e.g. "AUTHORITY" or "DANGEROUS" text positioning)\n— Subject image portrait asset: centered layout, full presence frame display, face structures prominent\n— Selected Quote Statement copy: below the fold or overlaid cleanly over lower body anatomy spaces, clear structural text hierarchy\n— Dominant Keyword backdrop mask layer: background vector plane placement, massive scale projection, exactly 30% alpha opacity grading\n— Typography details: considered, forward-moving, highly intentional spacing, clean high contrast alignment\n— Canvas configuration boundaries: 9:16 viewport ratio (1080x1920px for Reels & Stories), tall vertical stacking grid metrics, text anchored securely within the top or bottom 20% safe zones.`;
+            document.getElementById('out-hierarchy').innerText = computedHierarchySpecs;
+        }
+
+        function copyData(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text);
+        }
+
+        populateActiveLibraryPills();
+    </script>
+</body>
+</html>
