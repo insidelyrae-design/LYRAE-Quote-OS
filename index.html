@@ -2,374 +2,829 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>LYRAE | Luxury Quote OS</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="LYRAE OS">
-    <meta name="mobile-web-app-capable" content="yes">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LYRAE | Luxury Quotes OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #F9F6F0;       /* Warm Cream Editorial Linen */
-            --app-bg: #F4EFE6;         /* Liquid Cream Base Canvas */
-            --panel-bg: #FFFFFF;       /* Pure Ivory Module Glass */
-            --border-color: #E6DFD3;   /* Muted Brushed Bronze Borders */
-            --text-primary: #1C1B18;   /* Deep Espresso Typography */
-            --text-secondary: #7A7466; /* Matte Soft Taupe Subtexts */
-            --accent-gold: #D4AF37;    /* Bright Reflective Champagne Gold */
-            --accent-muted: #C5A059;   /* Deep Luxury Matte Gold */
-            --pill-bg: #FAF6EE;        /* Light Cream Pill Accents */
-            --btn-dark: #2A1F16;       /* Obsidian Espresso Command Trigger */
-            --font-ui: 'Montserrat', sans-serif;
+            --cream: #FAF6F1;
+            --creamDeep: #F2EBE1;
+            --blush: #E8D5C4;
+            --blushMid: #D9C0AA;
+            --champagne: #C9A882;
+            --champDark: #A8825A;
+            --warmBrown: #5C3D2A;
+            --ink: #2C1A0E;
+            --inkSoft: #6B4C35;
+            --inkMuted: #9B7A60;
+            --white: #FFFDF9;
         }
 
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-ui);
-            font-weight: 300;
-            line-height: 1.5;
+            font-family: 'Jost', system-ui, sans-serif;
+            background-color: var(--cream);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
+            color: var(--ink);
+            font-weight: 300;
+            line-height: 1.6;
         }
 
-        .app-container {
-            width: 100vw;
-            height: 100vh;
-            max-width: 430px;
-            max-height: 932px;
-            background-color: var(--app-bg);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 25px 50px -15px rgba(114, 105, 90, 0.3);
-            padding-top: env(safe-area-inset-top, 20px);
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--creamDeep); }
+        ::-webkit-scrollbar-thumb { background: var(--blushMid); border-radius: 3px; }
+
+        textarea, input, select { font-family: 'Jost', system-ui, sans-serif !important; }
+
+        @keyframes fadeUp { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes shimmer { 
+            0% { background-position: 200% 0; } 
+            100% { background-position: -200% 0; } 
         }
 
-        .app-screen {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            padding-bottom: calc(3rem + env(safe-area-inset-bottom, 20px));
-            -webkit-overflow-scrolling: touch;
+        .fade-up { animation: fadeUp 0.4s ease both; }
+        .shimmer { 
+            background: linear-gradient(90deg, var(--cream) 25%, var(--blush) 50%, var(--cream) 75%); 
+            background-size: 200% 100%; 
+            animation: shimmer 1.2s infinite; 
+            color: transparent !important; 
+            min-height: 48px; 
+            border-radius: 8px; 
         }
-
-        .app-screen::-webkit-scrollbar { width: 3px; }
-        .app-screen::-webkit-scrollbar-thumb { background: var(--border-color); }
 
         header {
+            background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
+            border-bottom: 1px solid rgba(201,168,130,0.18);
+            padding: 48px 32px 36px;
             text-align: center;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
-        .header-top { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.35em; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight: 600; }
-        .brand-logo { font-size: 1.9rem; letter-spacing: 0.12em; font-family: 'Cormorant Garamond', serif; text-transform: uppercase; font-weight: 400; color: var(--text-primary); line-height: 1.1; }
-        .brand-logo i { font-family: 'Playfair Display', serif; font-style: italic; text-transform: none; color: var(--accent-muted); }
-        .brand-sub { font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.2em; margin-top: 0.4rem; font-weight: 500; }
-
-        .panel-box { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(230, 223, 211, 0.25); }
-        .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-muted); font-weight: 600; margin-bottom: 1rem; display: block; }
-
-        .vibe-container { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.25rem; }
-        .vibe-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-secondary); font-weight: 600; text-align: center; }
-        .vibe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 100%; }
-        .vibe-btn { background-color: #FFFFFF; border: 1px solid var(--border-color); border-radius: 20px; padding: 0.6rem 0.8rem; font-family: var(--font-ui); font-size: 0.7rem; color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1); font-weight: 400; letter-spacing: 0.05em; }
-        .vibe-btn.active { border-color: var(--accent-muted); color: var(--text-primary); background-color: var(--pill-bg); font-weight: 600; box-shadow: inset 0 0 0 1px rgba(197, 160, 89, 0.2); }
-
-        .form-group { margin-bottom: 1.25rem; }
-        label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600; }
-        
-        textarea { width: 100%; background-color: var(--pill-bg); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.85rem; resize: none; min-height: 80px; outline: none; border-radius: 8px; transition: all 0.2s ease; font-weight: 400; line-height: 1.4; user-select: text; }
-        textarea::placeholder { color: #A8A296; font-weight: 300; }
-        textarea:focus { border-color: var(--accent-muted); background-color: #FFFFFF; box-shadow: 0 4px 12px rgba(197, 160, 89, 0.1); }
-
-        .pill-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
-        .pill-item { background-color: var(--pill-bg); border: 1px solid var(--border-color); padding: 0.5rem 0.9rem; border-radius: 16px; font-size: 0.7rem; color: var(--text-primary); cursor: pointer; transition: all 0.2s ease; font-weight: 400; text-align: left; line-height: 1.3; }
-        .pill-item:hover { border-color: var(--accent-muted); background-color: #FFFFFF; }
-
-        .platform-tabs { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; gap: 0.2rem; }
-        .tab-trigger { flex: 1; background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-ui); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.6rem 0; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-weight: 500; }
-        .tab-trigger.active { color: var(--accent-muted); border-bottom-color: var(--accent-muted); font-weight: 600; }
-
-        .btn-generate { width: 100%; background-color: var(--btn-dark); border: none; color: #FFFFFF; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; padding: 1.15rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 6px; font-weight: 600; text-align: center; box-shadow: 0 4px 15px rgba(42, 31, 22, 0.15); }
-        .btn-generate:hover { background-color: var(--text-primary); transform: translateY(-0.5px); }
-
-        .output-block { border-bottom: 1px solid var(--border-color); padding-bottom: 1.2rem; margin-bottom: 1.2rem; position: relative; }
-        .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-        .output-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .output-label { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-muted); letter-spacing: 0.12em; font-weight: 600; display: block; }
-        
-        .code-block { background-color: var(--pill-bg); border: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 0.8rem; padding: 0.95rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; border-radius: 6px; line-height: 1.45; font-weight: 400; user-select: text; }
-        .copy-btn { background: #FFFFFF; border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.55rem; padding: 0.25rem 0.55rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; font-weight: 500; font-family: var(--font-ui); transition: all 0.2s; }
-        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-muted); }
-
-        @media (max-width: 430px) {
-            body { background-color: var(--app-bg); position: fixed; }
-            .app-container { border: none; max-width: 100vw; max-height: 100vh; height: 100vh; width: 100vw; }
+        .header-line {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--champagne), transparent);
         }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            opacity: 0.45;
+        }
+
+        .header-dash { width: 44px; height: 1px; background: var(--champDark); }
+        .header-meta-txt { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--champDark); font-weight: 400; }
+
+        .brand-h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 300;
+            fontSize: clamp(2.4rem, 5vw, 3.8rem);
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            line-height: 1.1;
+            margin: 0 0 10px;
+        }
+        .brand-h1 em { font-style: italic; color: var(--champDark); }
+        .brand-p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--inkMuted); font-weight: 300; }
+
+        .app-container { maxWidth: 1240px; margin: 0 auto; padding: 36px 24px 80px; }
+        
+        .presets-label { font-size: 0.64rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--inkMuted); font-weight: 500; text-align: center; margin-bottom: 12px; }
+        .presets-flex { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 28px; }
+        .preset-pill { display: flex; align-items: center; gap: 8px; padding: 9px 16px; background: var(--white); border: 1.5px solid rgba(201,168,130,0.28); borderRadius: 100px; font-size: 0.73rem; font-weight: 400; color: var(--inkSoft); cursor: pointer; transition: all 0.25s; letter-spacing: 0.04em; box-shadow: 0 1px 6px rgba(92,61,42,0.06); }
+        .preset-pill.active { background: var(--ink); border-color: var(--ink); color: var(--cream); box-shadow: 0 4px 16px rgba(44,26,14,0.2); }
+        .preset-dot { width: 6px; height: 6px; borderRadius: 50%; background: var(--champDark); flex-shrink: 0; }
+        .preset-pill.active .preset-dot { background: var(--champagne); }
+
+        .engine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 36px; }
+        .panel-card { background: var(--white); borderRadius: 18px; border: 1px solid rgba(201,168,130,0.22); boxShadow: 0 4px 32px rgba(92,61,42,0.07), 0 1px 4px rgba(92,61,42,0.05); padding: 28px; }
+        
+        .panel-label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; fontWeight: 500; color: var(--champDark); marginBottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .panel-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,130,0.2); }
+
+        .guidance-box { background: linear-gradient(135deg, var(--creamDeep), var(--blush)); border: 1px solid rgba(201,168,130,0.25); borderRadius: 8px; padding: 13px 16px; marginBottom: 18px; display: none; }
+        .guidance-title { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--champDark); font-weight: 600; marginBottom: 4px; }
+        .guidance-txt { font-size: 0.78rem; color: var(--inkSoft); line-height: 1.55; marginBottom: 8px; }
+        .guidance-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+        .guidance-tag { background: var(--white); border: 1px solid rgba(201,168,130,0.25); borderRadius: 100px; padding: 2px 9px; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--inkMuted); }
+
+        .field-box { marginBottom: 18px; }
+        .field-txt-lbl { display: block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--inkSoft); fontWeight: 500; marginBottom: 7px; }
+        .field-opt { color: var(--inkMuted); font-size: 0.62rem; marginLeft: 6px; text-transform: none; letter-spacing: 0; }
+
+        .ratio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ratio-card { display: flex; align-items: center; gap: 11px; padding: 12px 14px; background: var(--cream); border: 1.5px solid rgba(201,168,130,0.25); borderRadius: 8px; cursor: pointer; transition: all 0.2s; }
+        .ratio-card.active { background: var(--white); border-color: var(--champDark); boxShadow: 0 0 0 3px rgba(201,168,130,0.15), 0 2px 12px rgba(92,61,42,0.07); }
+        .ratio-box-visual { borderRadius: 3px; background: var(--creamDeep); border: 1.5px solid var(--blushMid); flex-shrink: 0; }
+        .ratio-card.active .ratio-box-visual { background: var(--blush); border-color: var(--champDark); }
+        .ratio-name { font-size: 0.78rem; fontWeight: 500; color: var(--ink); line-height: 1.2; }
+        .ratio-card.active .ratio-name { color: var(--warmBrown); }
+        .ratio-desc { font-size: 0.65rem; color: var(--inkMuted); marginTop: 2px; line-height: 1.3; }
+
+        .input-element { width: 100%; background: var(--cream); border: 1px solid rgba(201,168,130,0.3); borderRadius: 8px; padding: 11px 14px; fontFamily: 'Jost', system-ui, sans-serif !important; fontSize: 0.88rem; color: var(--ink); outline: none; transition: all 0.2s; }
+        .input-element:focus { background: var(--white); border-color: var(--champagne); boxShadow: 0 0 0 3px rgba(201,168,130,0.18); }
+        textarea.input-element { resize: vertical; line-height: 1.6; }
+        select.input-element { cursor: pointer; appearance: none; backgroundImage: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A882' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+
+        .pill-stack { display: flex; flex-wrap: wrap; gap: 6px; marginTop: 7px; }
+        .pill-item { background: var(--creamDeep); border: 1px solid rgba(201,168,130,0.25); borderRadius: 100px; padding: 4px 12px; font-size: 0.7rem; color: var(--inkSoft); cursor: pointer; transition: all 0.2s; fontWeight: 400; }
+        .pill-item:hover { background: var(--blush); border-color: var(--champagne); color: var(--warmBrown); }
+
+        .form-select-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; marginBottom: 18px; }
+
+        .btn-master-trigger { width: 100%; padding: 15px 28px; background: linear-gradient(135deg, var(--warmBrown) 0%, var(--ink) 100%); color: var(--cream); border: none; borderRadius: 8px; fontSize: 0.76rem; letter-spacing: 0.22em; text-transform: uppercase; fontWeight: 500; cursor: pointer; transition: all 0.3s; marginTop: 4px; }
+        .btn-master-trigger:disabled { cursor: not-allowed; opacity: 0.7; }
+
+        .output-empty-placeholder { textAlign: center; padding: 52px 24px; color: var(--inkMuted); }
+        .output-empty-icon { font-size: 2.2rem; opacity: 0.2; marginBottom: 12px; }
+        .output-empty-txt { font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1.9; }
+
+        .output-field-node { marginBottom: 20px; }
+        .output-header-row { display: flex; alignItems: center; justifyContent: space-between; marginBottom: 8px; }
+        .output-header-lbl { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--champDark); fontWeight: 500; }
+        .copy-action-btn { background: none; border: 1px solid rgba(201,168,130,0.3); borderRadius: 6px; padding: 3px 11px; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--inkMuted); cursor: pointer; transition: all 0.2s; }
+        .copy-action-btn.copied { background: var(--blush); border-color: var(--champDark); color: var(--warmBrown); }
+        
+        .output-display-block { background: var(--cream); border: 1px solid rgba(201,168,130,0.18); borderRadius: 8px; padding: 13px 16px; font-size: 0.84rem; fontWeight: 300; color: var(--ink); lineHeight: 1.7; white-space: pre-line; }
+        .output-display-block.big-title { padding: 18px 20px; font-size: 2rem; font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warmBrown); textAlign: center; lineHeight: 1.2; }
+
+        .btn-output-footer-row { display: flex; gap: 10px; marginTop: 6px; }
+        .btn-footer-node { flex: 1; padding: 11px; borderRadius: 8px; fontSize: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; fontWeight: 500; cursor: pointer; transition: all 0.2s; }
+        .btn-footer-node.regen { background: var(--creamDeep); border: 1px solid var(--champagne); color: var(--warmBrown); }
+        .btn-footer-node.clear { background: none; border: 1px solid rgba(201,168,130,0.25); color: var(--inkMuted); }
+
+        .section-divider-node { textAlign: center; margin: 44px 0 28px; position: relative; }
+        .section-divider-line { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(201,168,130,0.18); }
+        .section-divider-text { position: relative; background: var(--cream); padding: 0 18px; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--champDark); }
+
+        .tab-headers-row { display: flex; gap: 4px; padding: 4px; background: var(--creamDeep); borderRadius: 8px; border: 1px solid rgba(201,168,130,0.18); marginBottom: 22px; }
+        .tab-btn-node { flex: 1; padding: 9px 10px; border: none; borderRadius: 6px; background: none; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; fontWeight: 400; color: var(--inkMuted); cursor: pointer; transition: all 0.2s; }
+        .tab-btn-node.active { background: var(--white); fontWeight: 500; color: var(--warmBrown); boxShadow: 0 2px 8px rgba(92,61,42,0.08); }
+
+        .library-example-display { border-left: 2px solid var(--champagne); padding: 11px 16px; background: var(--white); borderRadius: 0 8px 8px 0; font-size: 0.8rem; color: var(--inkMuted); font-style: italic; lineHeight: 1.65; }
+        .library-badge { display: inline-block; background: var(--blush); color: var(--warmBrown); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 10px; borderRadius: 100px; marginBottom: 10px; fontWeight: 500; }
+
+        .caption-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+        .caption-card-node { background: var(--white); border: 1px solid rgba(201,168,130,0.22); borderRadius: 10px; padding: 20px; position: relative; overflow: hidden; transition: all 0.2s; }
+        .caption-card-accent-line { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blushMid), var(--champDark)); }
+        .caption-card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.05rem; font-weight: 500; color: var(--ink); margin: 8px 0 4px; }
+        .caption-card-meta { font-size: 0.62rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--inkMuted); marginBottom: 10px; }
+        .caption-card-body { font-size: 0.78rem; color: var(--inkSoft); line-height: 1.6; marginBottom: 12px; font-style: italic; whiteSpace: pre-line; }
+        .caption-card-copy-trigger { background: none; border: none; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--champDark); cursor: pointer; fontWeight: 500; padding: 0; }
+
+        .strategy-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; marginBottom: 24px; }
+        .strategy-card-node { background: var(--white); border: 1px solid rgba(201,168,130,0.22); borderRadius: 10px; padding: 22px; }
+        .strategy-card-meta { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--champDark); fontWeight: 500; marginBottom: 8px; }
+        .strategy-card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 400; color: var(--ink); marginBottom: 8px; }
+        .strategy-card-desc { font-size: 0.8rem; color: var(--inkSoft); line-height: 1.6; }
+
+        .strategy-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .strategy-sub-card { background: var(--cream); border: 1px solid rgba(201,168,130,0.18); borderRadius: 8px; padding: 16px; }
+        .strategy-sub-meta { font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; fontWeight: 600; marginBottom: 5px; }
+        .strategy-sub-desc { font-size: 0.76rem; color: var(--inkSoft); line-height: 1.5; }
+
+        .practices-layout { display: grid; grid-template-columns: auto 1fr; gap: 24px; alignItems: start; }
+        .practices-icon { font-size: 2rem; opacity: 0.25; }
+        .practices-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 400; color: var(--ink); marginBottom: 14px; }
+        .practices-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+        .practices-line-node { font-size: 0.77rem; color: var(--inkSoft); paddingLeft: 14px; position: relative; line-height: 1.55; }
+        .practices-line-bullet { position: absolute; left: 0; color: var(--champDark); }
+
+        .toast-popup { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--cream); padding: 11px 22px; borderRadius: 100px; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; fontWeight: 400; zIndex: 1000; animation: fadeUp 0.3s ease; pointer-events: none; display: none; }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="app-screen">
-            
-            <header>
-                <div class="header-top">Private Creative Suite</div>
-                <div class="brand-logo">LYRAE <i>Quotes OS</i></div>
-                <div class="brand-sub">Premium Image Prompt & Copy Engine</div>
-            </header>
+    <header>
+        <div class="header-line"></div>
+        <div class="header-meta">
+            <div class="header-dash"></div>
+            <span class="header-meta-txt">Private Creative Studio</span>
+            <div class="header-dash"></div>
+        </div>
+        <h1 class="brand-h1">
+            LYRAE <em id="branding-italic">Quotes OS</em>
+        </h1>
+        <p class="brand-p">Editorial prompt system for feminine luxury visuals</p>
+    </header>
 
-            <div class="vibe-container">
-                <div class="vibe-title">Select Active Vibe Framework</div>
-                <div class="vibe-grid">
-                    <button class="vibe-btn active" onclick="switchVibe('dominance', this)">Dominance</button>
-                    <button class="vibe-btn" onclick="switchVibe('authority', this)">Authority</button>
-                    <button class="vibe-btn" onclick="switchVibe('ruthless', this)">Ruthless</button>
-                    <button class="vibe-btn" onclick="switchVibe('magnetic', this)">Magnetic</button>
+    <div class="app-container">
+
+        <div style="margin-bottom: 28px;">
+            <div class="presets-label">Content Mode Presets</div>
+            <div class="presets-flex" id="presets-container-zone"></div>
+        </div>
+
+        <div class="engine-grid">
+
+            <section class="panel-card">
+                <div class="panel-label">Inputs</div>
+
+                <div class="guidance-box" id="preset-guidance-box">
+                    <div class="guidance-title" id="guidance-title-node"></div>
+                    <div class="guidance-txt" id="guidance-txt-node"></div>
+                    <div class="guidance-tags" id="guidance-tags-node"></div>
+                </div>
+
+                <div class="field-box">
+                    <span class="field-txt-lbl">Instagram Format</span>
+                    <div class="ratio-grid">
+                        <div class="ratio-card active" id="ratio-916" onclick="setRatioMode('9:16')">
+                            <div class="ratio-box-visual" style="width: 16px; height: 28px;"></div>
+                            <div>
+                                <div class="ratio-name">9:16 Portrait</div>
+                                <div class="ratio-desc">Reels & Stories · 1080×1920px</div>
+                            </div>
+                        </div>
+                        <div class="ratio-card" id="ratio-45" onclick="setRatioMode('4:5')">
+                            <div class="ratio-box-visual" style="width: 20px; height: 25px;"></div>
+                            <div>
+                                <div class="ratio-name">4:5 Portrait</div>
+                                <div class="ratio-desc">Feed Posts · 1080×1350px</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-txt-lbl" for="quote-entry-box">Quote or Statement</label>
+                    <textarea class="input-element" id="quote-entry-box" placeholder="Enter your quote exactly as it should appear…"></textarea>
+                    <div class="pill-stack" id="quote-pill-suggestions"></div>
+                </div>
+
+                <div class="form-select-row">
+                    <div class="field-box">
+                        <span class="field-txt-lbl">Style</span>
+                        <select class="input-element" id="select-style-node" onchange="syncInputVariables()">
+                            <option value="Soft">Soft</option>
+                            <option value="Bridge">Bridge</option>
+                            <option value="Baddie">Baddie</option>
+                            <option value="Ruthless">Ruthless</option>
+                        </select>
+                    </div>
+                    <div class="field-box">
+                        <span class="field-txt-lbl">Post Type</span>
+                        <select class="input-element" id="select-type-node" onchange="syncInputVariables()">
+                            <option value="Portrait">Portrait</option>
+                            <option value="Collage">Collage</option>
+                            <option value="Lifestyle">Lifestyle</option>
+                            <option value="Cover">Cover</option>
+                        </select>
+                    </div>
+                    <div class="field-box">
+                        <span class="field-txt-lbl">Mood</span>
+                        <select class="input-element" id="select-mood-node" onchange="syncInputVariables()">
+                            <option value="Calm">Calm</option>
+                            <option value="Becoming">Becoming</option>
+                            <option value="Magnetic">Magnetic</option>
+                            <option value="Dominant">Dominant</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-txt-lbl" for="scene-entry-box">Scene Notes <span class="field-opt">(optional)</span></label>
+                    <input class="input-element" type="text" id="scene-entry-box" placeholder="e.g. sunlit bedroom, marble countertop, rooftop morning…">
+                    <div class="pill-stack" id="scene-pill-suggestions"></div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-txt-lbl" for="keyword-entry-box">Dominant Keyword Override <span class="field-opt">(optional)</span></label>
+                    <input class="input-element" type="text" id="keyword-entry-box" placeholder="e.g. PEACE · DECIDED · SOVEREIGN · ARRIVED">
+                </div>
+
+                <div class="field-box">
+                    <label class="field-txt-lbl" for="cta-entry-box">CTA / Bridge Line <span class="field-opt">(optional)</span></label>
+                    <input class="input-element" type="text" id="cta-entry-box" placeholder="e.g. Link in bio. · Save this. · You already know.">
+                </div>
+
+                <button class="btn-master-trigger" id="compile-action-trigger" onclick="compileOSPipeline()">Generate Prompt</button>
+            </section>
+
+            <section class="panel-card" id="output-pane-enclosure">
+                <div class="panel-label">Outputs</div>
+                
+                <div class="output-empty-placeholder" id="output-empty-view">
+                    <div class="output-empty-icon">◯</div>
+                    <p class="output-empty-txt">Your editorial prompt<br>will appear here.</p>
+                </div>
+
+                <div style="display: none; flex-direction: column; gap: 14px;" id="output-shimmer-view">
+                    <div class="shimmer" style="height: 120px;"></div>
+                    <div class="shimmer" style="height: 40px;"></div>
+                    <div class="shimmer" style="height: 80px;"></div>
+                    <div class="shimmer" style="height: 40px;"></div>
+                    <div class="shimmer" style="height: 80px;"></div>
+                </div>
+
+                <div style="display: none;" id="output-content-view" class="fade-up">
+                    <div class="output-field-node">
+                        <div class="output-header-row">
+                            <span class="output-header-lbl">Final Nano Banana Prompt</span>
+                            <button class="copy-action-btn" onclick="copyElementText('out-prompt-val')">Copy</button>
+                        </div>
+                        <div class="output-display-block" id="out-prompt-val"></div>
+                    </div>
+
+                    <div class="output-field-node">
+                        <div class="output-header-row">
+                            <span class="output-header-lbl">Dominant Keyword</span>
+                            <button class="copy-action-btn" onclick="copyElementText('out-keyword-val')">Copy</button>
+                        </div>
+                        <div class="output-display-block big-title" id="out-keyword-val"></div>
+                    </div>
+
+                    <div class="output-field-node">
+                        <div class="output-header-row">
+                            <span class="output-header-lbl">Caption</span>
+                            <button class="copy-action-btn" onclick="copyElementText('out-caption-val')">Copy</button>
+                        </div>
+                        <div class="output-display-block" id="out-caption-val"></div>
+                    </div>
+
+                    <div class="output-field-node">
+                        <div class="output-header-row">
+                            <span class="output-header-lbl">Posting Angle</span>
+                            <button class="copy-btn copy-action-btn" onclick="copyElementText('out-angle-val')">Copy</button>
+                        </div>
+                        <div class="output-display-block" id="out-angle-val"></div>
+                    </div>
+
+                    <div class="output-field-node">
+                        <div class="output-header-row">
+                            <span class="output-header-lbl">Text Hierarchy</span>
+                            <button class="copy-action-btn" onclick="copyElementText('out-hierarchy-val')">Copy</button>
+                        </div>
+                        <div class="output-display-block" id="out-hierarchy-val"></div>
+                    </div>
+
+                    <div class="btn-output-footer-row">
+                        <button class="btn-footer-node regen" onclick="compileOSPipeline()">↹ Regenerate</button>
+                        <button class="btn-footer-node clear" onclick="flushOutputs()">Clear</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-divider-node">
+            <div class="section-divider-line"></div>
+            <span class="section-divider-text">Prompt Library</span>
+        </div>
+        
+        <div class="panel-card">
+            <div class="panel-label">Base Logic & Examples</div>
+            <div class="tab-headers-row" id="lib-tabs-row"></div>
+            <div id="lib-view-display-node" class="fade-up"></div>
+        </div>
+
+        <div class="section-divider-node">
+            <div class="section-divider-line"></div>
+            <span class="section-divider-text">Caption Library</span>
+        </div>
+
+        <div class="panel-card">
+            <div class="panel-label">Caption Modes</div>
+            <p style="font-size: 0.8rem; color: var(--inkMuted); margin-bottom: 18px; line-height: 1.7;">Select a mode. Each generates a caption from your current quote and style.</p>
+            <div class="caption-cards-grid" id="caption-cards-box-row"></div>
+        </div>
+
+        <div class="section-divider-node">
+            <div class="section-divider-line"></div>
+            <span class="section-divider-text">Content Strategy</span>
+        </div>
+
+        <div class="panel-card">
+            <div class="panel-label">Posting Rhythm & Style Guide</div>
+            <div class="strategy-cards-grid">
+                <div class="strategy-card-node">
+                    <div class="strategy-card-meta">☀ Morning Posts</div>
+                    <h4 class="strategy-card-title">Soft · Trust · Relatability</h4>
+                    <p class="strategy-card-desc">Morning is when audiences are open and receptive. Lead with softness, healing, and relatability. Create images that feel like a gentle nudge toward self-trust. Blush palettes, warm light, peaceful energy.</p>
+                </div>
+                <div class="strategy-card-node">
+                    <div class="strategy-card-meta">● Evening Posts</div>
+                    <h4 class="strategy-card-title">Power · Baddie · Authority</h4>
+                    <p class="strategy-card-desc">Evening is when she's winding down but dreaming up. Aspirational content lands hardest here. Lead with identity, standards, and magnetic attraction. Higher contrast, bolder energy.</p>
                 </div>
             </div>
-
-            <section class="panel-box">
-                <span class="section-label">System Inputs</span>
-                
-                <div class="form-group">
-                    <label>Quote Statement Matrix</label>
-                    <textarea id="quote-input" placeholder="Type custom raw quote statement or tap a structured signature preset option below..."></textarea>
-                    
-                    <div class="pill-stack" id="quote-pills"></div>
-                </div>
-
-                <button class="btn-generate" onclick="processOSWorkflow()">Process Brand Package</button>
-            </section>
-
-            <section class="panel-box">
-                <span class="section-label">Asset Deployment Outputs</span>
-
-                <div class="output-block">
-                    <div class="output-header-row">
-                        <span class="output-label">Confirmed System Quote</span>
-                        <button class="copy-btn" onclick="copyValue('out-quote')">Copy</button>
-                    </div>
-                    <div class="code-block" id="out-quote">Awaiting input execution stream sequence...</div>
-                </div>
-                
-                <div class="output-block">
-                    <div class="output-header-row">
-                        <span class="output-label">Midjourney V6.1 Hyper-Realistic Prompt</span>
-                        <button class="copy-btn" onclick="copyValue('out-prompt')">Copy</button>
-                    </div>
-                    <div class="code-block" id="out-prompt">Awaiting compilation runtime engine loop...</div>
-                </div>
-
-                <div class="platform-tabs">
-                    <button class="tab-trigger active" id="tab-tk" onclick="switchPlatform('tiktok')">TikTok</button>
-                    <button class="tab-trigger" id="tab-ig" onclick="switchPlatform('instagram')">Instagram</button>
-                    <button class="tab-trigger" id="tab-th" onclick="switchPlatform('threads')">Threads</button>
-                </div>
-
-                <div id="platform-output-zone">
-                    <div class="output-block" id="title-block-node" style="display: none;">
-                        <div class="output-header-row">
-                            <span class="output-label">Hook Title Metric</span>
-                            <button class="copy-btn" onclick="copyValue('out-title')">Copy</button>
-                        </div>
-                        <div class="code-block" id="out-title" style="font-weight: 600;">—</div>
-                    </div>
-
-                    <div class="output-block">
-                        <div class="output-header-row">
-                            <span class="output-label">Optimized Copy Caption</span>
-                            <button class="copy-btn" onclick="copyValue('out-caption')">Copy</button>
-                        </div>
-                        <div class="code-block" id="out-caption">—</div>
-                    </div>
-                </div>
-
-                <div class="output-block">
-                    <div class="output-header-row">
-                        <span class="output-label">Typography System & Layout Specifications</span>
-                        <button class="copy-btn" onclick="copyValue('out-fonts')">Copy</button>
-                    </div>
-                    <div class="code-block" id="out-fonts">—</div>
-                </div>
-            </section>
-
+            <div class="strategy-sub-grid" id="strategy-style-sub-matrix"></div>
         </div>
+
+        <div class="section-divider-node">
+            <div class="section-divider-line"></div>
+            <span class="section-divider-text">Best Practices</span>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--creamDeep) 0%, var(--blush) 100%); border: 1px solid rgba(201,168,130,0.25); borderRadius: 18px; padding: 28px 36px;">
+            <div class="practices-layout">
+                <div class="practices-icon">✦</div>
+                <div>
+                    <div class="practices-title">One emotional job per image. Every time.</div>
+                    <div class="practices-sub-grid" id="practices-bullet-list"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        let activeVibe = 'dominance';
-        let activePlatform = 'tiktok';
-        let currentQuoteState = '';
+    <div class="toast-popup" id="toast-view-alert"></div>
 
-        // Master Rule Databases Matrix Mapping Arrays
-        const db = {
-            dominance: {
-                quotes: [
-                    "The room adjusts when I enter. Not the other way around.",
-                    "I’m not for everyone. I’m for the ones who recognize value.",
-                    "You don’t get to understand me. You get to witness me.",
-                    "I stopped auditioning for roles in people’s lives.",
-                    "My energy introduces me before I speak."
-                ],
-                fonts: "Heading Font: Cormorant Garamond | Watermark Font: Didot (200pt) | Quote Font: Montserrat Light (60pt)",
-                wording: "DOMINANCE",
-                hooks: "When you walk in, the hierarchy resets itself.",
-                lines: ["They want access to your mind before they value your presence.", "Make them witness your space without an explanation.", "Your energy speaks long before your voice does."],
-                tags: "#darkfeminineenergy #highvaluewoman #luxurymindset #dominance #sovereignty",
-                sound: "slowed minimalist piano track variant (Use index mark: Timestamp 0:12)"
+    <script>
+        const STYLE_PROFILES = {
+            Soft: {
+                lighting: "soft natural diffused light, warm golden morning glow",
+                palette: "cream, blush, warm white, champagne",
+                styling: "effortless feminine wardrobe, silk, linen, soft organic textures, relaxed luxury",
+                environment: "serene intimate setting, sunlit and airy",
+                energy: "emotionally warm, healing, self-trusting, calm",
+                typographyStyle: "flowing editorial serif typography",
+                contrast: "low-to-medium contrast, soft tonal range",
+                keywords: ["PEACE","ARRIVED","SOFT","TRUST","CHOSEN","STILL","HOME","GRACE","BLOOM","SAFE"],
+                angles: ["Soft trust post","Self-trust content","Warm relatability post","Healing energy visual"],
+                captionOpeners: ["She chose herself, quietly.","This is what peace looks like from the inside.","Nothing loud. Everything intentional.","She moved slow because she already knew.","Soft is not weakness. Soft is chosen."],
             },
-            authority: {
-                quotes: [
-                    "She became dangerous the moment peace mattered more than attention.",
-                    "I don’t compete. I set the standard.",
-                    "They want access to the woman I was before I respected myself.",
-                    "My absence is the consequence.",
-                    "I move in silence because my results make noise."
-                ],
-                fonts: "Heading Font: Didot | Watermark Font: Cormorant Garamond (180pt) | Quote Font: Montserrat Light (60pt)",
-                wording: "AUTHORITY",
-                hooks: "The moment they realize access is earned, not given.",
-                lines: ["Move with silent finality. The right rooms respect the silence.", "Never perform for crowds looking for free entertainment.", "Your standards define your boundaries."],
-                tags: "#darkfeminineenergy #highvaluewoman #luxurymindset #ceoenergy #authority",
-                sound: "deep luxury ambient atmospheric bass swell (Use index mark: Timestamp 0:08)"
+            Bridge: {
+                lighting: "golden editorial light with soft intentional contrast",
+                palette: "warm ivory, dusty blush, soft gold, warm neutrals",
+                styling: "elevated considered styling, intentional layers, silk and structured softness",
+                environment: "transitional aspirational space, between comfort and ambition",
+                energy: "becoming, growing, stepping forward, identity-in-motion",
+                typographyStyle: "clean editorial serif with intentional weight contrast",
+                contrast: "medium contrast, warm and controlled",
+                keywords: ["BECOMING","DECIDED","STEPPING","FORWARD","NEXT","HER","SHIFT","READY","RISING","CHOSEN"],
+                angles: ["Identity shift post","Becoming her visual","Transitional identity content","Growth arc post"],
+                captionOpeners: ["She is not who she was last year.","The version of her that decided — she was right.","Becoming her looks exactly like this.","She did not wait for permission.","Growth is quieter than people expect."],
             },
-            ruthless: {
-                quotes: [
-                    "I match energy. Keep that same attitude when I return it.",
-                    "You showed me who you were. I believed you the first time.",
-                    "I don’t do revenge. I do distance.",
-                    "Closure is a luxury I stopped expecting from people who lack accountability.",
-                    "I will not water dead things, including us."
-                ],
-                fonts: "Heading Font: Anton | Watermark Font: Bebas Neue (220pt) | Quote Font: Montserrat Light (60pt)",
-                wording: "RUTHLESS",
-                hooks: "We aren't fixing what lack of respect broke.",
-                lines: ["No warnings given, boundaries drawn cleanly with zero hesitation.", "They expected an argument, but distance is much quieter.", "Stop watering dead dynamics."],
-                tags: "#darkfeminineenergy #highvaluewoman #luxurymindset #ruthless #boundaries",
-                sound: "dark industrial low cadence cello register track (Use index mark: Timestamp 0:15)"
+            Baddie: {
+                lighting: "dramatic beauty lighting, glossy high-contrast highlights, cinematic warmth",
+                palette: "deep cream, bronze, honey gold, warm champagne, high visual contrast",
+                styling: "luxury streetwear, elevated glam, confident high-status fits, jewelry, bold silhouette",
+                environment: "high-status aspirational setting, luxury lifestyle aesthetic",
+                energy: "magnetic, irresistible, playful power, alter ego energy",
+                typographyStyle: "bold modern editorial typography, oversized and high-contrast",
+                contrast: "high contrast, punchy, cinematic",
+                keywords: ["MAGNETIC","CHOSEN","STATUS","DESIRED","RARE","ICONIC","HER","ARRIVED","FATAL","MAIN"],
+                angles: ["Alter ego magnetism post","High-status attraction visual","Aspirational identity post","She is the vision content"],
+                captionOpeners: ["You wanted her. She decided herself.","The vision was never for everyone.","She turned the dream into the address.","She did not glow up. She revealed herself.","The upgrade was always internal."],
             },
-            magnetic: {
-                quotes: [
-                    "I don’t chase. I attract. What’s meant for me won’t miss me.",
-                    "My softness is not an invitation to disrespect me.",
-                    "I’m the calm in my own storm now.",
-                    "Healed women move different. Watch.",
-                    "I’m not hard to love. You’re just not qualified."
-                ],
-                fonts: "Heading Font: Playfair Display Italic | Watermark Font: Playfair Display (160pt) | Quote Font: Montserrat Light (60pt)",
-                wording: "MAGNETIC",
-                hooks: "True power doesn't make noise, it pulls.",
-                lines: ["You do not need to hustle for alignment when you are the prize.", "Let them look while you cultivate absolute inner stillness.", "Soft power moves whole tectonic plates."],
-                tags: "#darkfeminineenergy #highvaluewoman #luxurymindset #magnetic #allure",
-                sound: "ethereal atmospheric slow pad synth frequency (Use index mark: Timestamp 0:22)"
-            }
+            Ruthless: {
+                lighting: "cinematic high-contrast studio lighting, sharp definition, dramatic shadow structure",
+                palette: "cool ivory, deep shadow, structured neutrals, black and champagne accents",
+                styling: "sharp structured tailoring, minimal luxury, authority dressing, precise silhouette",
+                environment: "minimal dominant setting, clean and commanding, architectural or stripped",
+                energy: "dominant, untouchable, elite, standard-setting, cold power",
+                typographyStyle: "stark cold editorial sans-serif or high-contrast serif, unflinching weight",
+                contrast: "high contrast, cold, cinematic, uncompromising",
+                keywords: ["STANDARDS","DECIDED","SOVEREIGN","AUTHORITY","FINAL","COLD","CHOSEN","NO","DONE","SHARP"],
+                angles: ["Ruthless authority post","Standard-setting visual","Power positioning content","Cold statement post"],
+                captionOpeners: ["Her standards were not negotiable. They never were.","She did not soften herself for comfort. Hers or theirs.","The answer was always no. She just said it clearly now.","She is not cold. She is decided.","Authority does not explain itself."],
+            },
         };
 
-        function populateQuotePills() {
-            const zone = document.getElementById('quote-pills');
-            zone.innerHTML = "";
-            db[activeVibe].quotes.forEach(q => {
-                const pill = document.createElement('div');
-                pill.className = "pill-item";
-                pill.innerText = q;
-                pill.onclick = () => { document.getElementById('quote-input').value = q; };
-                zone.appendChild(pill);
+        const POST_TYPE_PROFILES = {
+            Portrait: "close-up editorial portrait, face dominant in frame, intense facial presence, minimal environmental elements, strong bokeh depth of field",
+            Collage: "editorial collage composition with three to four carefully curated support elements, story-led layout, magazine spread energy, deliberate spacing — never cluttered",
+            Lifestyle: "aspirational lifestyle scene, lived-in luxury aesthetic, natural but premium environment, architectural and environmental storytelling",
+            Cover: "luxury magazine cover composition, three-quarter or full-body framing, large statement typography fully integrated into the visual hierarchy, commanding presence",
+        };
+
+        const MOOD_PROFILES = {
+            Calm: "peaceful inner stillness, quiet certainty, zero urgency, total self-possession",
+            Becoming: "transitional identity frequency, stepping into herself, quiet unstoppable confidence",
+            Magnetic: "irresistible pull, charismatic high-status presence, people cannot look away",
+            Dominant: "commanding authority, sharp non-negotiable standards, elite untouchable energy",
+        };
+
+        const PRESETS = {
+            "soft-morning": { label: "Soft Morning", style: "Soft", mood: "Calm", postType: "Lifestyle", scene: "sunlit bedroom, soft morning light, warm tea in hand", keyword: "PEACE", cta: "Save this for the morning you need it.", guidance: "A warm slow-living morning visual. Feels like a breath. Perfect for trust-building and audience warmth.", metaTags: ["Soft", "Calm", "Lifestyle", "Warm Caption"] },
+            "soft-trust": { label: "Soft Trust", style: "Soft", mood: "Calm", postType: "Portrait", scene: "quiet intimate interior, natural diffused light", keyword: "TRUST", cta: "She already knows.", guidance: "Face-forward, emotionally open portrait. Designed to create safety and connection.", metaTags: ["Soft", "Calm", "Portrait", "Intimate"] },
+            "becoming-her": { label: "Becoming Her", style: "Bridge", mood: "Becoming", postType: "Portrait", scene: "transitional space, soft golden afternoon light", keyword: "BECOMING", cta: "The version of you reading this already knows.", guidance: "Identity-shift energy. Speak to the woman in the middle. She should feel recognised and pulled forward.", metaTags: ["Bridge", "Becoming", "Portrait", "Aspirational"] },
+            "soft-power": { label: "Soft Power", style: "Bridge", mood: "Becoming", postType: "Cover", scene: "elevated architectural setting, golden hour light, clean lines", keyword: "DECIDED", cta: "Everything changed when she decided.", guidance: "Elevated and intentional. Bridge energy meeting cover-level composition. Soft AND powerful.", metaTags: ["Bridge", "Becoming", "Cover", "Luxury"] },
+            "baddie-alter": { label: "Baddie Alter Ego", style: "Baddie", mood: "Magnetic", postType: "Lifestyle", scene: "luxury lifestyle aspirational setting, warm cinematic light", keyword: "MAGNETIC", cta: "The vision was never for everyone.", guidance: "This is her alter ego made visible. Aspirational, irresistible, high-status.", metaTags: ["Baddie", "Magnetic", "Lifestyle", "Bold"] },
+            "ruthless-auth": { label: "Ruthless Authority", style: "Ruthless", mood: "Dominant", postType: "Cover", scene: "minimal commanding space, architectural, structured shadow", keyword: "STANDARDS", cta: "That is all.", guidance: "No softness. No explanation. Dominant authority. Use for standards and power positioning.", metaTags: ["Ruthless", "Dominant", "Cover", "Cold"] },
+            "cover-statement": { label: "Cover Statement", style: "Ruthless", mood: "Dominant", postType: "Cover", scene: "luxury magazine set, high-contrast structured backdrop", keyword: "SOVEREIGN", cta: "Read that again.", guidance: "Maximum visual authority. Think luxury magazine cover. The quote must land like a headline.", metaTags: ["Ruthless", "Dominant", "Cover", "Minimal"] },
+            "editorial-coll": { label: "Editorial Collage", style: "Bridge", mood: "Becoming", postType: "Collage", scene: "curated story elements, editorial magazine layout, warm neutral tones", keyword: "HER", cta: "Save this. Come back to it.", guidance: "Story-led editorial collage. Three to four elements max, each earning its place.", metaTags: ["Bridge", "Becoming", "Collage", "Story"] },
+        };
+
+        const CAPTION_MODES = [
+            { id: "soft", name: "Soft", tone: "Warm · Intimate · Safe", dotColor: "#E8D5C4", fn: (q, s) => { const sp = STYLE_PROFILES[s] || STYLE_PROFILES.Soft; const o = sp.captionOpeners[Math.floor(Math.random() * sp.captionOpeners.length)]; return `${o}${q ? '\n\n"' + q.trim() + '"' : ''}\n\nSave this if it found you.`; } },
+            { id: "cold", name: "Cold", tone: "Sharp · Minimal · Direct", dotColor: "#B8C4CC", fn: (q) => { const c = ["That is all.", "No further context needed.", "Read that again.", "Sit with it."][Math.floor(Math.random() * 4)]; return `${q ? '"' + q.trim() + '"' : 'She already knew.'}\n\n${c}`; } },
+            { id: "luxury", name: "Luxury", tone: "Refined · Elevated · Editorial", dotColor: "#C9A882", fn: (q) => `The details were never for everyone.${q ? '\n\n"' + q.trim() + '"' : ''}\n\nEverything curated. Everything chosen.\n\nShe is not for display — she is the standard.` },
+            { id: "dangerous", name: "Dangerous", tone: "Bold · Magnetic · Unapologetic", dotColor: "#C07840", fn: (q) => { const o = ["She is not a soft warning.", "There is nothing safe about a woman who knows her worth.", "She chose herself — loudly.", "Some versions of her were made to be feared."][Math.floor(Math.random() * 4)]; return `${o}${q ? '\n\n"' + q.trim() + '"' : ''}\n\nBookmark that.`; } },
+            { id: "becoming", name: "Becoming Her", tone: "Aspirational · Transitional", dotColor: "#C4A870", fn: (q) => `She is not finished. She is becoming.${q ? '\n\n"' + q.trim() + '"' : ''}\n\nThe version of you that reads this — she already knows what to do.\n\nTrust her.` },
+        ];
+
+        const LIBRARY_DATA = {
+            soft: { label: "Soft Life", tag: "Soft Life", title: "Calm · Healing · Feminine Trust", desc: "The Soft style creates images that feel like a warm exhale. Blush and cream palettes, diffused natural light, relaxed but elevated styling.", emotion: "Make her feel safe. Make her want to slow down.", example: '"She is not waiting to arrive.", ultra-realistic high-fashion editorial portrait of a feminine woman with soft direct eye contact, close portrait composition, soft diffused golden morning light, cream and blush palette, silk robe and minimal jewelry, serene bedroom setting, oversized editorial keyword "ARRIVED" in faded serif typography, strong negative space, emotionally warm, 8K editorial.' },
+            bridge: { label: "Soft Power Bridge", tag: "Bridge", title: "Becoming · Transitional · Identity Shift", desc: "Bridge is the energy of stepping forward. Not yet arrived, but no longer who she was. Warm neutrals with more intention in the styling.", emotion: "Make her feel seen in transition. Make her want to grow.", example: '"I decided my peace was non-negotiable.", ultra-realistic editorial of a feminine woman mid-step, golden editorial light, warm ivory and dusty blush palette, elevated silk blouse, structured silhouette, oversized keyword "DECIDED" in editorial serif, identity-shift emotional frequency, 8K.' },
+            baddie: { label: "Baddie Alter Ego", tag: "Baddie", title: "Magnetic · Bold · High-Status", desc: "Baddie is the alter ego made visual. Glossy beauty lighting, luxury lifestyle elements, playful confidence, aspirational and irresistible.", emotion: "Make her want to become this version of herself.", example: '"She built the life, then stepped into it.", ultra-realistic high-fashion editorial of a magnetic feminine woman, dramatic beauty lighting, deep cream and bronze palette, luxury streetwear styling, oversized keyword "MAGNETIC" in bold editorial type, cinematic 8K fashion photography.' },
+            ruthless: { label: "Ruthless Authority", tag: "Ruthless", title: "Dominant · Elite · Untouchable", desc: "Ruthless is authority without apology. Cinematic contrast, structured tailoring, sharp eye contact. No softness to exploit.", emotion: "Make her feel the weight of her own standards.", example: '"Quiet is not the same as soft.", ultra-realistic cinematic editorial of a dominant feminine woman, sharp unwavering eye contact, high-contrast studio lighting, cool ivory and deep shadow, structured tailored blazer, oversized keyword "AUTHORITY" in stark editorial sans-serif, commanding negative space, 8K.' },
+        };
+
+        const BEST_PRACTICES_LIST = [
+            "Keep the face clearly visible — always. No cropping, no obscuring.",
+            "Eye contact or strong facial presence is non-negotiable.",
+            "Keep text readable — contrast, size, and placement matter.",
+            "Never overcrowd the frame — let the negative space breathe.",
+            "Quote must appear exactly as written — no paraphrasing.",
+            "No duplicate text, no repeated lines in any layout.",
+            "Each image has one emotional job. Focus the whole frame on it.",
+            "When in doubt, go cleaner, not busier."
+        ];
+
+        // Core App Context State Matrix Parameters
+        let activeRatio = "9:16";
+        let selectedPresetId = null;
+        let activeLibraryKey = "soft";
+
+        // DOM Elements Anchors Map
+        const quoteBox = document.getElementById('quote-entry-box');
+        const styleSelect = document.getElementById('select-style-node');
+        const typeSelect = document.getElementById('select-type-node');
+        const moodSelect = document.getElementById('select-mood-node');
+        const sceneBox = document.getElementById('scene-entry-box');
+        const keywordBox = document.getElementById('keyword-entry-box');
+        const ctaBox = document.getElementById('cta-entry-box');
+
+        const outEmptyView = document.getElementById('output-empty-view');
+        const outShimmerView = document.getElementById('output-shimmer-view');
+        const outContentView = document.getElementById('output-content-view');
+
+        function triggerToast(msg) {
+            const toast = document.getElementById('toast-view-alert');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2400);
+        }
+
+        function calculateDefaultKeyword(style, quote) {
+            const pool = STYLE_PROFILES[style]?.keywords || STYLE_PROFILES.Soft.keywords;
+            return pool[(quote?.length || 7) % pool.length];
+        }
+
+        function compileOSPipeline() {
+            outEmptyView.style.display = 'none';
+            outContentView.style.display = 'none';
+            outShimmerView.style.display = 'flex';
+
+            setTimeout(() => {
+                const quote = quoteBox.value;
+                const style = styleSelect.value;
+                const postType = typeSelect.value;
+                const mood = moodSelect.value;
+                const scene = sceneBox.value;
+                const keyword = keywordBox.value;
+                const cta = ctaBox.value;
+
+                const sp = STYLE_PROFILES[style] || STYLE_PROFILES.Soft;
+                const pp = POST_TYPE_PROFILES[postType] || POST_TYPE_PROFILES.Portrait;
+                const mp = MOOD_PROFILES[mood] || MOOD_PROFILES.Calm;
+                const kw = keyword?.trim() ? keyword.trim().toUpperCase() : calculateDefaultKeyword(style, quote);
+                
+                const qLen = quote?.trim().length || 0;
+                const layoutNote = qLen < 40 ? "treated as a cover statement, large and typographically dominant" : "typographically refined for readability, clean hierarchical layout";
+                const qBlock = quote?.trim() ? `"${quote.trim()}"` : '"[your quote]"';
+                
+                const ratioNote = activeRatio === "9:16"
+                    ? "vertical 9:16 aspect ratio for Instagram Reels and Stories, full-height portrait canvas 1080×1920px, subject fills the vertical frame, typography flows top-to-bottom with generous vertical breathing room"
+                    : "vertical 4:5 aspect ratio for Instagram Feed Posts, portrait canvas 1080×1350px, subject centred with balanced margins, typography anchored in the upper or lower third";
+                
+                let processedPrompt = `${qBlock}, ultra-realistic high-fashion editorial image of a feminine woman with clearly visible face and strong direct eye contact, ${ratioNote}, ${pp}, ${sp.lighting}, ${sp.palette} color palette, ${sp.styling}, set in a ${sp.environment}`;
+                if (scene?.trim()) processedPrompt += ` — specifically: ${scene.trim()}`;
+                processedPrompt += `, ${sp.energy} emotional atmosphere, ${mp}, oversized editorial keyword "${kw}" displayed with intentional typographic presence using ${sp.typographyStyle}, quote text ${layoutNote} — displayed exactly as written, never repeated, never cluttered, premium magazine layout integration, ${sp.contrast}, strong deliberate negative space, emotionally sharp scroll-stopping composition, luminous realistic skin texture, premium fashion photography, 8K editorial resolution`;
+                if (cta?.trim()) processedPrompt += `, closing bridge line at the bottom: "${cta.trim()}"`;
+
+                // Render Data Strings Into Display Nodes
+                document.getElementById('out-prompt-val').innerText = processedPrompt;
+                document.getElementById('out-keyword-val').innerText = kw;
+                
+                const randomOpener = sp.captionOpeners[Math.floor(Math.random() * sp.captionOpeners.length)];
+                document.getElementById('out-caption-val').innerText = `${randomOpener}${quote?.trim() ? '\n\n"' + quote.trim() + '"' : ''}\n\nSave this if it found you.`;
+                
+                const activeAngles = sp.angles || STYLE_PROFILES.Soft.angles;
+                const angleIndex = { Portrait: 0, Collage: 1, Lifestyle: 2, Cover: 3 }[postType] || 0;
+                document.getElementById('out-angle-val').innerText = activeAngles[angleIndex % activeAngles.length];
+
+                const layoutsMap = {
+                    Portrait: "— Headline: centered or upper third, largest weight\n— Quote: mid-frame, clean serif, breathing room above and below\n— Keyword: vertical along edge, faded and oversized\n— Closing line: bottom, smallest, soft weight",
+                    Collage: "— Lead image: dominant top-left, largest element\n— Quote: upper right or centered overlay, readable white space\n— Support elements: 3 maximum, balanced grid spacing\n— Keyword: behind the lead image, scaled up and faded",
+                    Lifestyle: "— Scene: full bleed, aspirational and detailed\n— Quote: floated in the upper or lower third, white space protected\n— Keyword: large and faded in the background plane\n— CTA: bottom edge, small and clean",
+                    Cover: "— Masthead-style headline: top, full width, largest type\n— Subject image: centered, full presence, face prominent\n— Quote: below the fold or over lower body, clean hierarchy\n— Keyword: background plane, massive scale, 30% opacity",
+                };
+                const styleTones = { Soft: "— Typography feels: warm, flowing, intimate", Bridge: "— Typography feels: considered, forward-moving, intentional", Baddie: "— Typography feels: bold, high-contrast, magnetic", Ruthless: "— Typography feels: cold, stark, commanding" };
+                const ratioCanvasSpecs = activeRatio === "9:16" ? "— Canvas: 9:16 · 1080×1920px · Reels & Stories — tall vertical stacking, text anchored top or bottom 20%" : "— Canvas: 4:5 · 1080×1350px · Feed Post — balanced portrait framing, text in top or lower third";
+                
+                document.getElementById('out-hierarchy-val').innerText = `${layoutsMap[postType] || layoutsMap.Portrait}\n${styleTones[style] || ""}\n${ratioCanvasSpecs}`;
+
+                outShimmerView.style.display = 'none';
+                outContentView.style.display = 'block';
+                triggerToast("Prompt generated ✧");
+                renderCaptionLibraryCards();
+            }, 800);
+        }
+
+        function setRatioMode(ratioVal) {
+            activeRatio = ratioVal;
+            document.getElementById('ratio-916').classList.remove('active');
+            document.getElementById('ratio-45').classList.remove('active');
+            if(ratioVal === '9:16') document.getElementById('ratio-916').classList.add('active');
+            else document.getElementById('ratio-45').classList.add('active');
+
+            if (document.getElementById('out-prompt-val').innerText !== "") {
+                compileOSPipeline();
+            }
+        }
+
+        function applyPresetLogic(id) {
+            const p = PRESETS[id];
+            if (!p) return;
+            selectedPresetId = id;
+            
+            styleSelect.value = p.style;
+            typeSelect.value = p.postType;
+            moodSelect.value = p.mood;
+            sceneBox.value = p.scene;
+            keywordBox.value = p.keyword;
+            ctaBox.value = p.cta;
+
+            document.querySelectorAll('.preset-pill').forEach(pill => pill.classList.remove('active'));
+            document.getElementById(`preset-${id}`).classList.add('active');
+
+            const guidanceBox = document.getElementById('preset-guidance-box');
+            document.getElementById('guidance-title-node').innerText = p.label;
+            document.getElementById('guidance-txt-node').innerText = p.guidance;
+            
+            const tagsNode = document.getElementById('guidance-tags-node');
+            tagsNode.innerHTML = "";
+            p.metaTags.forEach(t => {
+                const span = document.createElement('span');
+                span.className = "guidance-tag";
+                span.innerText = t;
+                tagsNode.appendChild(span);
+            });
+            guidanceBox.style.display = 'block';
+            triggerToast(`${p.label} preset loaded ✧`);
+        }
+
+        function syncInputVariables() {
+            selectedPresetId = null;
+            document.querySelectorAll('.preset-pill').forEach(pill => pill.classList.remove('active'));
+            document.getElementById('preset-guidance-box').style.display = 'none';
+        }
+
+        function flushOutputs() {
+            outContentView.style.display = 'none';
+            outShimmerView.style.display = 'none';
+            outEmptyView.style.display = 'block';
+            document.getElementById('out-prompt-val').innerText = "";
+            triggerToast("Cleared");
+        }
+
+        function copyElementText(targetId) {
+            const txt = document.getElementById(targetId).innerText;
+            navigator.clipboard.writeText(txt).then(() => {
+                triggerToast("Content copied safely ✧");
             });
         }
 
-        function switchVibe(vibeKey, element) {
-            activeVibe = vibeKey;
-            document.querySelectorAll('.vibe-btn').forEach(b => b.classList.remove('active'));
-            element.classList.add('active');
-            populateQuotePills();
-            if(currentQuoteState) processOSWorkflow();
+        // Initialize Structural Form View Assets Dom Builder Loops
+        function renderCoreWorkspaceLayout() {
+            // Render Top Presets Buttons
+            const presetsBar = document.getElementById('presets-container-zone');
+            Object.entries(PRESETS).forEach(([id, data]) => {
+                const btn = document.createElement('button');
+                btn.className = "preset-pill";
+                btn.id = `preset-${id}`;
+                btn.onclick = () => applyPresetLogic(id);
+                btn.innerHTML = `<span class="preset-dot"></span>${data.label}`;
+                presetsBar.appendChild(btn);
+            });
+
+            // Render Field Suggestion Pills
+            const quoteSuggestions = ["She is not waiting to arrive.", "Quiet is not the same as soft.", "I decided my peace was non-negotiable.", "She built the life, then stepped into it."];
+            const quotePillsBox = document.getElementById('quote-pill-suggestions');
+            quoteSuggestions.forEach(q => {
+                const pill = document.createElement('div');
+                pill.className = "pill-item";
+                pill.innerText = q;
+                pill.onclick = () => { quoteBox.value = q; syncInputVariables(); };
+                quotePillsBox.appendChild(pill);
+            });
+
+            const sceneSuggestions = ["sunlit bedroom morning", "minimalist hotel suite", "rooftop terrace golden hour", "sleek home office"];
+            const scenePillsBox = document.getElementById('scene-pill-suggestions');
+            sceneSuggestions.forEach(s => {
+                const pill = document.createElement('div');
+                pill.className = "pill-item";
+                pill.innerText = s;
+                pill.onclick = () => { sceneBox.value = s; syncInputVariables(); };
+                scenePillsBox.appendChild(pill);
+            });
+
+            // Render Prompt Library Tabs Segment Controller
+            const libTabsBox = document.getElementById('lib-tabs-row');
+            Object.entries(LIBRARY_DATA).forEach(([key, d]) => {
+                const btn = document.createElement('button');
+                btn.className = `tab-btn-node ${activeLibraryKey === key ? 'active' : ''}`;
+                btn.id = `lib-tab-trigger-${key}`;
+                btn.innerText = d.label;
+                btn.onclick = () => toggleLibraryActiveTab(key);
+                libTabsBox.appendChild(btn);
+            });
+
+            renderActiveLibraryDataPane();
+            renderCaptionLibraryCards();
+
+            // Render Strategy Content Grid
+            const strategyStyleContainer = document.getElementById('strategy-style-sub-matrix');
+            const strategySpecs = [
+                { name: "Soft", color: "#A8825A", desc: "Trust-building, self-care, slow living, audience warmth.", triggers: "Safety · Comfort · Relatability · Calm desire" },
+                { name: "Bridge", color: "#8B9E8A", desc: "Becoming content, identity shifts, growth arcs, real talk.", triggers: "Recognition · Hope · Forward motion · Inner knowing" },
+                { name: "Baddie", color: "#C08040", desc: "Alter ego, aspirational posts, lifestyle content, attraction.", triggers: "Desire · Magnetism · Aspiration · I want to be her" },
+                { name: "Ruthless", color: "#5C3D2A", desc: "Standards content, authority posts, statement visuals.", triggers: "Respect · Awe · Standards · She means business" }
+            ];
+            strategySpecs.forEach(s => {
+                const div = document.createElement('div');
+                div.className = "strategy-sub-card";
+                div.innerHTML = `<div class="strategy-sub-meta" style="color: ${s.color};">${s.name}</div>
+                                 <p class="strategy-sub-desc"><strong>Best for:</strong> ${s.desc}<br><strong>Triggers:</strong> ${s.triggers}</p>`;
+                strategyStyleContainer.appendChild(div);
+            });
+
+            // Render Best Practices Bullet Grid
+            const bulletsBox = document.getElementById('practices-bullet-list');
+            BEST_PRACTICES_LIST.forEach(b => {
+                const node = document.createElement('div');
+                node.className = "practices-line-node";
+                node.innerHTML = `<span class="practices-line-bullet">—</span>${b}`;
+                bulletsBox.appendChild(node);
+            });
         }
 
-        function switchPlatform(platKey) {
-            activePlatform = platKey;
-            document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
-            document.getElementById(`tab-${platKey === 'tiktok' ? 'tk' : platKey === 'instagram' ? 'ig' : 'th'}`).classList.add('active');
-            if(currentQuoteState) renderDistributionPackage();
+        function toggleLibraryActiveTab(targetKey) {
+            activeLibraryKey = targetKey;
+            document.querySelectorAll('.tab-btn-node').forEach(t => t.classList.remove('active'));
+            document.getElementById(`lib-tab-trigger-${targetKey}`).classList.add('active');
+            renderActiveLibraryDataPane();
         }
 
-        function processOSWorkflow() {
-            const inputVal = document.getElementById('quote-input').value.trim();
+        function renderActiveLibraryDataPane() {
+            const dataPane = document.getElementById('lib-view-display-node');
+            const activeData = LIBRARY_DATA[activeLibraryKey];
             
-            if (inputVal === "") {
-                document.getElementById('out-quote').innerText = "CORE RULE 1 DETECTED: Prompt input area is dry. Select an active signature quote pill from the panel options block above to continue layout generation.";
-                return;
-            }
+            dataPane.innerHTML = `
+                <div style="background: var(--cream); border: 1px solid rgba(201,168,130,0.18); border-radius: 8px; padding: 22px;">
+                    <span class="library-badge">${activeData.tag}</span>
+                    <h4 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 400; color: var(--ink); margin-bottom: 8px;">${activeData.title}</h4>
+                    <p style="font-size: 0.82rem; color: var(--inkSoft); line-height: 1.7; margin-bottom: 8px;">${activeData.desc}</p>
+                    <p style="font-size: 0.74rem; color: var(--inkMuted); margin-bottom: 12px;"><strong style="font-size: 0.66rem; letter-spacing: 0.1rem; text-transform: uppercase;">Emotional Job:</strong> ${activeData.emotion}</p>
+                    <div class="library-example-display">${activeData.example}</div>
+                </div>
+            `;
+        }
 
-            currentQuoteState = inputVal;
-            document.getElementById('out-quote').innerText = currentQuoteState;
-
-            // Media Prompt Compiler Loop - Rigidly enforcing Avatar Lock configuration settings
-            const avatarLock = "Woman, mid-20s, defined cheekbones, full lips, long wavy dark brown hair, strong gaze, luxury aesthetic. Wearing tailored suits or silk. Cinematic lighting. Magazine cover quality. Face structure, eye shape, lip shape, skin tone locked perfectly.";
+        function renderCaptionLibraryCards() {
+            const cardsBox = document.getElementById('caption-cards-box-row');
+            cardsBox.innerHTML = "";
             
-            const compiledPrompt = `/imagine prompt: High fashion editorial luxury magazine cover portrait photography representation of an elegant ${avatarLock}. Thematic quote conceptual focus framework: "${currentQuoteState}". Shot on Hasselblad 100MP, 85mm portrait focal layer. Clean studio softbox illumination grid, pristine warm cream and matte champagne gold tone grading palettes, hyper-realistic fine skin texture rendering, smooth balanced contrast profiles, vertical 9:16 aspect ratio layout parameters --ar 9:16 --v 6.1 --style raw`;
-            document.getElementById('out-prompt').innerText = compiledPrompt;
+            const currentQuote = quoteBox.value;
+            const currentStyle = styleSelect.value;
 
-            // Dynamically computing layout rules text to append correct absolute watermark wording instructions
-            const computedLayoutSpecs = `Image Layout Rule: 9:16 aspect ratio, subject dead center, ample headroom clear for top copy alignment.\nTop text overlay: "${db[activeVibe].wording}" positioned exactly 10% from the ceiling bounding boxes, span full typography width.\nWatermark layer text wording: "${db[activeVibe].wording}" set behind subject portrait, 50% transparency rules, forced uppercase caps.\nQuote formatting: Left-aligned, confined to the lower-third boundary grid, max 3 text line breaks, ultra high text contrast design matrix.`;
-
-            document.getElementById('out-fonts').innerText = `${db[activeVibe].fonts}\n\n[SYSTEM LAYOUT RULES ARCHITECTURE]:\n${computedLayoutSpecs}`;
-
-            renderDistributionPackage();
+            CAPTION_MODES.forEach((m, idx) => {
+                const generatedText = m.fn(currentQuote, currentStyle);
+                const card = document.createElement('div');
+                card.className = "caption-card-node";
+                card.innerHTML = `
+                    <div class="caption-card-accent-line" style="background: linear-gradient(90deg, ${m.dotColor}, var(--champDark));"></div>
+                    <h4 class="caption-card-title">${m.name}</h4>
+                    <div class="caption-card-meta">${m.tone}</div>
+                    <p class="caption-card-body" id="caption-card-text-val-${idx}">${generatedText}</p>
+                    <button class="caption-card-copy-trigger" onclick="copyElementText('caption-card-text-val-${idx}')">Copy Caption ↗</button>
+                `;
+                cardsBox.appendChild(card);
+            });
         }
 
-        function renderDistributionPackage() {
-            const data = db[activeVibe];
-            const titleBlock = document.getElementById('title-block-node');
-            const captionBox = document.getElementById('out-caption');
-
-            if (activePlatform === 'tiktok') {
-                titleBlock.style.display = "none";
-                captionBox.innerText = `[${activeVibe.toUpperCase()}] era:\n${data.lines[0]}\n${data.lines[1]}\n${data.lines[2]}\n\nClaim your core infrastructure parameters: Link in bio 🪐\n\nSound search index: ${data.sound}\nHashtags: ${data.tags}`;
-            } 
-            else if (activePlatform === 'instagram') {
-                titleBlock.style.display = "block";
-                document.getElementById('out-title').innerText = data.hooks;
-                captionBox.innerText = `[${activeVibe.toUpperCase()}] era:\n\nThere is a pristine alignment that takes place the exact split-second you refuse to look affordable to crowds looking for custom execution metrics.\n\n${data.lines[0]}\n${data.lines[1]}\n${data.lines[2]}\n\nExit the performance dynamic. Link in bio 🪐\n\nHashtags: ${data.tags} #sovereignty #identityarchitect`;
-            } 
-            else if (activePlatform === 'threads') {
-                titleBlock.style.display = "none";
-                captionBox.innerText = `[${activeVibe.toUpperCase()}] era:\n\nLet's cut past the baseline performance parameters entirely. Real power moves with silent spatial authority, never validation.\n\n${data.lines[0]}\nWhen you establish a sovereign operating structure that demands alignment before entry, the wrong dynamics prune themselves out.\n\nAre you still spending hours trying to explain your value to unqualified rooms? Let's install the right monetization logic below.`;
-            }
-        }
-
-        function copyValue(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-        }
-
-        populateQuotePills();
+        // Initialize Runtime Compilation Engine Boot Strategy
+        renderCoreWorkspaceLayout();
     </script>
 </body>
 </html>
