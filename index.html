@@ -1,463 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quote OS — AI Brand Manager</title>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
-* { box-sizing: border-box; margin: 0; padding: 0; }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #F2EBE1; }
-::-webkit-scrollbar-thumb { background: #D9C0AA; border-radius: 3px; }
-textarea, input, select, button { font-family: 'Jost', system-ui, sans-serif!important; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-.fade-up { animation: fadeUp 0.4s ease both; }
-.shimmer { background: linear-gradient(90deg,#FAF6F1 25%,#E8D5C4 50%,#FAF6F1 75%); background-size:200% 100%; animation:shimmer 1.2s infinite; color:transparent!important; min-height:48px; border-radius:8px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LYRAE | Luxury Quote OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0A0A0A;
+            --panel-bg: #121212;
+            --border-color: #1F1F1F;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --accent-gold: #D4AF37;
+            --accent-muted: #8C7853;
+            --font-ui: 'Montserrat', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-weight: 300;
+            line-height: 1.6;
+            letter-spacing: 0.03em;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; letter-spacing: 0.05em; }
+
+        header {
+            max-width: 1450px;
+            margin: 0 auto 3rem auto;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .brand-logo { font-size: 2.2rem; letter-spacing: 0.15em; text-transform: uppercase; }
+        .brand-sub { font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.2em; margin-top: 0.25rem; }
+        .system-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem; }
+        .status-dot { width: 6px; height: 6px; background-color: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 8px var(--accent-gold); }
+
+        .workspace {
+            max-width: 1450px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
+
+        .control-panel, .output-panel { display: flex; flex-direction: column; gap: 2rem; }
+        .panel-box { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 2px; }
+        .panel-title { font-size: 1.4rem; margin-bottom: 1.5rem; text-transform: uppercase; border-left: 2px solid var(--accent-gold); padding-left: 0.75rem; }
+
+        .vibe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+        .vibe-card { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 1.2rem; cursor: pointer; text-align: left; transition: all 0.3s ease; }
+        .vibe-card:hover { border-color: var(--accent-muted); color: var(--text-primary); }
+        .vibe-card.active { border-color: var(--accent-gold); color: var(--text-primary); background-color: rgba(212, 175, 55, 0.02); }
+        .vibe-name { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 0.25rem; font-weight: 600; }
+        .vibe-desc { font-size: 0.75rem; opacity: 0.6; }
+
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        textarea { width: 100%; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.95rem; padding: 1rem; resize: vertical; min-height: 110px; outline: none; transition: border-color 0.3s ease; }
+        textarea:focus { border-color: var(--accent-gold); }
+
+        .btn-generate { width: 100%; background-color: transparent; border: 1px solid var(--accent-gold); color: var(--text-primary); font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; padding: 1.2rem; cursor: pointer; transition: all 0.4s ease; }
+        .btn-generate:hover { background-color: var(--accent-gold); color: var(--bg-color); font-weight: 600; }
+
+        .preview-canvas { aspect-ratio: 9 / 16; background: linear-gradient(180deg, #1A1A1A 0%, #050505 100%); border: 1px solid var(--border-color); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 3.5rem 2rem; max-width: 400px; margin: 0 auto; }
+        .preview-top-text { text-align: center; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.25em; z-index: 2; }
+        .preview-watermark { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); font-size: 5.5rem; font-weight: bold; color: rgba(255, 255, 255, 0.03); letter-spacing: 0.05em; z-index: 1; text-transform: uppercase; }
+        .preview-quote-area { z-index: 2; max-width: 100%; text-align: left; }
+        .preview-quote-text { font-size: 1.15rem; line-height: 1.5; font-family: 'Montserrat', sans-serif; font-weight: 300; }
+
+        .output-block { border-bottom: 1px solid var(--border-color); padding-bottom: 1.75rem; margin-bottom: 1.75rem; }
+        .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .output-label { font-size: 0.7rem; text-transform: uppercase; color: var(--accent-gold); letter-spacing: 0.15em; margin-bottom: 0.75rem; display: block; font-weight: 600; }
+        .quote-display { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.6rem; line-height: 1.4; color: #FFF; }
+        
+        .code-block { background-color: var(--bg-color); border: 1px solid var(--border-color); font-family: monospace; font-size: 0.9rem; padding: 1.2rem; color: #D4D4D4; white-space: pre-wrap; word-break: break-word; position: relative; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.65rem; padding: 0.25rem 0.5rem; cursor: pointer; text-transform: uppercase; }
+        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-gold); }
+
+        .quote-choices-container { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+        .quote-choice-btn { background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-primary); padding: 1rem; text-align: left; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; transition: all 0.3s ease; }
+        .quote-choice-btn:hover { border-color: var(--accent-gold); background: rgba(212,175,55,0.02); }
+    </style>
 </head>
 <body>
-<div id="root"></div>
 
-<script type="text/babel">
-const { useState, useCallback } = React;
+    <header>
+        <div>
+            <div class="brand-logo">LYRAE</div>
+            <div class="brand-sub">Luxury Quote OS</div>
+        </div>
+        <div class="system-status"><span class="status-dot"></span>Engine: Operational</div>
+    </header>
 
-const C = {
-cream: "#FAF6F1", creamDeep: "#F2EBE1", blush: "#E8D5C4",
-blushMid: "#D9C0AA", champagne: "#C9A882", champDark: "#A8825A",
-warmBrown: "#5C3D2A", ink: "#2C1A0E", inkSoft: "#6B4C35",
-inkMuted: "#9B7A60", white: "#FFFDF9", gold: "#C9A882"
-};
+    <main class="workspace">
+        <section class="control-panel">
+            <div class="panel-box">
+                <h2 class="panel-title">System Settings</h2>
+                
+                <div class="form-group">
+                    <label>Select Matrix Vibe</label>
+                    <div class="vibe-grid">
+                        <button class="vibe-card active" onclick="switchVibe('dominance')">
+                            <span class="vibe-name">Dominance</span>
+                            <span class="vibe-desc">Commanding, room-shifts</span>
+                        </button>
+                        <button class="vibe-card" onclick="switchVibe('authority')">
+                            <span class="vibe-name">Authority</span>
+                            <span class="vibe-desc">Power, CEO energy, untouchable</span>
+                        </button>
+                        <button class="vibe-card" onclick="switchVibe('ruthless')">
+                            <span class="vibe-name">Ruthless</span>
+                            <span class="vibe-desc">Cold, boundaries, savage</span>
+                        </button>
+                        <button class="vibe-card" onclick="switchVibe('magnetic')">
+                            <span class="vibe-name">Magnetic</span>
+                            <span class="vibe-desc">Allure, soft power, attraction</span>
+                        </button>
+                    </div>
+                </div>
 
-const QUOTE_BANKS = {
-  business: [
-    "Revenue is not the goal. Systems are the goal.",
-    "You do not have a sales problem. You have a standards problem.",
-    "Free content creates fans. Paid systems create clients.",
-    "Stop marketing. Start positioning.",
-    "The market does not pay for effort. The market pays for certainty.",
-    "Your price is not too high. Your positioning is too low.",
-    "Content does not convert. Context converts.",
-    "You are not early. You are underpriced.",
-    "Premium is not what you charge. Premium is who you exclude.",
-    "Discounts destroy desire."
-  ],
-  wellness: [
-    "Burnout is not a badge. Boundaries are the brand.",
-    "Rest is not a reward. Rest is the requirement.",
-    "Your nervous system is your business plan.",
-    "Healing is not linear. Your systems should be.",
-    "Peace became profitable when you stopped performing.",
-    "Self care is not a Sunday. Self care is a system.",
-    "You cannot scale a business you resent.",
-    "Soft is not weak. Soft is the strategy.",
-    "Your skin remembers what you forgot. Boundaries.",
-    "Stillness is not stagnation. Stillness is strategy."
-  ],
-  beauty: [
-    "The glow is not from the filter. The glow is from the formula.",
-    "Skincare is not 12 steps. Skincare is 1 promise.",
-    "Your face deserves ingredients you can pronounce.",
-    "Aging is not the enemy. Inconsistency is.",
-    "Filters are for photos. Formulas are for faces.",
-    "Less products. Better ingredients. Real results.",
-    "Beauty is not vanity. Beauty is a system.",
-    "Your routine should work harder than your filter."
-  ],
-  mindset: [
-    "You are not stuck. You are underpriced.",
-    "Confidence is not a feeling. Confidence is a system.",
-    "She became dangerous the moment peace mattered more than attention.",
-    "Your next level requires your next no.",
-    "Clarity is kinder than accessibility.",
-    "Authority is built in the silence after you name your price.",
-    "You do not need more tips. You need a standard.",
-    "The version of you that decided was right.",
-    "You are not for everyone. You are for the ones who pay.",
-    "Stop teaching. Start transmitting."
-  ],
-  luxury: [
-    "Luxury is not a price. Luxury is a decision.",
-    "We do not play small. The price is the price.",
-    "Exclusivity is not arrogance. Exclusivity is accuracy.",
-    "If it is for everyone, it is for no one.",
-    "Cheap clients cost the most.",
-    "Standards are not negotiable. They never were.",
-    "Wealth is not money. Wealth is boundaries.",
-    "Premium clients pay for access. Not information."
-  ]
-};
+                <div class="form-group">
+                    <label for="quote-input">Input Single Raw Quote</label>
+                    <textarea id="quote-input" placeholder="Leave blank to trigger 5 on-brand quotes automatically..."></textarea>
+                </div>
 
-const STYLE_PROFILES = {
-Soft: {
-lighting:"soft natural diffused light, warm golden morning glow",
-palette:"cream, blush, warm white, champagne",
-styling:"effortless feminine wardrobe, silk, linen, soft organic textures, relaxed luxury",
-environment:"serene intimate setting, sunlit and airy",
-energy:"emotionally warm, healing, self-trusting, calm",
-typographyStyle:"flowing editorial serif typography",
-contrast:"low-to-medium contrast, soft tonal range",
-keywords:["PEACE","ARRIVED","SOFT","TRUST","CHOSEN","STILL","HOME","GRACE","BLOOM","SAFE"],
-angles:["Soft trust post","Self-trust content","Warm relatability post","Healing energy visual"],
-captionOpeners:["She chose herself, quietly.","This is what peace looks like from the inside.","Nothing loud. Everything intentional.","She moved slow because she already knew.","Soft is not weakness. Soft is chosen."],
-},
-Bridge: {
-lighting:"golden editorial light with soft intentional contrast",
-palette:"warm ivory, dusty blush, soft gold, warm neutrals",
-styling:"elevated considered styling, intentional layers, silk and structured softness",
-environment:"transitional aspirational space, between comfort and ambition",
-energy:"becoming, growing, stepping forward, identity-in-motion",
-typographyStyle:"clean editorial serif with intentional weight contrast",
-contrast:"medium contrast, warm and controlled",
-keywords:["BECOMING","DECIDED","STEPPING","FORWARD","NEXT","HER","SHIFT","READY","RISING","CHOSEN"],
-angles:["Identity shift post","Becoming her visual","Transitional identity content","Growth arc post"],
-captionOpeners:["She is not who she was last year.","The version of her that decided, she was right.","Becoming her looks exactly like this.","She did not wait for permission.","Growth is quieter than people expect."],
-},
-Baddie: {
-lighting:"dramatic beauty lighting, glossy high-contrast highlights, cinematic warmth",
-palette:"deep cream, bronze, honey gold, warm champagne, high visual contrast",
-styling:"luxury streetwear, elevated glam, confident high-status fits, jewelry, bold silhouette",
-environment:"high-status aspirational setting, luxury lifestyle aesthetic",
-energy:"magnetic, irresistible, playful power, alter ego energy",
-typographyStyle:"bold modern editorial typography, oversized and high-contrast",
-contrast:"high contrast, punchy, cinematic",
-keywords:["MAGNETIC","CHOSEN","STATUS","DESIRED","RARE","ICONIC","HER","ARRIVED","FATAL","MAIN"],
-angles:["Alter ego magnetism post","High-status attraction visual","Aspirational identity post","She is the vision content"],
-captionOpeners:["You wanted her. She decided herself.","The vision was never for everyone.","She turned the dream into the address.","She did not glow up. She revealed herself.","The upgrade was always internal."],
-},
-Ruthless: {
-lighting:"cinematic high-contrast studio lighting, sharp definition, dramatic shadow structure",
-palette:"cool ivory, deep shadow, structured neutrals, black and champagne accents",
-styling:"sharp structured tailoring, minimal luxury, authority dressing, precise silhouette",
-environment:"minimal dominant setting, clean and commanding, architectural or stripped",
-energy:"dominant, untouchable, elite, standard-setting, cold power",
-typographyStyle:"stark cold editorial sans-serif or high-contrast serif, unflinching weight",
-contrast:"high contrast, cold, cinematic, uncompromising",
-keywords:["STANDARDS","DECIDED","SOVEREIGN","AUTHORITY","FINAL","COLD","CHOSEN","NO","DONE","SHARP"],
-angles:["Ruthless authority post","Standard-setting visual","Power positioning content","Cold statement post"],
-captionOpeners:["Her standards were not negotiable. They never were.","She did not soften herself for comfort. Hers or theirs.","The answer was always no. She just said it clearly now.","She is not cold. She is decided.","Authority does not explain itself."],
-},
-};
+                <button class="btn-generate" onclick="processEngine()">Process Brand Package</button>
+            </div>
 
-const POST_TYPE_PROFILES = {
-Portrait:"close-up editorial portrait, face dominant in frame, intense facial presence, minimal environmental elements, strong bokeh depth of field",
-Collage:"editorial collage composition with three to four carefully curated support elements, story-led layout, magazine spread energy, deliberate spacing — never cluttered",
-Lifestyle:"aspirational lifestyle scene, lived-in luxury aesthetic, natural but premium environment, architectural and environmental storytelling",
-Cover:"luxury magazine cover composition, three-quarter or full-body framing, large statement typography fully integrated into the visual hierarchy, commanding presence",
-};
+            <div class="panel-box">
+                <h2 class="panel-title">Visual Canvas Map</h2>
+                <div class="preview-canvas" id="canvas-frame">
+                    <div class="preview-top-text" id="p-heading">DOMINANCE</div>
+                    <div class="preview-watermark" id="p-watermark">DOMINANCE</div>
+                    <div class="preview-quote-area">
+                        <div class="preview-quote-text" id="p-quote">Select or insert a quote statement to initialize visual framework.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-const MOOD_PROFILES = {
-Calm:"peaceful inner stillness, quiet certainty, zero urgency, total self-possession",
-Becoming:"transitional identity frequency, stepping into herself, quiet unstoppable confidence",
-Magnetic:"irresistible pull, charismatic high-status presence, people cannot look away",
-Dominant:"commanding authority, sharp non-negotiable standards, elite untouchable energy",
-};
+        <section class="output-panel panel-box">
+            <h2 class="panel-title">Post-Ready Asset Package</h2>
+            
+            <div class="output-block">
+                <span class="output-label">Confirmed Statement Structure</span>
+                <div class="output-value quote-display" id="out-quote">Awaiting active input processing...</div>
+                <div id="quote-selector-zone" class="quote-choices-container"></div>
+            </div>
 
-const PRESETS = {
-"soft-morning": { label:"Soft Morning", style:"Soft", mood:"Calm", postType:"Lifestyle", scene:"sunlit bedroom, soft morning light, warm tea in hand", keyword:"PEACE", cta:"Save this for the morning you need it.", guidance:"A warm slow-living morning visual. Feels like a breath. Perfect for trust-building and audience warmth.", metaTags:["Soft","Calm","Lifestyle","Warm Caption"] },
-"soft-trust": { label:"Soft Trust", style:"Soft", mood:"Calm", postType:"Portrait", scene:"quiet intimate interior, natural diffused light", keyword:"TRUST", cta:"She already knows.", guidance:"Face-forward, emotionally open portrait. Designed to create safety and connection.", metaTags:["Soft","Calm","Portrait","Intimate"] },
-"becoming-her": { label:"Becoming Her", style:"Bridge", mood:"Becoming", postType:"Portrait", scene:"transitional space, soft golden afternoon light", keyword:"BECOMING", cta:"The version of you reading this already knows.", guidance:"Identity-shift energy. Speak to the woman in the middle. She should feel recognised and pulled forward.", metaTags:["Bridge","Becoming","Portrait","Aspirational"] },
-"soft-power": { label:"Soft Power", style:"Bridge", mood:"Becoming", postType:"Cover", scene:"elevated architectural setting, golden hour light, clean lines", keyword:"DECIDED", cta:"Everything changed when she decided.", guidance:"Elevated and intentional. Bridge energy meeting cover-level composition. Soft AND powerful.", metaTags:["Bridge","Becoming","Cover","Luxury"] },
-"baddie-alter": { label:"Baddie Alter Ego", style:"Baddie", mood:"Magnetic", postType:"Lifestyle", scene:"luxury lifestyle aspirational setting, warm cinematic light", keyword:"MAGNETIC", cta:"The vision was never for everyone.", guidance:"This is her alter ego made visible. Aspirational, irresistible, high-status.", metaTags:["Baddie","Magnetic","Lifestyle","Bold"] },
-"ruthless-auth": { label:"Ruthless Authority", style:"Ruthless", mood:"Dominant", postType:"Cover", scene:"minimal commanding space, architectural, structured shadow", keyword:"STANDARDS", cta:"That is all.", guidance:"No softness. No explanation. Dominant authority. Use for standards and power positioning.", metaTags:["Ruthless","Dominant","Cover","Cold"] },
-"cover-statement":{ label:"Cover Statement", style:"Ruthless", mood:"Dominant", postType:"Cover", scene:"luxury magazine set, high-contrast structured backdrop", keyword:"SOVEREIGN", cta:"Read that again.", guidance:"Maximum visual authority. Think luxury magazine cover. The quote must land like a headline.", metaTags:["Ruthless","Dominant","Cover","Minimal"] },
-"editorial-coll": { label:"Editorial Collage", style:"Bridge", mood:"Becoming", postType:"Collage", scene:"curated story elements, editorial magazine layout, warm neutral tones", keyword:"HER", cta:"Save this. Come back to it.", guidance:"Story-led editorial collage. Three to four elements max, each earning its place.", metaTags:["Bridge","Becoming","Collage","Story"] },
-};
+            <div class="output-block">
+                <span class="output-label">Midjourney / SDXL Media Prompt (Static Image)</span>
+                <div class="code-block"><button class="copy-btn" onclick="copyText('out-prompt')">Copy</button><span id="out-prompt">System idle.</span></div>
+            </div>
 
-const CAPTION_MODES = [
-{ id:"soft", name:"Soft", tone:"Warm · Intimate · Safe", dotColor:"#E8C9B5",
-fn:(q,s)=>{ const sp=STYLE_PROFILES[s]||STYLE_PROFILES.Soft; const o=sp.captionOpeners[Math.floor(Math.random()*sp.captionOpeners.length)]; return `${o}${q?'\n\n"'+q.trim()+'"':''}\n\nSave this if it found you.`; } },
-{ id:"cold", name:"Cold", tone:"Sharp · Minimal · Direct", dotColor:"#B8C4CC",
-fn:(q)=>{ const c=["That is all.","No further context needed.","Read that again.","Sit with it."][Math.floor(Math.random()*4)]; return `${q?'"'+q.trim()+'"':'She already knew.'}\n\n${c}`; } },
-{ id:"luxury", name:"Luxury", tone:"Refined · Elevated · Editorial", dotColor:"#C9A882",
-fn:(q)=>`The details were never for everyone.${q?'\n\n"'+q.trim()+'"':''}\n\nEverything curated. Everything chosen.\n\nShe is not for display, she is the standard.` },
-{ id:"dangerous", name:"Dangerous", tone:"Bold · Magnetic · Unapologetic", dotColor:"#C07840",
-fn:(q)=>{ const o=["She is not a soft warning.","There is nothing safe about a woman who knows her worth.","She chose herself, loudly.","Some versions of her were made to be feared."][Math.floor(Math.random()*4)]; return `${o}${q?'\n\n"'+q.trim()+'"':''}\n\nBookmark that.`; } },
-{ id:"becoming", name:"Becoming Her", tone:"Aspirational · Transitional", dotColor:"#C4A870",
-fn:(q)=>`She is not finished. She is becoming.${q?'\n\n"'+q.trim()+'"':''}\n\nThe version of you that reads this, she already knows what to do.\n\nTrust her.` },
-];
+            <div class="output-block">
+                <span class="output-label">Google Veo Text-To-Video Prompt (Motion Asset)</span>
+                <div class="code-block"><button class="copy-btn" onclick="copyText('out-video-prompt')">Copy</button><span id="out-video-prompt">System idle.</span></div>
+            </div>
 
-function genKeyword(style, quote) {
-const pool = STYLE_PROFILES[style]?.keywords || STYLE_PROFILES.Soft.keywords;
-return pool[(quote?.length || 7) % pool.length];
-}
+            <div class="output-block">
+                <span class="output-label">Hook-Driven Acquisition Title</span>
+                <div class="output-value" id="out-title" style="font-weight: 600; font-size: 1.15rem;">System idle.</div>
+            </div>
 
-function buildPrompt({ quote, style, postType, mood, scene, keyword, cta, ratio }) {
-const sp = STYLE_PROFILES[style] || STYLE_PROFILES.Soft;
-const pp = POST_TYPE_PROFILES[postType] || POST_TYPE_PROFILES.Portrait;
-const mp = MOOD_PROFILES[mood] || MOOD_PROFILES.Calm;
-const kw = keyword?.trim()? keyword.trim().toUpperCase() : genKeyword(style, quote);
-const qLen = quote?.trim().length || 0;
-const layoutNote = qLen < 40? "treated as a cover statement, large and typographically dominant" : "typographically refined for readability, clean hierarchical layout";
-const qBlock = quote?.trim()? `"${quote.trim()}"` : '"[your quote]"';
-const ratioNote = ratio === "9:16"
-? "vertical 9:16 aspect ratio for Instagram Reels and Stories, full-height portrait canvas 1080×1920px, subject fills the vertical frame, typography flows top-to-bottom with generous vertical breathing room"
-: "vertical 4:5 aspect ratio for Instagram Feed Posts, portrait canvas 1080×1350px, subject centred with balanced margins, typography anchored in the upper or lower third";
-let p = `${qBlock}, ultra-realistic high-fashion editorial image of a feminine woman with clearly visible face and strong direct eye contact, ${ratioNote}, ${pp}, ${sp.lighting}, ${sp.palette} color palette, ${sp.styling}, set in a ${sp.environment}`;
-if (scene?.trim()) p += ` — specifically: ${scene.trim()}`;
-p += `, ${sp.energy} emotional atmosphere, ${mp}, oversized editorial keyword "${kw}" displayed with intentional typographic presence using ${sp.typographyStyle}, quote text ${layoutNote} — displayed exactly as written, never repeated, never cluttered, premium magazine layout integration, ${sp.contrast}, strong deliberate negative space, emotionally sharp scroll-stopping composition, luminous realistic skin texture, premium fashion photography, 8K editorial resolution`;
-if (cta?.trim()) p += `, closing bridge line at the bottom: "${cta.trim()}"`;
-return { prompt: p, autoKeyword: kw };
-}
+            <div class="output-block">
+                <span class="output-label">Engine Optimized Caption Block</span>
+                <div class="code-block"><button class="copy-btn" onclick="copyText('out-caption')">Copy</button><span id="out-caption">System idle.</span></div>
+            </div>
 
-function buildHierarchy(postType, style, ratio) {
-const h = {
-Portrait:"— Headline: centered or upper third, largest weight\n— Quote: mid-frame, clean serif, breathing room above and below\n— Keyword: vertical along edge, faded and oversized\n— Closing line: bottom, smallest, soft weight",
-Collage:"— Lead image: dominant top-left, largest element\n— Quote: upper right or centered overlay, readable white space\n— Support elements: 3 maximum, balanced grid spacing\n— Keyword: behind the lead image, scaled up and faded",
-Lifestyle:"— Scene: full bleed, aspirational and detailed\n— Quote: floated in the upper or lower third, white space protected\n— Keyword: large and faded in the background plane\n— CTA: bottom edge, small and clean",
-Cover:"— Masthead-style headline: top, full width, largest type\n— Subject image: centered, full presence, face prominent\n— Quote: below the fold or over lower body, clean hierarchy\n— Keyword: background plane, massive scale, 30% opacity",
-};
-const sNote = { Soft:"— Typography feels: warm, flowing, intimate", Bridge:"— Typography feels: considered, forward-moving, intentional", Baddie:"— Typography feels: bold, high-contrast, magnetic", Ruthless:"— Typography feels: cold, stark, commanding" };
-const rNote = ratio === "9:16"? "— Canvas: 9:16 · 1080×1920px · Reels & Stories — tall vertical stacking, text anchored top or bottom 20%" : "— Canvas: 4:5 · 1080×1350px · Feed Post — balanced portrait framing, text in top or lower third";
-return `${h[postType]||h.Portrait}\n${sNote[style]||""}\n${rNote}`;
-}
+            <div class="output-block">
+                <span class="output-label">Font Mapping Logic Parameters</span>
+                <div class="output-value" id="out-fonts" style="font-size: 0.85rem; color: var(--accent-gold);">System idle.</div>
+            </div>
+        </section>
+    </main>
 
-function buildCaption(style, quote) {
-const sp = STYLE_PROFILES[style]||STYLE_PROFILES.Soft;
-const o = sp.captionOpeners[Math.floor(Math.random()*sp.captionOpeners.length)];
-return `${o}${quote?.trim()?'\n\n"'+quote.trim()+'"':''}\n\nSave this if it found you.`;
-}
+    <script>
+        let currentVibe = 'dominance';
 
-function buildAngle(style, postType) {
-const pool = STYLE_PROFILES[style]?.angles||STYLE_PROFILES.Soft.angles;
-const i = {Portrait:0,Collage:1,Lifestyle:2,Cover:3}[postType]||0;
-return pool[i%pool.length];
-}
+        const db = {
+            dominance: {
+                quotes: [
+                    "The room adjusts when I enter. Not the other way around.",
+                    "I’m not for everyone. I’m for the ones who recognize value.",
+                    "You don’t get to understand me. You get to witness me.",
+                    "I stopped auditioning for roles in people’s lives.",
+                    "My energy introduces me before I speak."
+                ],
+                style: { heading: "'Cormorant Garamond', serif", watermark: "'Didot', 'Playfair Display', serif", weight: "normal", transform: "uppercase", outFont: "Heading: Cormorant Garamond | Watermark: Didot 200pt | Quote: Montserrat Light 60pt" },
+                outfit: "tailoring striking silk suit with crisp accents, commanding and sharp posture",
+                videoAction: "standing confidently at the floor-to-ceiling glass window of a luxury high-rise penthouse at dusk. She slowly turns her head to look directly into the camera with an intense, unbothered expression. The camera executes a slow, cinematic dolly-in toward her face.",
+                videoAudio: "low, rumbling luxury atmosphere sound with a faint, deep melodic sub-bass pulse",
+                hook: "When you walk in, the hierarchy resets itself.",
+                lines: ["They want access to your mind before they value your presence.", "Make them witness your space without an explanation.", "Your energy speaks long before your voice does."]
+            },
+            authority: {
+                quotes: [
+                    "She became dangerous the moment peace mattered more than attention.",
+                    "I don’t compete. I set the standard.",
+                    "They want access to the woman I was before I respected myself.",
+                    "My absence is the consequence.",
+                    "I move in silence because my results make noise."
+                ],
+                style: { heading: "'Didot', 'Playfair Display', serif", watermark: "'Cormorant Garamond', serif", weight: "normal", transform: "uppercase", outFont: "Heading: Didot | Watermark: Cormorant Garamond 180pt | Quote: Montserrat Light 60pt" },
+                outfit: "sharp executive tailored blazer, structured lines, pristine luxury aesthetic",
+                videoAction: "sitting perfectly poised behind a minimalist solid marble boardroom desk. She places a premium fountain pen down deliberately, adjusting her cuffs while fixing her powerful gaze squarely onto the lens. A slow, precise crane shot descending down.",
+                videoAudio: "distant ticking clock shifting instantly into a deep, atmospheric slow piano tone",
+                hook: "The moment they realize access is earned, not given.",
+                lines: ["Move with silent finality. The right rooms will respect the silence.", "Never perform for crowds that only look for free entertainment.", "Your standards define your parameters."]
+            },
+            ruthless: {
+                quotes: [
+                    "I match energy. Keep that same attitude when I return it.",
+                    "You showed me who you were. I believed you the first time.",
+                    "I don’t do revenge. I do distance.",
+                    "Closure is a luxury I stopped expecting from people who lack accountability.",
+                    "I will not water dead things, including us."
+                ],
+                style: { heading: "'Anton', sans-serif", watermark: "'Bebas Neue', sans-serif", weight: "bold", transform: "uppercase", outFont: "Heading: Anton | Watermark: Bebas Neue 220pt | Quote: Montserrat Light 60pt" },
+                outfit: "minimalist sleek black high-end trench coat, precise lines, ice cold expression",
+                videoAction: "walking smoothly away down a stark, dimly lit architectural concrete corridor. The camera tracks ahead of her in reverse as she moves forward effortlessly with perfect posture, completely unbothered, never breaking eye contact with the camera.",
+                videoAudio: "crisp sound of intentional heels clicking on concrete, shifting into a dark cinematic cello drop",
+                hook: "We aren't fixing what lack of respect broke.",
+                lines: ["No warnings given, boundaries drawn cleanly with zero hesitation.", "They expected an argument, but distance is much quieter.", "Stop watering dead dynamics."]
+            },
+            magnetic: {
+                quotes: [
+                    "I don’t chase. I attract. What’s meant for me won’t miss me.",
+                    "My softness is not an invitation to disrespect me.",
+                    "I’m the calm in my own storm now.",
+                    "Healed women move different. Watch.",
+                    "I’m not hard to love. You’re just not qualified."
+                ],
+                style: { heading: "'Playfair Display', serif", watermark: "'Playfair Display', serif", weight: "normal", transform: "none", styleItalic: "italic", outFont: "Heading: Playfair Display Italic | Watermark: Playfair Display 160pt | Quote: Montserrat Light 60pt" },
+                outfit: "flowing ivory premium silk wrap blouse, delicate diamond jewelry, effortlessly captivating posture",
+                videoAction: "resting gracefully on an ambiently lit plush velvet chaise lounge. She looks down slightly, then slowly tilts her chin up to direct a soft, completely confident smile toward the lens. The camera slowly arcs around her with warm lens flares.",
+                videoAudio: "ethereal, slow atmospheric ambient pad swelling softly with an alluring undertone",
+                hook: "True power doesn't make noise, it pulls.",
+                lines: ["You do not need to hustle for alignment when you are the prize.", "Let them look while you cultivate absolute inner stillness.", "Soft power moves whole tectonic plates."]
+            }
+        };
 
-function Label({ children, muted }) {
-return (
-<div style={{ fontSize:"0.68rem", letterSpacing:"0.2em", textTransform:"uppercase", fontWeight:500, color: muted? C.inkMuted : C.champDark, marginBottom:10, display:"flex", alignItems:"center", gap:10 }}>
-{children}
-<div style={{ flex:1, height:1, background:`rgba(201,168,130,0.2)` }} />
-</div>
-);
-}
+        function switchVibe(vibeKey) {
+            currentVibe = vibeKey;
+            document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            const currentStyle = db[vibeKey].style;
+            const heading = document.getElementById('p-heading');
+            const watermark = document.getElementById('p-watermark');
+            
+            heading.innerText = vibeKey;
+            watermark.innerText = vibeKey;
+            
+            heading.style.fontFamily = currentStyle.heading;
+            heading.style.textTransform = currentStyle.transform;
+            heading.style.fontStyle = currentStyle.styleItalic || "normal";
+            watermark.style.fontFamily = currentStyle.watermark;
+        }
 
-function Field({ label, children, optional }) {
-return (
-<div style={{ marginBottom:18 }}>
-<label style={{ display:"block", fontSize:"0.72rem", letterSpacing:"0.12em", textTransform:"uppercase", color:C.inkSoft, fontWeight:500, marginBottom:7 }}>
-{label}{optional && <span style={{ color:C.inkMuted, fontSize:"0.62rem", marginLeft:6, textTransform:"none", letterSpacing:0 }}>(optional)</span>}
-</label>
-{children}
-</div>
-);
-}
+        function processEngine() {
+            const inputVal = document.getElementById('quote-input').value.trim();
+            const selectorZone = document.getElementById('quote-selector-zone');
+            selectorZone.innerHTML = "";
 
-const inputStyle = {
-width:"100%", background:C.cream, border:`1px solid rgba(201,168,130,0.3)`,
-borderRadius:8, padding:"11px 14px", fontFamily:"'Cormorant Garamond', Georgia, serif",
-fontSize:"0.88rem", color:C.ink, outline:"none", transition:"all 0.2s",
-};
+            if (inputVal === "") {
+                document.getElementById('out-quote').innerText = "CORE RULE 1 ACTIVATED: Pick 1 quote below to finalize framework parameters.";
+                db[currentVibe].quotes.forEach(q => {
+                    const btn = document.createElement('button');
+                    btn.className = "quote-choice-btn";
+                    btn.innerText = q;
+                    btn.onclick = () => compileOutput(q);
+                    selectorZone.appendChild(btn);
+                });
+            } else {
+                compileOutput(inputVal);
+            }
+        }
 
-function Input({ value, onChange, placeholder }) {
-const [focus, setFocus] = useState(false);
-return <input value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder}
-onFocus={()=>setFocus(true)} onBlur={()=>setFocus(false)}
-style={{...inputStyle, background: focus? C.white : C.cream, boxShadow: focus? `0 0 0 3px rgba(201,168,130,0.18)` : "none", border:`1px solid ${focus? C.champagne : "rgba(201,168,130,0.3)"}` }} />;
-}
+        function compileOutput(selectedQuote) {
+            document.getElementById('quote-selector-zone').innerHTML = "";
+            document.getElementById('out-quote').innerText = selectedQuote;
+            document.getElementById('p-quote').innerText = `"${selectedQuote}"`;
 
-function Textarea({ value, onChange, placeholder, rows=3 }) {
-const [focus, setFocus] = useState(false);
-return <textarea value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} rows={rows}
-onFocus={()=>setFocus(true)} onBlur={()=>setFocus(false)}
-style={{...inputStyle, resize:"vertical", lineHeight:1.6, background: focus? C.white : C.cream, boxShadow: focus? `0 0 0 3px rgba(201,168,130,0.18)` : "none", border:`1px solid ${focus? C.champagne : "rgba(201,168,130,0.3)"}` }} />;
-}
+            const currentData = db[currentVibe];
+            const avatarLock = "Woman, mid-20s, defined cheekbones, full lips, long wavy brown hair, strong gaze, luxury aesthetic";
+            
+            // Image Prompt Generation
+            const fullPrompt = `/imagine prompt: ${avatarLock}, wearing ${currentData.outfit}, dramatic high contrast cinematic lighting, luxury upscale environment backdrop, masterwork production value, crisp magazine style framing, 9:16 ratio --ar 9:16 --v 6.1`;
+            document.getElementById('out-prompt').innerText = fullPrompt;
 
-function Select({ value, onChange, options }) {
-return (
-<select value={value} onChange={e=>onChange(e.target.value)}
-style={{...inputStyle, cursor:"pointer", appearance:"none", backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A882' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat:"no-repeat", backgroundPosition:"right 12px center", paddingRight:36 }}>
-{options.map(o=><option key={o} value={o}>{o}</option>)}
-</select>
-);
-}
+            // Video Prompt Generation (Veo Logic Mapping)
+            const videoPrompt = `Cinematic 4K vertical video, 9:16 aspect ratio. Beautiful ${avatarLock}, wearing ${currentData.outfit}. She is ${currentData.videoAction} Hyper-realistic texture, ultra high fidelity, movie production quality, 60fps. Audio: Incorporate ${currentData.videoAudio}.`;
+            document.getElementById('out-video-prompt').innerText = videoPrompt;
 
-function Card({ children, style: s }) {
-return <div style={{ background:C.white, borderRadius:18, border:`1px solid rgba(201,168,130,0.22)`, boxShadow:"0 4px 32px rgba(92,61,42,0.07), 0 1px 4px rgba(92,61,42,0.05)", padding:28,...s }}>{children}</div>;
-}
+            document.getElementById('out-title').innerText = currentData.hook;
 
-function Pill({ children, onClick }) {
-const [hover, setHover] = useState(false);
-return <span onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
-style={{ background: hover? C.blush : C.creamDeep, border:`1px solid ${hover? C.champagne : "rgba(201,168,130,0.25)"}`, borderRadius:100, padding:"4px 12px", fontSize:"0.7rem", color: hover? C.warmBrown : C.inkSoft, cursor:"pointer", transition:"all 0.2s", fontWeight:400 }}>
-{children}
-</span>;
-}
+            const captionText = `[${currentVibe.toUpperCase()}] era:\n${currentData.lines[0]}\n${currentData.lines[1]}\n${currentData.lines[2]}\n\nClaim your infrastructure: Link in bio 🪐`;
+            document.getElementById('out-caption').innerText = captionText;
 
-function CopyBtn({ text }) {
-const [copied, setCopied] = useState(false);
-const copy = () => {
-navigator.clipboard.writeText(text).then(()=>{ setCopied(true); setTimeout(()=>setCopied(false),2000); });
-};
-return (
-<button onClick={copy} style={{ background: copied? C.blush : "none", border:`1px solid ${copied? C.champDark : "rgba(201,168,130,0.3)"}`, borderRadius:6, padding:"3px 11px", fontSize:"0.66rem", letterSpacing:"0.1em", textTransform:"uppercase", color: copied? C.warmBrown : C.inkMuted, cursor:"pointer", transition:"all 0.2s", fontFamily:"inherit" }}>
-{copied? "Copied ✓" : "Copy"}
-</button>
-);
-}
+            document.getElementById('out-fonts').innerText = currentData.style.outFont;
+        }
 
-function OutputField({ label, value, big }) {
-if (!value) return null;
-return (
-<div style={{ marginBottom:20 }}>
-<div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:8 }}>
-<span style={{ fontSize:"0.66rem", letterSpacing:"0.2em", textTransform:"uppercase", color:C.champDark, fontWeight:500 }}>{label}</span>
-<CopyBtn text={value} />
-</div>
-<div style={{ background:C.cream, border:`1px solid rgba(201,168,130,0.18)`, borderRadius:8, padding: big? "18px 20px" : "13px 16px", fontSize: big? "2rem" : "0.84rem", fontFamily: big? "'Cormorant Garamond', Georgia, serif" : "inherit", fontWeight: big? 300 : 300, letterSpacing: big? "0.1em" : 0, textTransform: big? "uppercase" : "none", color: big? C.warmBrown : C.ink, textAlign: big? "center" : "left", lineHeight: big? 1.2 : 1.7, whiteSpace:"pre-line" }}>
-{value}
-</div>
-</div>
-);
-}
-
-function SectionDivider({ children }) {
-return (
-<div style={{ textAlign:"center", margin:"44px 0 28px", position:"relative" }}>
-<div style={{ position:"absolute", top:"50%", left:0, right:0, height:1, background:"rgba(201,168,130,0.18)" }} />
-<span style={{ position:"relative", background:C.cream, padding:"0 18px", fontFamily:"'Cormorant Garamond', Georgia, serif", fontStyle:"italic", fontSize:"1.05rem", color:C.champDark }}>{children}</span>
-</div>
-);
-}
-
-function QuoteOS() {
-const [brandName, setBrandName] = useState(localStorage.getItem('brandName') || "YOUR BRAND");
-const [signature, setSignature] = useState(localStorage.getItem('signature') || "This is the Standard.");
-const [niche, setNiche] = useState("business");
-const [quoteCount, setQuoteCount] = useState(3);
-
-const [quote, setQuote] = useState("");
-const [style, setStyle] = useState("Soft");
-const [postType, setPostType] = useState("Portrait");
-const [mood, setMood] = useState("Calm");
-const [scene, setScene] = useState("");
-const [keyword, setKeyword] = useState("");
-const [cta, setCta] = useState("");
-const [ratio, setRatio] = useState("9:16");
-const [activePreset, setActivePreset] = useState(null);
-const [presetGuidance, setPresetGuidance] = useState(null);
-const [outputs, setOutputs] = useState(null);
-const [generating, setGenerating] = useState(false);
-const [libTab, setLibTab] = useState("soft");
-const [toast, setToast] = useState("");
-
-const showToast = (msg) => { setToast(msg); setTimeout(()=>setToast(""),2400); };
-
-const saveBrand = () => {
-  localStorage.setItem('brandName', brandName);
-  localStorage.setItem('signature', signature);
-  showToast(`${brandName} Quote OS installed ✦`);
-};
-
-const generateQuotesOnly = useCallback(() => {
-  setGenerating(true);
-  setTimeout(() => {
-    const quotes = QUOTE_BANKS[niche] || QUOTE_BANKS.business;
-    const selected = [...quotes].sort(() => 0.5 - Math.random()).slice(0, quoteCount);
-
-    const VIBE_MODS = {
-      Soft: q => q.replace(/\.$/, ', softly.'),
-      Bridge: q => `Becoming: ${q}`,
-      Baddie: q => q.toUpperCase(),
-      Ruthless: q => `${q} Period.`
-    };
-
-    const modified = selected.map(q => VIBE_MODS[style]? VIBE_MODS[style](q) : q);
-
-    const output = `${brandName} | Vibe: ${style}\n\n${modified.map((q, i) => `${i + 1}. ${q}`).join('\n\n')}\n\n${signature}`;
-
-    setOutputs({ quotes: output });
-    setGenerating(false);
-    showToast("Quotes generated ✦");
-  }, 600);
-}, [brandName, signature, niche, quoteCount, style]);
-
-const generatePrompt = useCallback(() => {
-  setGenerating(true);
-  setTimeout(() => {
-    const { prompt, autoKeyword } = buildPrompt({ quote, style, postType, mood, scene, keyword, cta, ratio });
-    setOutputs(prev => ({
-     ...prev,
-      prompt,
-      keyword: autoKeyword,
-      caption: buildCaption(style, quote),
-      angle: buildAngle(style, postType),
-      hierarchy: buildHierarchy(postType, style, ratio),
-    }));
-    setGenerating(false);
-    showToast("Prompt generated ✦");
-  }, 800);
-}, [quote, style, postType, mood, scene, keyword, cta, ratio]);
-
-const applyPreset = (id) => {
-  const p = PRESETS[id];
-  if (!p) return;
-  setStyle(p.style); setPostType(p.postType); setMood(p.mood);
-  setScene(p.scene); setKeyword(p.keyword); setCta(p.cta);
-  setActivePreset(id); setPresetGuidance(p);
-  showToast(`${p.label} preset loaded ✦`);
-};
-
-const clearOutputs = () => { setOutputs(null); showToast("Cleared"); };
-
-const handleRatioChange = (v) => {
-  setRatio(v);
-  if (outputs?.prompt) {
-    setGenerating(true);
-    setTimeout(() => {
-      const { prompt, autoKeyword } = buildPrompt({ quote, style, postType, mood, scene, keyword, cta, ratio: v });
-      setOutputs(prev => ({...prev, prompt, keyword: autoKeyword, hierarchy: buildHierarchy(postType, style, v) }));
-      setGenerating(false);
-      showToast(`Switched to ${v} ✦`);
-    }, 600);
-  }
-};
-
-const useQuoteForPrompt = () => {
-  if (!outputs?.quotes) return;
-  const lines = outputs.quotes.split('\n\n');
-  const firstQuote = lines[1]?.substring(3) || "";
-  setQuote(firstQuote);
-  showToast("Quote sent to Image Prompt ✦");
-  window.scrollTo({ top: document.getElementById('prompt-section').offsetTop - 100, behavior: 'smooth' });
-};
-
-return (
-<div style={{ fontFamily:"'Jost', system-ui, sans-serif", background:C.cream, minHeight:"100vh", color:C.ink, fontWeight:300, lineHeight:1.6 }}>
-
-  <header style={{ background:`linear-gradient(180deg, ${C.white} 0%, ${C.cream} 100%)`, borderBottom:`1px solid rgba(201,168,130,0.18)`, padding:"48px 32px 36px", textAlign:"center", position:"relative" }}>
-    <div style={{ position:"absolute", bottom:0, left:"50%", transform:"translateX(-50%)", width:100, height:2, background:`linear-gradient(90deg, transparent, ${C.champagne}, transparent)` }} />
-    <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:12, marginBottom:14, opacity:0.45 }}>
-      <div style={{ width:44, height:1, background:C.champDark }} />
-      <span style={{ fontSize:"0.65rem", letterSpacing:"0.22em", textTransform:"uppercase", color:C.champDark, fontWeight:400 }}>Quote OS by LYRAE</span>
-      <div style={{ width:44, height:1, background:C.champDark }} />
-    </div>
-    <h1 style={{ fontFamily:"'Cormorant Garamond', Georgia, serif", fontWeight:300, fontSize:"clamp(2.4rem,5vw,3.8rem)", letterSpacing:"-0.01em", color:C.ink, lineHeight:1.1, margin:"0 0 10px" }}>
-      Quote <em style={{ fontStyle:"italic", color:C.champDark }}>OS</em>
-    </h1>
-    <p style={{ fontSize:"0.8rem", letterSpacing:"0.18em", textTransform:"uppercase", color:C.inkMuted, fontWeight:300 }}>AI Brand Manager for quotes that convert</p>
-  </header>
-
-  <div style={{ maxWidth:1240, margin:"0 auto", padding:"36px 24px 80px" }}>
-
-    <Card style={{ marginBottom: 24, border: `2px solid ${C.gold}` }}>
-      <Label>Step 1: Install Your Quote OS</Label>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 18 }}>
-        <Field label="Your Brand Name">
-          <Input value={brandName} onChange={setBrandName} placeholder="Sovereign Studio" />
-        </Field>
-        <Field label="Your Sign-Off">
-          <Input value={signature} onChange={setSignature} placeholder="This is the Standard." />
-        </Field>
-      </div>
-      <Field label="Your Niche">
-        <Select value={niche} onChange={setNiche} options={["business","wellness","beauty","mindset","luxury"]} />
-      </Field>
-      <button onClick={saveBrand}
-        style={{ width:"100%", padding:"14px 24px", background: C.gold, color: C.warmBrown, border:"none", borderRadius:8, fontFamily:"inherit", fontSize:"0.76rem",
+        function copyText(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text);
+        }
+    </script>
+</body>
+</html>
