@@ -2,270 +2,537 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LYRAE | Luxury Prompt OS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LYRAE | Luxury Quote OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #F9F6F0;       /* Rich, warm cream canvas background */
-            --app-bg: #F4EFE6;         /* Soft alabaster base layer */
-            --panel-bg: #FFFFFF;       /* Clean porcelain white module panels */
-            --border-color: #E6DFD3;   /* Muted linen structural borders */
-            --text-primary: #1C1B18;   /* Deep espresso brown typography */
-            --text-secondary: #7A7466; /* Elegant soft taupe secondary text */
-            --accent-gold: #D4AF37;    /* Bright liquid champagne gold */
-            --accent-muted: #C5A059;   /* Matte deep gold */
+            --bg-dark: #050505;
+            --os-window: #0D0C0A;
+            --sidebar-bg: #12110E;
+            --panel-bg: #171512;
+            --border-bronze: #25221C;
+            --accent-gold: #D4AF37;
+            --text-champagne: #F5EFEB;
+            --text-muted: #8E8472;
+            --glow-gold: rgba(212, 175, 55, 0.15);
+            --font-editorial: 'Cormorant Garamond', serif;
             --font-ui: 'Montserrat', sans-serif;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+            background-color: var(--bg-dark);
+            color: var(--text-champagne);
             font-family: var(--font-ui);
-            font-weight: 300;
-            line-height: 1.5;
-            min-height: 100vh;
+            font-weight: 200;
+            line-height: 1.4;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        /* The App Shell Container - Absolute 9:16 Control */
-        .app-container {
-            width: 100vw;
-            height: 100vh;
-            max-width: 430px;
-            max-height: 932px;
-            background-color: var(--app-bg);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 40px -15px rgba(142, 131, 110, 0.25);
+            letter-spacing: 0.02em;
         }
 
-        .app-screen {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
+        /* Full OS Desktop Enclosure Shell */
+        .os-desktop-frame {
+            width: 95vw;
+            height: 90vh;
+            max-width: 1440px;
+            max-height: 900px;
+            background-color: var(--os-window);
+            border: 1px solid var(--border-bronze);
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            padding-bottom: 3rem;
-            -webkit-overflow-scrolling: touch;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95);
+            position: relative;
         }
 
-        /* Elegant Editorial Header */
-        header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
+        /* Top System Menu Control Strip */
+        .os-top-bar {
+            height: 40px;
+            background-color: #080706;
+            border-bottom: 1px solid var(--border-bronze);
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
+            padding: 0 1.25rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
         }
 
-        .brand-logo { font-size: 1.6rem; letter-spacing: 0.15em; font-family: 'Cormorant Garamond', serif; text-transform: uppercase; font-weight: 400; color: var(--text-primary); }
-        .brand-sub { font-size: 0.65rem; color: var(--accent-muted); text-transform: uppercase; letter-spacing: 0.2em; margin-top: 0.15rem; font-weight: 600; }
-        .system-status { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem; font-weight: 600; }
-        .status-dot { width: 5px; height: 5px; background-color: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 6px var(--accent-gold); }
+        .os-controls { display: flex; gap: 6px; align-items: center; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #2D2A24; border: 1px solid var(--border-bronze); }
+        .dot.active { background: var(--accent-gold); box-shadow: 0 0 8px var(--accent-gold); }
+        .system-meta-clock { font-weight: 600; color: var(--accent-gold); }
 
-        /* Panels */
-        .panel-box { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 4px; box-shadow: 0 4px 12px rgba(230, 223, 211, 0.3); }
-        .panel-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; margin-bottom: 1rem; text-transform: uppercase; border-left: 2px solid var(--accent-gold); padding-left: 0.5rem; letter-spacing: 0.05em; color: var(--text-primary); font-weight: 600; }
+        /* Split-Pane System Workspace Layout */
+        .os-workspace-body { flex: 1; display: flex; overflow: hidden; }
 
-        /* Selector Grid System */
-        .selector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; margin-bottom: 1rem; }
-        .selector-card { background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 0.75rem; cursor: pointer; text-align: left; transition: all 0.2s ease; border-radius: 2px; }
-        .selector-card.active { border-color: var(--accent-gold); color: var(--text-primary); background-color: #FFFDF9; box-shadow: inset 0 0 0 1px var(--accent-gold); }
-        .card-name { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; font-weight: 600; }
-        .card-desc { font-size: 0.6rem; opacity: 0.7; display: block; margin-top: 0.1rem; }
-
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; color: var(--text-secondary); font-weight: 600; }
-        textarea { width: 100%; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.8rem; resize: none; min-height: 70px; outline: none; border-radius: 2px; transition: border-color 0.2s; }
-        textarea:focus { border-color: var(--accent-gold); background-color: #FFFFFF; }
-
-        /* Champagne Call to Action Button */
-        .btn-generate { width: 100%; background-color: var(--text-primary); border: 1px solid var(--text-primary); color: var(--bg-color); font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.8rem; padding: 1.1rem; cursor: pointer; transition: all 0.3s ease; border-radius: 2px; font-weight: 600; }
-        .btn-generate:hover { background-color: transparent; color: var(--text-primary); border-color: var(--text-primary); }
-
-        .output-block { border-bottom: 1px solid var(--border-color); padding-bottom: 1.2rem; margin-bottom: 1.2rem; position: relative; }
-        .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-        .output-label { font-size: 0.6rem; text-transform: uppercase; color: var(--accent-muted); letter-spacing: 0.1em; margin-bottom: 0.5rem; display: block; font-weight: 600; }
-        
-        /* Monospace Data Terminal Blocks */
-        .code-block { background-color: var(--bg-color); border: 1px solid var(--border-color); font-family: monospace; font-size: 0.75rem; padding: 2.5rem 0.8rem 0.8rem 0.8rem; color: #4A4438; white-space: pre-wrap; word-break: break-word; border-radius: 2px; position: relative; min-height: 80px; line-height: 1.4; }
-        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: var(--panel-bg); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.55rem; padding: 0.2rem 0.4rem; cursor: pointer; text-transform: uppercase; border-radius: 2px; z-index: 5; transition: all 0.2s; }
-        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-gold); background: #FFFDF9; }
-
-        @media (max-width: 430px) {
-            body { background-color: var(--app-bg); }
-            .app-container { border: none; max-width: 100vw; max-height: 100vh; height: 100vh; width: 100vw; }
+        /* Left Side Terminal Matrix Menu Navigation */
+        .os-sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-bronze);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem 1rem;
         }
+
+        .brand-section { border-bottom: 1px solid var(--border-bronze); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+        .brand-title { font-family: var(--font-editorial); font-size: 1.8rem; letter-spacing: 0.1em; color: var(--text-champagne); text-transform: uppercase; }
+        .brand-sub { font-size: 0.55rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.25em; margin-top: 0.2rem; font-weight: 600; }
+
+        .nav-group-label { font-size: 0.55rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.15em; font-weight: 600; margin-bottom: 0.75rem; display: block; }
+        .nav-list { display: flex; flex-direction: column; gap: 0.4rem; list-style: none; }
+        .nav-item button { width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-muted); font-family: var(--font-ui); font-size: 0.7rem; text-align: left; padding: 0.6rem 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; }
+        .nav-item.active button, .nav-item button:hover { color: var(--text-champagne); border-color: var(--border-bronze); background-color: var(--panel-bg); }
+        .nav-item.active button::after { content: '●'; font-size: 0.5rem; color: var(--accent-gold); }
+
+        /* Live OS System Diagnostics Telemetry Log box */
+        .os-syslog-box { background-color: #090807; border: 1px solid var(--border-bronze); padding: 0.75rem; font-family: monospace; font-size: 0.6rem; color: #6E6556; max-height: 120px; overflow-y: auto; }
+        .syslog-line { margin-bottom: 0.2rem; }
+
+        /* Main Screen Output Grid Terminal Layout */
+        .os-main-stage { flex: 1; display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; overflow: hidden; }
+
+        .stage-pane { border-right: 1px solid var(--border-bronze); display: flex; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .stage-pane:last-child { border-right: none; }
+
+        .pane-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-bronze); display: flex; justify-content: space-between; align-items: center; background-color: #0A0908; }
+        .pane-title { font-family: var(--font-editorial); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-gold); font-weight: 400; }
+        .pane-status { font-size: 0.55rem; color: var(--text-muted); font-family: monospace; }
+        .pane-content { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+        /* Selector Matrices Control Styling */
+        .control-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .control-label { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.15em; font-weight: 600; }
+        .matrix-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
+        .matrix-card { background: #0A0908; border: 1px solid var(--border-bronze); color: var(--text-muted); padding: 0.75rem; text-align: left; cursor: pointer; transition: all 0.3s; position: relative; }
+        .matrix-card.active { border-color: var(--accent-gold); color: var(--text-champagne); background: var(--panel-bg); box-shadow: 0 0 12px var(--glow-gold); }
+        .matrix-card.active::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; background: var(--accent-gold); }
+        .card-main-txt { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; }
+        .card-sub-txt { font-size: 0.55rem; opacity: 0.5; display: block; margin-top: 0.15rem; font-family: var(--font-editorial); font-style: italic; }
+
+        textarea { width: 100%; background-color: #070605; border: 1px solid var(--border-bronze); color: var(--text-champagne); font-family: var(--font-ui); font-weight: 300; font-size: 0.8rem; padding: 0.75rem; min-height: 90px; resize: none; outline: none; transition: all 0.3s; }
+        textarea:focus { border-color: var(--accent-gold); box-shadow: 0 0 10px var(--glow-gold); }
+
+        .btn-os-execute { width: 100%; background: linear-gradient(180deg, #D4AF37 0%, #A38022 100%); border: none; color: #050505; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; padding: 1.1rem; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .btn-os-execute:hover { box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25); transform: translateY(-1px); }
+
+        /* Real-Time Scaled Mock 9:16 Frame Display Studio */
+        .canvas-frame-container { padding: 1rem 0; display: flex; justify-content: center; align-items: center; }
+        .preview-canvas { aspect-ratio: 9 / 16; width: 100%; max-width: 250px; background: linear-gradient(180deg, #151310 0%, #030303 100%); border: 1px solid var(--border-bronze); display: flex; flex-direction: column; justify-content: space-between; padding: 2.5rem 1.2rem; position: relative; overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.7); }
+        .p-top-text { text-align: center; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-champagne); z-index: 2; }
+        .p-watermark { position: absolute; top: 46%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; font-weight: bold; color: rgba(212, 175, 55, 0.012); letter-spacing: 0.05em; z-index: 1; text-transform: uppercase; pointer-events: none; white-space: nowrap; }
+        .p-quote-area { z-index: 2; border-left: 1px solid rgba(212, 175, 55, 0.15); padding-left: 0.5rem; }
+        .p-quote-text { font-size: 0.75rem; line-height: 1.4; font-weight: 300; color: #EAE5E1; }
+
+        /* Distribution Tab Controls Matrix */
+        .dist-tabs { display: flex; border-bottom: 1px solid var(--border-bronze); margin-bottom: 1rem; gap: 0.2rem; }
+        .tab-trigger { flex: 1; background: transparent; border: none; color: var(--text-muted); font-family: var(--font-ui); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.6rem 0; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .tab-trigger.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); font-weight: 600; }
+
+        /* Code Block Terminal Modules */
+        .output-wrapper { display: flex; flex-direction: column; gap: 1.2rem; }
+        .output-node { display: flex; flex-direction: column; gap: 0.4rem; position: relative; }
+        .terminal-block { background-color: #080706; border: 1px solid var(--border-bronze); font-family: monospace; font-size: 0.7rem; padding: 2.2rem 0.75rem 0.75rem 0.75rem; color: #C9C2B5; white-space: pre-wrap; word-break: break-word; min-height: 70px; line-height: 1.4; position: relative; }
+        .btn-terminal-copy { position: absolute; top: 0.5rem; right: 0.5rem; background: var(--panel-bg); border: 1px solid var(--border-bronze); color: var(--text-muted); font-size: 0.5rem; padding: 0.2rem 0.45rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+        .btn-terminal-copy:hover { color: var(--accent-gold); border-color: var(--accent-gold); background: #1A1916; }
+
+        .font-stack-info { font-family: var(--font-editorial); font-size: 1.05rem; color: var(--text-champagne); font-style: italic; }
+        .text-value-node { font-size: 0.85rem; font-weight: 400; color: var(--text-champagne); }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="app-screen">
+    <div class="os-desktop-frame">
+        
+        <div class="os-top-bar">
+            <div class="os-controls">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span style="margin-left: 0.5rem;">LYRAE CORE FILE MANAGER</span>
+            </div>
+            <div>STATUS: <span class="system-meta-clock">OPERATIONAL READY // SECURE SYNC</span></div>
+        </div>
+
+        <div class="os-workspace-body">
             
-            <header>
+            <nav class="os-sidebar">
                 <div>
-                    <div class="brand-logo">LYRAE</div>
-                    <div class="brand-sub">Luxury Prompt OS</div>
-                </div>
-                <div class="system-status"><span class="status-dot"></span>Sovereign V6</div>
-            </header>
-
-            <section class="panel-box">
-                <h2 class="panel-title">1. Structural Vibe</h2>
-                <div class="selector-grid" id="vibe-matrix">
-                    <button class="selector-card active" onclick="setParam('vibe', 'dominance', this)">
-                        <span class="card-name">Dominance</span>
-                        <span class="card-desc">Commanding position</span>
-                    </button>
-                    <button class="selector-card" onclick="setParam('vibe', 'authority', this)">
-                        <span class="card-name">Authority</span>
-                        <span class="card-desc">Untouchable power</span>
-                    </button>
-                    <button class="selector-card" onclick="setParam('vibe', 'ruthless', this)">
-                        <span class="card-name">Ruthless</span>
-                        <span class="card-desc">Ice-cold distance</span>
-                    </button>
-                    <button class="selector-card" onclick="setParam('vibe', 'magnetic', this)">
-                        <span class="card-name">Magnetic</span>
-                        <span class="card-desc">Soft allure power</span>
-                    </button>
+                    <div class="brand-section">
+                        <div class="brand-title">LYRAE</div>
+                        <div class="brand-sub">Sovereign Content OS</div>
+                    </div>
+                    
+                    <span class="nav-group-label">System Modules</span>
+                    <ul class="nav-list">
+                        <li class="nav-item active"><button>Quote Engine Architecture</button></li>
+                        <li class="nav-item"><button>Sovereign Monetization</button></li>
+                        <li class="nav-item"><button>Creative Labs Media Suite</button></li>
+                        <li class="nav-item"><button>Identity Architecture Doc</button></li>
+                    </ul>
                 </div>
 
-                <h2 class="panel-title">2. Cinema Lighting Rig</h2>
-                <div class="selector-grid" id="lighting-matrix">
-                    <button class="selector-card active" onclick="setParam('lighting', 'rembrandt', this)">
-                        <span class="card-name">Chiaroscuro</span>
-                        <span class="card-desc">Deep shadows, high drama</span>
-                    </button>
-                    <button class="selector-card" onclick="setParam('lighting', 'editorial', this)">
-                        <span class="card-name">Vogue Softbox</span>
-                        <span class="card-desc">Clean, champagne glow</span>
-                    </button>
+                <div>
+                    <span class="nav-group-label">System Telemetry Log</span>
+                    <div class="os-syslog-box" id="os-log-feed">
+                        <div class="syslog-line">[SYS] Booting LYRAE Quotes Kernel v6.1...</div>
+                        <div class="syslog-line">[SYS] Core Avatar Lock secured (Female, Mid-20s, Strong Gaze)</div>
+                        <div class="syslog-line">[SYS] System state initialization complete. Ready for compilation.</div>
+                    </div>
                 </div>
+            </nav>
 
-                <h2 class="panel-title">3. Composition & Crop</h2>
-                <div class="selector-grid" id="crop-matrix">
-                    <button class="selector-card active" onclick="setParam('crop', 'tight', this)">
-                        <span class="card-name">Close Portrait</span>
-                        <span class="card-desc">Strong gaze focal lock</span>
-                    </button>
-                    <button class="selector-card" onclick="setParam('crop', 'wide', this)">
-                        <span class="card-name">Editorial Wide</span>
-                        <span class="card-desc">Luxury room interior</span>
-                    </button>
-                </div>
-
-                <div class="form-group" style="margin-top: 0.5rem;">
-                    <label for="quote-input">Quote Spark (Optional)</label>
-                    <textarea id="quote-input" placeholder="Type quote text to bind thematic expressions into framing parameters..."></textarea>
-                </div>
-
-                <button class="btn-generate" onclick="compileSovereignPrompt()">Engine Output Prompts</button>
-            </section>
-
-            <section class="panel-box">
-                <h2 class="panel-title">Engine Output Pipeline</h2>
+            <main class="os-main-stage">
                 
-                <div class="output-block">
-                    <span class="output-label">Midjourney V6.1 Hyper-Editorial Prompt</span>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyText('mj-block')">Copy</button>
-                        <span id="mj-block">Configure parameters and hit execute to compile luxury architecture.</span>
+                <section class="stage-pane">
+                    <div class="pane-header">
+                        <h2 class="pane-title">1. Control Console</h2>
+                        <span class="pane-status">[STATE: COMPILE_READY]</span>
                     </div>
-                </div>
+                    <div class="pane-content">
+                        
+                        <div class="control-group">
+                            <label class="control-label">Matrix Strategy Vibe</label>
+                            <div class="matrix-grid">
+                                <button class="matrix-card active" onclick="setParam('vibe', 'dominance', this)">
+                                    <span class="card-main-txt">Dominance</span>
+                                    <span class="card-sub-txt">Room-Shifting Control</span>
+                                </button>
+                                <button class="matrix-card" onclick="setParam('vibe', 'authority', this)">
+                                    <span class="card-main-txt">Authority</span>
+                                    <span class="card-sub-txt">Untouchable Presence</span>
+                                </button>
+                                <button class="matrix-card" onclick="setParam('vibe', 'ruthless', this)">
+                                    <span class="card-main-txt">Ruthless</span>
+                                    <span class="card-sub-txt">Cold Boundaries</span>
+                                </button>
+                                <button class="matrix-card" onclick="setParam('vibe', 'magnetic', this)">
+                                    <span class="card-main-txt">Magnetic</span>
+                                    <span class="card-sub-txt">Soft Attraction Power</span>
+                                </button>
+                            </div>
+                        </div>
 
-                <div class="output-block">
-                    <span class="output-label">Stable Diffusion XL (SDXL) Master Prompt</span>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyText('sdxl-block')">Copy</button>
-                        <span id="sdxl-block">Awaiting processing configuration...</span>
+                        <div class="control-group">
+                            <label class="control-label">Cinema Studio Light Rig</label>
+                            <div class="matrix-grid">
+                                <button class="matrix-card active" onclick="setParam('lighting', 'editorial', this)">
+                                    <span class="card-main-txt">Vogue Softbox</span>
+                                    <span class="card-desc">Champagne Warm Grading</span>
+                                </button>
+                                <button class="matrix-card" onclick="setParam('lighting', 'rembrandt', this)">
+                                    <span class="card-main-txt">Chiaroscuro</span>
+                                    <span class="card-desc">Deep High Drama Shadow</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Composition Layout Crop</label>
+                            <div class="matrix-grid">
+                                <button class="matrix-card active" onclick="setParam('crop', 'tight', this)">
+                                    <span class="card-main-txt">Close Portrait</span>
+                                    <span class="card-desc">Focal Gaze Target</span>
+                                </button>
+                                <button class="matrix-card" onclick="setParam('crop', 'wide', this)">
+                                    <span class="card-main-txt">Editorial Wide</span>
+                                    <span class="card-desc">Minimalist Interior Room</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="quote-input">Quote / Concept Input</label>
+                            <textarea id="quote-input" placeholder="Leave blank to trigger Core Rule 1 and output the 5 platform signature options..."></textarea>
+                        </div>
+
+                        <button class="btn-os-execute" onclick="compileWorkspacePackage()">Compile System Package</button>
+
                     </div>
-                </div>
-            </section>
+                </section>
 
+                <section class="stage-pane">
+                    <div class="pane-header">
+                        <h2 class="pane-title">2. Canvas Blueprint</h2>
+                        <span class="pane-status">[9:16 FEED_PREVIEW]</span>
+                    </div>
+                    <div class="pane-content">
+                        <div class="canvas-frame-container">
+                            <div class="preview-canvas" id="canvas-frame">
+                                <div class="p-top-text" id="p-heading">DOMINANCE</div>
+                                <div class="p-watermark" id="p-watermark">DOMINANCE</div>
+                                <div class="p-quote-area">
+                                    <div class="p-quote-text" id="p-quote">Configure control settings and process system compilation vector.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="stage-pane">
+                    <div class="pane-header">
+                        <h2 class="pane-title">3. Deployment Pipeline</h2>
+                        <span class="pane-status">[OUTPUT ENGINE]</span>
+                    </div>
+                    <div class="pane-content output-wrapper">
+                        
+                        <div class="output-node">
+                            <span class="control-label">Confirmed Statement Structure</span>
+                            <div class="text-value-node" id="out-quote">System Idle. Select input array to initiate.</div>
+                            <div id="quote-selector-zone" class="quote-choices-container"></div>
+                        </div>
+
+                        <div class="output-node">
+                            <span class="control-label">Midjourney V6.1 Image Media Prompt Blueprint</span>
+                            <div class="terminal-block">
+                                <button class="btn-terminal-copy" onclick="copyTerminalText('mj-block')">Copy</button>
+                                <span id="mj-block">Awaiting core variables compilation...</span>
+                            </div>
+                        </div>
+
+                        <div class="output-node">
+                            <span class="control-label">Google Veo Video Motion Prompt Blueprint</span>
+                            <div class="terminal-block">
+                                <button class="btn-terminal-copy" onclick="copyTerminalText('veo-block')">Copy</button>
+                                <span id="veo-block">Awaiting core variables compilation...</span>
+                            </div>
+                        </div>
+
+                        <div class="output-node" style="border-top: 1px solid var(--border-bronze); padding-top: 1.2rem;">
+                            <div class="dist-tabs">
+                                <button class="tab-trigger active" id="btn-tab-tk" onclick="setPlatformTab('tiktok')">TikTok</button>
+                                <button class="tab-trigger" id="btn-tab-ig" onclick="setPlatformTab('instagram')">Instagram</button>
+                                <button class="tab-trigger" id="btn-tab-th" onclick="setPlatformTab('threads')">Threads</button>
+                            </div>
+
+                            <div id="platform-output-wrapper">
+                                <div class="output-node" id="title-wrapper" style="display:none; margin-bottom: 1rem;">
+                                    <span class="control-label" id="title-label-node">Hook Title</span>
+                                    <div class="text-value-node" id="out-title" style="font-weight: 600;">System Idle.</div>
+                                </div>
+                                <div class="output-node">
+                                    <span class="control-label" id="caption-label-node">Optimized Text Caption Block</span>
+                                    <div class="terminal-block">
+                                        <button class="btn-terminal-copy" onclick="copyTerminalText('out-caption')">Copy</button>
+                                        <span id="out-caption">System Idle.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="output-node" style="border-top: 1px solid var(--border-bronze); padding-top: 1.2rem;">
+                            <span class="control-label">Font Mapping Framework Allocation</span>
+                            <div class="font-stack-info" id="out-fonts">Cormorant Garamond / Montserrat Light</div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
         </div>
     </div>
 
     <script>
-        let config = {
-            vibe: 'dominance',
-            lighting: 'rembrandt',
-            crop: 'tight'
-        };
+        let config = { vibe: 'dominance', lighting: 'editorial', crop: 'tight' };
+        let activePlatform = 'tiktok';
+        let confirmedStatement = '';
 
-        const dataMap = {
-            vibe: {
-                dominance: {
-                    styling: "tailored sharp champagne silk power suit with clean luxury lines, commanding unbothered posture, absolute sovereignty",
-                    expression: "intense room-shifting gaze, subtle smirk, looking directly into lens with quiet certainty"
-                },
-                authority: {
-                    styling: "structured minimalist cream wool blazer, flawless symmetry, elite luxury positioning",
-                    expression: "calm untouchable gaze, completely expressionless, projecting absolute professional leverage"
-                },
-                ruthless: {
-                    styling: "minimalist sleek high-neck champagne satin statement jacket, razor sharp shoulders, clean shadow lines",
-                    expression: "ice-cold piercing gaze, slightly lowered chin, looking through the lens with complete finality"
-                },
-                magnetic: {
-                    styling: "fluid ivory premium heavy silk wrap drape dress, delicate thin gold necklace, relaxed sovereign posture",
-                    expression: "alluring serene soft gaze, perfectly calm and deeply focused presence, completely captivating"
-                }
+        const db = {
+            dominance: {
+                quotes: [
+                    "The room adjusts when I enter. Not the other way around.",
+                    "I’m not for everyone. I’m for the ones who recognize value.",
+                    "You don’t get to understand me. You get to witness me.",
+                    "I stopped auditioning for roles in people’s lives.",
+                    "My energy introduces me before I speak."
+                ],
+                style: { heading: "'Cormorant Garamond', serif", outFont: "Heading: Cormorant Garamond | Watermark: Didot 200pt | Quote: Montserrat Light 60pt" },
+                styling: "tailored sharp champagne silk power suit with clean luxury lines, commanding unbothered stance, absolute sovereignty",
+                expression: "intense room-shifting gaze, subtle smirk, looking directly into lens with total certainty",
+                videoMove: "standing silently at the glass panel window of a luxury skyline penthouse space at dusk. She slowly turns her head to lock her intense expression directly onto the camera lens. Slow dolly in track.",
+                videoAudio: "low rumbling quiet luxury atmospheric sound with a faint deep sub-bass pulse track",
+                hook: "When you walk in, the hierarchy resets itself.",
+                lines: ["They want access to your mind before they value your presence.", "Make them witness your space without an explanation.", "Your energy speaks long before your voice does."]
             },
-            lighting: {
-                rembrandt: "dramatic deep chiaroscuro lighting scheme, single side high contrast warm champagne key light, sharp intentional drop shadows, heavy contrast play",
-                editorial: "clean high-end studio softbox illumination, warm cream and rich golden espresso undertone grading, subtle rim light separating subject from background, flawlessly soft skin texture rendering"
+            authority: {
+                quotes: [
+                    "She became dangerous the moment peace mattered more than attention.",
+                    "I don’t compete. I set the standard.",
+                    "They want access to the woman I was before I respected myself.",
+                    "My absence is the consequence.",
+                    "I move in silence because my results make noise."
+                ],
+                style: { heading: "'Didot', 'Playfair Display', serif", outFont: "Heading: Didot | Watermark: Cormorant Garamond 180pt | Quote: Montserrat Light 60pt" },
+                styling: "structured minimalist cream fine wool corporate blazer, flawless balance symmetry, elite boardroom location",
+                expression: "calm untouchable gaze, completely expressionless posture, projecting absolute professional level leverage",
+                videoMove: "sitting perfectly poised behind an architectural solid white marble executive boardroom workspace. She deliberately places a premium pen down, locking her powerful gaze straight onto the lens. Crane tilt-down tracking.",
+                videoAudio: "distant mechanical clock ticking signature shifting instantly into a deep slow grand piano melody chord",
+                hook: "The moment they realize access is earned, not given.",
+                lines: ["Move with silent finality. The right rooms respect the silence.", "Never perform for crowds looking for free entertainment.", "Your standards define your parameters."]
             },
-            crop: {
-                tight: "intimate close-up portrait framing, camera positioned at eye level, shallow depth of field with background melting away into blurred minimal luxury, subject center-aligned",
-                wide: "cinematic wide fashion editorial composition, medium full shot showcasing a minimal brutalist cream marble architectural interior workspace layout, high headroom spatial balance"
+            ruthless: {
+                quotes: [
+                    "I match energy. Keep that same attitude when I return it.",
+                    "You showed me who you were. I believed you the first time.",
+                    "I don’t do revenge. I do distance.",
+                    "Closure is a luxury I stopped expecting from people who lack accountability.",
+                    "I will not water dead things, including us."
+                ],
+                style: { heading: "'Anton', sans-serif", outFont: "Heading: Anton | Watermark: Bebas Neue 220pt | Quote: Montserrat Light 60pt" },
+                styling: "minimalist sleek high-neck champagne satin statement jacket, razor sharp shoulder padding layout, clean structural fabric edges",
+                expression: "ice-cold piercing gaze, slightly lowered chin angle, looking through the lens with complete finality profile",
+                videoMove: "walking effortlessly away down a stark, minimalist brutalist raw concrete architectural corridor structure. The camera tracking remains ahead of her moving in clean reverse as she keeps solid continuous eye contact.",
+                videoAudio: "crisp echoing high-end heel clicks on raw concrete floor spaces shifting into a deep dark cinematic cello sweep note",
+                hook: "We aren't fixing what lack of respect broke.",
+                lines: ["No warnings given, boundaries drawn cleanly with zero hesitation.", "They expected an argument, but distance is much quieter.", "Stop watering dead dynamics."]
+            },
+            magnetic: {
+                quotes: [
+                    "I don’t chase. I attract. What’s meant for me won’t miss me.",
+                    "My softness is not an invitation to disrespect me.",
+                    "I’m the calm in my own storm now.",
+                    "Healed women move different. Watch.",
+                    "I’m not hard to love. You’re just not qualified."
+                ],
+                style: { heading: "'Playfair Display', serif", outFont: "Heading: Playfair Display Italic | Watermark: Playfair Display 160pt | Quote: Montserrat Light 60pt" },
+                styling: "fluid ivory premium heavy silk wrap drape dress, delicate thin gold structure accent lines, relaxed sovereign posture",
+                expression: "alluring serene soft gaze, perfectly calm and deeply focused presence, completely captivating portraiture presentation",
+                videoMove: "resting gracefully balanced against an ambiently soft lit cream velvet chaise lounge structure. She glances down slightly, then slowly tilts her head up to direct a completely confident look into the camera lens track.",
+                videoAudio: "ethereal slow atmospheric ambient synthesizer pad track swelling softly with alluring undertones",
+                hook: "True power doesn't make noise, it pulls.",
+                lines: ["You do not need to hustle for alignment when you are the prize.", "Let them look while you cultivate absolute inner stillness.", "Soft power moves whole tectonic plates."]
             }
         };
 
+        const lightsMap = {
+            editorial: "clean high-end studio softbox illumination, warm cream and rich golden espresso undertone color grading, subtle pristine rim lighting separating subject from depth backdrop, soft glowing skin rendering",
+            rembrandt: "dramatic deep chiaroscuro lighting architecture, single side high contrast warm champagne key light, sharp intentional drop shadows, heavy contrast play and moody dark luxury focus"
+        };
+
+        const cropsMap = {
+            tight: "intimate close-up portrait framing, camera positioned at precise eye level, shallow depth of field with background melting away into blurred minimal luxury space, subject center-aligned",
+            wide: "cinematic wide fashion editorial composition, medium full shot showcasing a minimal brutalist cream marble architectural interior workspace layout, high headroom spatial balance"
+        };
+
+        function pushLog(text) {
+            const box = document.getElementById('os-log-feed');
+            const line = document.createElement('div');
+            line.className = 'syslog-line';
+            line.innerText = `[SYS] ${text}`;
+            box.appendChild(line);
+            box.scrollTop = box.scrollHeight;
+        }
+
         function setParam(category, value, element) {
             config[category] = value;
-            const cluster = element.parentElement;
-            cluster.querySelectorAll('.selector-card').forEach(btn => btn.classList.remove('active'));
+            element.parentElement.querySelectorAll('.matrix-card').forEach(c => c.classList.remove('active'));
             element.classList.add('active');
-        }
-
-        function compileSovereignPrompt() {
-            const rawQuote = document.getElementById('quote-input').value.trim();
-            const selectedVibe = dataMap.vibe[config.vibe];
-            const selectedLight = dataMap.lighting[config.lighting];
-            const selectedCrop = dataMap.crop[config.crop];
             
-            const avatarLock = "High fashion photography, premium portrait representation of a woman in her mid-20s, defined cheekbones, full lips, long wavy dark brown hair, highly symmetrical face structure";
-            const thematicContext = rawQuote !== "" ? `The visual mood is conceptually influenced by the philosophy: "${rawQuote}". ` : "";
+            pushLog(`Parameter modified: ${category.toUpperCase()} -> ${value.toUpperCase()}`);
 
-            const mjPrompt = `/imagine prompt: ${avatarLock}, ${selectedVibe.expression}, wearing ${selectedVibe.styling}. ${selectedCrop} Shot on Hasselblad 100MP, 85mm lens. ${selectedLight}. ${thematicContext}Luxury aesthetic, Vogue cover quality layout, cream and champagne gold tone palettes, hyper realistic skin textures, high-end editorial grain --ar 9:16 --v 6.1 --style raw`;
-            document.getElementById('mj-block').innerText = mjPrompt;
-
-            const sdxlPrompt = `${avatarLock}, ${selectedVibe.expression}, wearing ${selectedVibe.styling}, ${selectedCrop}, masterwork, cinematic professional photography, 8k resolution, ${selectedLight}. ${thematicContext}Photorealistic textures, highly detailed textiles, minimal luxury room depth, cream, beige, and champagne gold tones, symmetrical composition, intricate details. Negative prompt: cross-eyed, deformed, low quality, distorted anatomy, vibrant neon colors, amateur.`;
-            document.getElementById('sdxl-block').innerText = sdxlPrompt;
+            if (category === 'vibe') {
+                document.getElementById('p-heading').innerText = value.toUpperCase();
+                document.getElementById('p-watermark').innerText = value.toUpperCase();
+            }
         }
 
-        function copyText(id) {
+        function setPlatformTab(plat) {
+            activePlatform = plat;
+            document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+            if(plat === 'tiktok') document.getElementById('btn-tab-tk').classList.add('active');
+            if(plat === 'instagram') document.getElementById('btn-tab-ig').classList.add('active');
+            if(plat === 'threads') document.getElementById('btn-tab-th').classList.add('active');
+            
+            pushLog(`Distribution view changed: Platform -> ${plat.toUpperCase()}`);
+            if(confirmedStatement) renderPlatformTexts();
+        }
+
+        function compileWorkspacePackage() {
+            const rawVal = document.getElementById('quote-input').value.trim();
+            const selectorZone = document.getElementById('quote-selector-zone');
+            selectorZone.innerHTML = "";
+
+            pushLog("Initializing core compilation routine...");
+
+            if (rawVal === "") {
+                pushLog("CRITICAL GATING: Empty raw input detected. Core Rule 1 active. Loading signature options array.");
+                document.getElementById('out-quote').innerText = "CORE RULE 1: Select an authorized base database statement structure below to proceed.";
+                db[config.vibe].quotes.forEach(q => {
+                    const btn = document.createElement('button');
+                    btn.className = "quote-choice-btn";
+                    btn.style.cssText = "width:100%; text-align:left; background:#080706; border:1px solid var(--border-bronze); padding:0.75rem; color:var(--text-champagne); margin-top:0.4rem; cursor:pointer; font-family:var(--font-editorial); font-size:0.9rem;";
+                    btn.innerText = q;
+                    btn.onclick = () => { confirmedStatement = q; executeFinalCompilation(q); };
+                    selectorZone.appendChild(btn);
+                });
+            } else {
+                confirmedStatement = rawVal;
+                executeFinalCompilation(rawVal);
+            }
+        }
+
+        function executeFinalCompilation(statement) {
+            document.getElementById('quote-selector-zone').innerHTML = "";
+            document.getElementById('out-quote').innerText = statement;
+            document.getElementById('p-quote').innerText = `"${statement}"`;
+            
+            pushLog(`Statement verified. Compiling procedural image and video prompts for vibe context.`);
+
+            const activeData = db[config.vibe];
+            const identityCore = "High fashion premium photographic masterpiece portrait representation of an elegant woman in her mid-20s, defined cheekbones, full lips, long wavy dark brown hair, highly symmetrical facial infrastructure, captivating powerful gaze, editorial tone";
+            
+            // Image Engine Block Compiler
+            const fullImagePrompt = `/imagine prompt: ${identityCore}, ${activeData.expression}, dressed in ${activeData.styling}. ${cropsMap[config.crop]} Shot on Hasselblad 100MP, 85mm portrait focal layout. ${lightsMap[config.lighting]}. Luxury branding aesthetic, Vogue fashion cover output standard, minimalist cream, warm beige, and liquid champagne gold color grading profiles, fine organic film grain parameters --ar 9:16 --v 6.1 --style raw`;
+            document.getElementById('mj-block').innerText = fullImagePrompt;
+
+            // Video Engine Block Compiler
+            const fullVideoPrompt = `Cinematic 4K vertical video asset configuration, 9:16 frame dimension bounds. Symmetrical representation of an elegant ${identityCore}, dressed in ${activeData.styling}. She is completely ${activeData.videoMove} Master level lighting conditions, ultra high fidelity, raw texture mapping, 60fps frame rate. Audio soundtrack integration: ${activeData.videoAudio}.`;
+            document.getElementById('veo-block').innerText = fullVideoPrompt;
+
+            document.getElementById('out-fonts').innerText = activeData.style.outFont;
+
+            renderPlatformTexts();
+            pushLog("Assets processed successfully. Pipeline structures ready for absolute distribution deployment.");
+        }
+
+        function renderPlatformTexts() {
+            const data = db[config.vibe];
+            const titleWrapper = document.getElementById('title-wrapper');
+            const outTitle = document.getElementById('out-title');
+            const outCaption = document.getElementById('out-caption');
+
+            if (activePlatform === 'tiktok') {
+                titleWrapper.style.display = "none";
+                outCaption.innerText = `[${config.vibe.toUpperCase()}] era:\n${data.lines[0]}\n${data.lines[1]}\n${data.lines[2]}\n\nClaim your system infrastructure: Link in bio 🪐\n\nSound search index reference: slowed minimalist piano arrangement layout (0:15 time signature mark)\nHashtags: #darkfeminineenergy #highvaluewoman #luxurymindset #${config.vibe} #lyrae`;
+            } 
+            else if (activePlatform === 'instagram') {
+                titleWrapper.style.display = "flex";
+                titleWrapper.style.flexDirection = "column";
+                document.getElementById('title-label-node').innerText = "Instagram Saveable Hook Title";
+                outTitle.innerText = data.hook;
+                outCaption.innerText = `[${config.vibe.toUpperCase()}] era:\n\nThere is an undeniable structural reset that materializes when you stop performing for crowds that seek premium validation on a budget discount standard.\n\n${data.lines[0]}\n${data.lines[1]}\n${data.lines[2]}\n\nInitialize your conversion architecture. Link in bio 🪐\n\nHashtags: #darkfeminineenergy #highvaluewoman #luxurymindset #sovereignty #identityarchitect`;
+            } 
+            else if (activePlatform === 'threads') {
+                titleWrapper.style.display = "none";
+                outCaption.innerText = `[${config.vibe.toUpperCase()}] era:\n\nLet's cut directly through the performance layers. Real presence doesn't require high-volume noise to dictate parameters.\n\n${data.lines[0]}\n\nWhen you build an independent structural ecosystem that forces people to elevate to meet your standard before entering your space, the noise filters itself out effortlessly.\n\nAre you still spending your hours auditioning for rooms you already outgrew? Let's install the right monetization system below.`;
+            }
+        }
+
+        function copyTerminalText(id) {
             const text = document.getElementById(id).innerText;
             navigator.clipboard.writeText(text);
+            pushLog(`Clipboard transfer: Content from block [#${id}] safely locked to system buffer.`);
         }
     </script>
 </body>
