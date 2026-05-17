@@ -2,24 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>LYRAE | Luxury Quotes OS</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LYRAE OS">
+    <meta name="mobile-web-app-capable" content="yes">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #F9F6F0;       /* Warm Cream Backdrop */
-            --app-bg: #F4EFE6;         /* Alabaster App Base */
-            --panel-bg: #FFFFFF;       /* Porcelain White Core Modules */
-            --border-color: #E6DFD3;   /* Linen Structural Borders */
-            --text-primary: #1C1B18;   /* Deep Espresso Typography */
-            --text-secondary: #7A7466; /* Elegant Soft Taupe Lines */
-            --accent-gold: #D4AF37;    /* Bright Liquid Champagne Gold */
-            --accent-muted: #C5A059;   /* Matte Deep Brand Gold */
-            --pill-bg: #FAF6EE;        /* Light Cream Pill Targets */
-            --btn-dark: #3D2D1F;       /* Espresso Action Button */
+            --bg-color: #F9F6F0;       
+            --app-bg: #F4EFE6;         
+            --panel-bg: #FFFFFF;       
+            --border-color: #E6DFD3;   
+            --text-primary: #1C1B18;   
+            --text-secondary: #7A7466; 
+            --accent-gold: #D4AF37;    
+            --accent-muted: #C5A059;   
+            --pill-bg: #FAF6EE;        
+            --btn-dark: #3D2D1F;       
             --font-ui: 'Montserrat', sans-serif;
         }
 
@@ -28,6 +34,7 @@
             margin: 0; 
             padding: 0; 
             -webkit-tap-highlight-color: transparent;
+            user-select: none; /* Prevents long-press text highlight drag glitches in standalone app mode */
         }
 
         body {
@@ -40,9 +47,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: fixed; /* Fixes browser frame rubber-banding elastic bounces */
+            width: 100vw;
+            height: 100vh;
         }
 
-        /* 9:16 Absolute Viewport Enclosure */
+        /* Standalone App Frame Optimization */
         .app-container {
             width: 100vw;
             height: 100vh;
@@ -55,6 +65,7 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 20px 40px -15px rgba(142, 131, 110, 0.25);
+            padding-top: env(safe-area-inset-top, 20px); /* Respects iOS top notch/dynamic island spacing */
         }
 
         .app-screen {
@@ -64,14 +75,13 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            padding-bottom: 3rem;
+            padding-bottom: calc(3rem + env(safe-area-inset-bottom, 20px));
             -webkit-overflow-scrolling: touch;
         }
 
         .app-screen::-webkit-scrollbar { width: 3px; }
         .app-screen::-webkit-scrollbar-thumb { background: var(--border-color); }
 
-        /* Thin Luxury Header Layout */
         header {
             text-align: center;
             padding-bottom: 1.2rem;
@@ -86,7 +96,6 @@
         .panel-box { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(230, 223, 211, 0.2); }
         .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-muted); font-weight: 600; margin-bottom: 1rem; display: block; }
 
-        /* Presets Pill Grids from Reference Screens */
         .preset-container { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; margin-bottom: 0.25rem; }
         .preset-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-secondary); font-weight: 600; }
         .preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 100%; }
@@ -95,12 +104,11 @@
         .preset-btn.active { border-color: var(--accent-muted); color: var(--text-primary); background-color: var(--pill-bg); font-weight: 600; }
         .preset-btn.active::before { color: var(--accent-muted); }
 
-        /* Form Layout Elements */
         .form-group { margin-bottom: 1.25rem; }
         label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600; }
         label span { font-size: 0.6rem; color: var(--text-secondary); text-transform: none; font-weight: 400; letter-spacing: normal; }
         
-        textarea { width: 100%; background-color: var(--pill-bg); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.85rem; resize: none; min-height: 75px; outline: none; border-radius: 8px; transition: all 0.2s; font-weight: 400; line-height: 1.4; }
+        textarea { width: 100%; background-color: var(--pill-bg); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem; padding: 0.85rem; resize: none; min-height: 75px; outline: none; border-radius: 8px; transition: all 0.2s; font-weight: 400; line-height: 1.4; user-select: text; }
         textarea::placeholder { color: #A8A296; font-weight: 300; }
         textarea:focus { border-color: var(--accent-muted); background-color: #FFFFFF; box-shadow: 0 4px 12px rgba(197, 160, 89, 0.1); }
 
@@ -114,24 +122,20 @@
         .pill-item { background-color: var(--pill-bg); border: 1px solid var(--border-color); padding: 0.45rem 0.85rem; border-radius: 16px; font-size: 0.7rem; color: var(--text-primary); cursor: pointer; transition: all 0.2s; font-weight: 400; text-align: left; line-height: 1.3; }
         .pill-item:hover { border-color: var(--accent-muted); background-color: #FFFFFF; }
 
-        /* Action Process Trigger */
         .btn-generate { width: 100%; background-color: var(--btn-dark); border: none; color: #FFFFFF; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem; padding: 1.15rem; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; font-weight: 600; text-align: center; box-shadow: 0 4px 15px rgba(61, 45, 31, 0.15); }
-        .btn-generate:hover { background-color: var(--text-primary); }
 
-        /* Output Nodes Pipeline Styling */
         .output-block { border-bottom: 1px solid var(--border-color); padding-bottom: 1.2rem; margin-bottom: 1.2rem; position: relative; }
         .output-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
         .output-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
         .output-label { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-muted); letter-spacing: 0.12em; font-weight: 600; display: block; }
         
-        .code-block { background-color: var(--pill-bg); border: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 0.8rem; padding: 0.95rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; border-radius: 6px; line-height: 1.45; font-weight: 400; }
-        .keyword-display { font-family: var(--font-ui); font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); font-weight: 400; text-align: center; padding: 0.85rem 0; background: var(--pill-bg); border: 1px solid var(--border-color); border-radius: 6px; }
+        .code-block { background-color: var(--pill-bg); border: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 0.8rem; padding: 0.95rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; border-radius: 6px; line-height: 1.45; font-weight: 400; user-select: text; }
+        .keyword-display { font-family: var(--font-ui); font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); font-weight: 400; text-align: center; padding: 0.85rem 0; background: var(--pill-bg); border: 1px solid var(--border-color); border-radius: 6px; user-select: text; }
         
         .copy-btn { background: #FFFFFF; border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.55rem; padding: 0.25rem 0.55rem; cursor: pointer; text-transform: uppercase; border-radius: 4px; font-weight: 500; font-family: var(--font-ui); }
-        .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-muted); }
 
         @media (max-width: 430px) {
-            body { background-color: var(--app-bg); }
+            body { background-color: var(--app-bg); position: fixed; }
             .app-container { border: none; max-width: 100vw; max-height: 100vh; height: 100vh; width: 100vw; }
         }
     </style>
@@ -265,7 +269,6 @@
     <script>
         let currentMode = 'soft_morning';
 
-        // Synchronized Library Matrix matching screens perfectly
         const library = {
             soft_morning: {
                 quotes: [
@@ -317,7 +320,7 @@
                 keyword: "DANGEROUS",
                 cta: "Install premium infrastructure. Link in bio.",
                 angle: "High-ticket cold audience gatekeeper line",
-                lines: ["No warnings issued. Boundaries drawn cleanly with zero delay.", "They expected an argument, but distance acts much quieter."]
+                lines: ["No warnings issued. Boundaries drawn cleanly with zero hesitation.", "They expected an argument, but distance acts much quieter."]
             }
         };
 
@@ -364,24 +367,18 @@
             const selType = document.getElementById('type-select').value;
             const selMood = document.getElementById('mood-select').value;
 
-            // Core Avatar Identity Lock Configuration Directives - Exact parameters from system book
             const avatarLock = "Woman, mid-20s, defined cheekbones, full lips, long wavy brown hair, strong gaze, luxury aesthetic. Wearing tailored suits or silk. Cinematic lighting. Magazine cover quality. Face structure, eye shape, lip shape, skin tone locked perfectly.";
             
-            // 1. Compile Final Nano Banana Hyper-Realistic Prompt Block Array
             const compiledPrompt = `"${valQuote}", ultra-realistic high-fashion editorial image of a feminine ${avatarLock}. Scene environment setting context: ${valScene}. Technical processing filters: ${selStyle} style setup, ${selMood} background mood tones, vertical ${selType} layout profile canvas 1080x1024px, subject fills the vertical frame, typography flows top-to-bottom with generous vertical breathing room, luxury magazine cover composition, three-quarter or full-body framing, large statement typography fully integrated into the visual hierarchy, commanding presence, golden editorial light with soft intentional contrast, warm ivory, dusty blush, soft cream and matte champagne gold color grading palettes.`;
             document.getElementById('out-prompt').innerText = compiledPrompt;
 
-            // 2. Output Keywords
             document.getElementById('out-keyword').innerText = valKeyword.toUpperCase();
 
-            // 3. Output Copy Captions Block
             const compiledCaption = `${data.lines[0]}\n\n"${valQuote}"\n\n${valCta}`;
             document.getElementById('out-caption').innerText = compiledCaption;
 
-            // 4. Output Posting Angle
             document.getElementById('out-angle').innerText = data.angle;
 
-            // 5. Output Text Typography Hierarchy Specification Grid - Matching exact reference criteria
             const computedHierarchySpecs = `— Masthead-style headline: top, full width, largest type scale footprint (e.g. "AUTHORITY" or "DANGEROUS" text positioning)\n— Subject image portrait asset: centered layout, full presence frame display, face structures prominent\n— Selected Quote Statement copy: below the fold or overlaid cleanly over lower body anatomy spaces, clear structural text hierarchy\n— Dominant Keyword backdrop mask layer: background vector plane placement, massive scale projection, exactly 30% alpha opacity grading\n— Typography details: considered, forward-moving, highly intentional spacing, clean high contrast alignment\n— Canvas configuration boundaries: 9:16 viewport ratio (1080x1920px for Reels & Stories), tall vertical stacking grid metrics, text anchored securely within the top or bottom 20% safe zones.`;
             document.getElementById('out-hierarchy').innerText = computedHierarchySpecs;
         }
